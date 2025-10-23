@@ -7,7 +7,7 @@
 |:----|:-------------------------|:------------|:-----|
 | 1   | Taha Fadhel A. Jabbar     | 202308948  ||2
 | 2   | Hassan mirza  omran       | 202308274  ||3
-| 3   | Student3                  | ID3        ||
+| 3   | Ali Mohammed Abbas        | 202309001  ||1
 | 4   | Student4                  | ID4        ||
 | 5   | Student5                  | ID5        ||
 
