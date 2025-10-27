@@ -1,1 +1,319 @@
-/* CSS Styles */
+/* Global CSS Styles + Tailwind Styles */
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--primary);
+    --color-primaryg: var(--primaryg);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --radius-sm: calc(var(--radius) - 2px);
+    --radius-md: var(--radius);
+    --radius-lg: calc(var(--radius) + 2px);
+    --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+    --radius: 0.5rem;
+
+    /* Light mode - Professional Educational Theme */
+    --background: oklch(0.98 0.005 240);
+    /* Soft cool gray background */
+    --foreground: oklch(0.20 0.02 240);
+    /* Dark blue-gray text matching primary */
+
+    /* Card & Surfaces */
+    --card: oklch(1 0 0);
+    /* Pure white cards for contrast */
+    --card-foreground: oklch(0.20 0.02 240);
+
+    /* Primary - Deep Navy Blue (Admin/Teacher) - Professional and trustworthy */
+    --primary: oklch(28.415% 0.05697 263.664);
+    --primary-foreground: oklch(0.99 0 0);
+    --primary-gradient: linear-gradient(135deg, oklch(28.415% 0.05697 263.664) 0%, oklch(50.317% 0.06613 258.875) 100%);
+
+    /* Secondary - Slate Teal (Student) - Calm and balanced */
+    --secondary: oklch(46.011% 0.02214 200.712);
+    --secondary-foreground: oklch(0.99 0 0);
+
+    /* Success - Teal Green (harmonizes with secondary) */
+    --success: oklch(0.58 0.12 165);
+    /* Cool teal green */
+    --success-foreground: oklch(0.99 0 0);
+
+    /* Warning - Warm Gold (complements navy) */
+    --warning: oklch(61.253% 0.17435 37.99);
+    /* Muted gold/amber */
+    --warning-foreground: oklch(0.18 0.02 240);
+
+    /* Destructive - Muted Coral Red (softer, professional) */
+    --destructive: oklch(0.56 0.18 25);
+    /* Coral red */
+    --destructive-foreground: oklch(0.99 0 0);
+
+    /* Info - Soft Sky Blue (complements navy/teal) */
+    --info: oklch(0.65 0.10 235);
+    /* Light sky blue */
+    --info-foreground: oklch(0.99 0 0);
+
+    /* Accent - Warm Peach (soft contrast to cool palette) */
+    --accent: oklch(0.68 0.12 45);
+    /* Warm peach/salmon */
+    --accent-foreground: oklch(0.18 0.02 240);
+
+    /* Muted/Subtle - Cool gray tones */
+    --muted: oklch(0.95 0.008 240);
+    /* Very light cool gray */
+    --muted-foreground: oklch(0.52 0.015 240);
+    /* Medium cool gray */
+
+    /* Borders & Inputs - Subtle cool gray */
+    --border: oklch(0.88 0.01 240);
+    /* Soft border */
+    --input: oklch(0.97 0.006 240);
+    /* Light input background */
+}
+
+.dark {
+    /* Dark mode - Deep navy inspired by primary color */
+    --background: oklch(0.18 0.02 240);
+    /* Deep navy-gray background */
+    --foreground: oklch(0.94 0.01 240);
+    /* Soft cool white text */
+
+    /* Card & Surfaces - Elevated navy layers */
+    --card: oklch(50.563% 0.02342 239.136 / 0.197);
+    /* Lighter navy card */
+    --card-foreground: oklch(0.94 0.01 240);
+
+    /* Primary - Bright Sky Blue (brighter version for dark mode visibility) */
+    --primary: oklch(86.449% 0.06639 263.334);
+    --primary-gradient: linear-gradient(135deg, oklch(86.449% 0.06639 263.334) 0%, oklch(73.983% 0.12186 258.296) 100%);
+    /* Lighter blue that maintains brand */
+    --primary-foreground: oklch(0 0 0);
+    /* Dark navy text */
+
+    /* Secondary - Vibrant Purple */
+    --secondary: rgb(238, 255, 255);
+    --secondary-foreground: oklch(0% 0 0);
+
+    /* Success - Bright Teal Green */
+    --success: oklch(0.70 0.14 165);
+    /* Luminous teal green */
+    --success-foreground: oklch(0.12 0.02 165);
+
+    /* Warning - Bright Gold */
+    --warning: oklch(0.78 0.16 75);
+    /* Warm gold */
+    --warning-foreground: oklch(87.149% 0.12671 81.35);
+
+    /* Destructive - Bright Coral */
+    --destructive: oklch(0.68 0.20 25);
+    /* Bright coral red */
+    --destructive-foreground: oklch(0.99 0 0);
+
+    /* Info - Bright Sky Blue */
+    --info: oklch(0.72 0.12 235);
+    /* Luminous sky blue */
+    --info-foreground: oklch(0.12 0.02 235);
+
+    /* Accent - Warm Peach (glowing) */
+    --accent: oklch(0.75 0.14 45);
+    /* Bright peach */
+    --accent-foreground: oklch(0.18 0.02 240);
+
+    /* Muted - Subtle navy tones */
+    --muted: oklch(0.26 0.02 240);
+    /* Muted navy */
+    --muted-foreground: oklch(0.65 0.015 240);
+    /* Medium gray-blue */
+
+    /* Borders & Inputs - Visible in dark mode */
+    --border: oklch(0.34 0.02 240);
+    /* Visible borders */
+    --input: oklch(0.20 0.02 240);
+    /* Input fields */
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground antialiased;
+    }
+
+    button {
+        @apply cursor-pointer;
+    }
+
+    /* Smooth transitions */
+    *
+     {
+        @apply transition-colors duration-150;
+    }
+}
+
+
+@layer utilities {
+    .bg-primary-gradient {
+        background-image: var(--primary-gradient);
+    }
+}
+
+/* Component Base Styles */
+@layer components {
+
+    .btn-primary-gradient {
+        @apply text-primary-foreground shadow-sm focus:ring-2 focus:ring-offset-2;
+        background-image: var(--primary-gradient);
+    }
+
+    /* Card Component */
+    .card {
+        @apply bg-card text-card-foreground rounded-lg border border-border shadow-sm;
+    }
+
+    /* Button Base */
+    .btn {
+        @apply inline-flex items-center justify-center px-4 py-2.5 rounded-md font-medium text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    }
+
+    /* Button Variants */
+    .btn-primary {
+        @apply bg-primary text-primary-foreground hover:opacity-90 focus:ring-primary shadow-sm;
+    }
+
+    .btn-secondary {
+        @apply bg-secondary text-secondary-foreground hover:opacity-90 focus:ring-secondary shadow-sm;
+    }
+
+    .btn-success {
+        @apply bg-success text-success-foreground hover:opacity-90 focus:ring-success shadow-sm;
+    }
+
+    .btn-warning {
+        @apply bg-warning text-warning-foreground hover:opacity-90 focus:ring-warning shadow-sm;
+    }
+
+    .btn-destructive {
+        @apply bg-destructive text-destructive-foreground hover:opacity-90 focus:ring-destructive shadow-sm;
+    }
+
+    .btn-info {
+        @apply bg-info text-info-foreground hover:opacity-90 focus:ring-info shadow-sm;
+    }
+
+    .btn-outline {
+        @apply border-2 border-border bg-transparent text-foreground hover:bg-muted focus:ring-primary;
+    }
+
+    .btn-ghost {
+        @apply bg-transparent text-foreground hover:bg-muted focus:ring-primary;
+    }
+
+    /* Button Sizes */
+    .btn-sm {
+        @apply px-3 py-1.5 text-xs;
+    }
+
+    .btn-lg {
+        @apply px-6 py-3 text-base;
+    }
+
+    /* Form Inputs */
+    .input {
+        @apply w-full px-3.5 py-2.5 bg-input border border-border rounded-md text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed;
+    }
+
+    .input-error {
+        @apply border-destructive focus:ring-destructive;
+    }
+
+    /* Select Dropdown */
+    select.input {
+        @apply pr-10 bg-input appearance-none cursor-pointer;
+    }
+
+    /* Textarea */
+    textarea.input {
+        @apply resize-y min-h-[100px];
+    }
+
+    /* Label */
+    .label {
+        @apply block text-sm font-medium text-foreground mb-1.5;
+    }
+
+    /* Badge Component */
+    .badge {
+        @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border;
+    }
+
+    .badge-primary {
+        @apply bg-primary/10 text-primary border-primary/20;
+    }
+
+    .badge-secondary {
+        @apply bg-secondary/10 text-secondary border-secondary/20;
+    }
+
+    .badge-success {
+        @apply bg-success/10 text-success border-success/20;
+    }
+
+    .badge-warning {
+        @apply bg-warning/15 text-warning-foreground border-warning/25;
+    }
+
+    .badge-destructive {
+        @apply bg-destructive/10 text-destructive border-destructive/20;
+    }
+
+    .badge-info {
+        @apply bg-info/10 text-info border-info/20;
+    }
+
+    /* Alert Component */
+    .alert {
+        @apply p-4 rounded-lg border flex items-start gap-3;
+    }
+
+    .alert-success {
+        @apply bg-success/10 border-success/20 text-success;
+    }
+
+    .alert-warning {
+        @apply bg-warning/10 border-warning/20 text-warning-foreground;
+    }
+
+    .alert-destructive {
+        @apply bg-destructive/10 border-destructive/20 text-destructive;
+    }
+
+    .alert-info {
+        @apply bg-info/10 border-info/20 text-info;
+    }
+}
