@@ -1,65 +1,58 @@
-<!--
-  Requirement: Create the Course Homepage
-
-  Instructions:
-  This page will serve as the main entry point to the course website.
-  It should contain a simple navigation menu with links to all the key pages.
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- TODO: Add the 'meta' tag for character encoding (UTF-8). -->
-    
-    <!-- TODO: Add the responsive 'viewport' meta tag. -->
-
-    <!-- TODO: Add a title, e.g., "Web Dev Course Homepage". -->
-
-    <!-- TODO: Link to your CSS framework or stylesheet. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Dev Course Homepage</title>
+    <link rel="stylesheet" href="src/common/output.css">
 </head>
-<body>
+<body class="bg-background text-foreground">
 
-    <!-- TODO: Create a 'header' with a main heading ('h1') like "Welcome to the Web Development Course". -->
+    <header class="bg-primary-gradient text-primary-foreground py-10 shadow-lg">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl font-extrabold tracking-wide">Welcome to the Web Development Course</h1>
+            <p class="mt-3 text-lg opacity-90">Explore resources, assignments, and course updates below.</p>
+        </div>
+    </header>
 
-    <!-- TODO: Create the 'main' content area. -->
+    <main class="container mx-auto px-6 py-12">
+        <section class="max-w-3xl mx-auto bg-card shadow-lg rounded-2xl p-8 border border-border">
+            <h2 class="text-2xl font-semibold text-foreground mb-6 text-center">Site Navigation</h2>
+            <ul class="space-y-4">
+                <li>
+                    <a href="login.html" class="block w-full px-5 py-3 text-lg text-primary bg-muted/30 hover:bg-muted rounded-lg font-medium transition">Login</a>
+                </li>
+                <li>
+                    <a href="admin-portal.html" class="block w-full px-5 py-3 text-lg text-primary bg-muted/30 hover:bg-muted rounded-lg font-medium transition">Admin Portal (Manage Students)</a>
+                </li>
+                <li>
+                    <a href="admin-resources.html" class="block w-full px-5 py-3 text-lg text-primary bg-muted/30 hover:bg-muted rounded-lg font-medium transition">Admin: Manage Resources</a>
+                </li>
+                <li>
+                    <a href="admin-weekly-breakdown.html" class="block w-full px-5 py-3 text-lg text-primary bg-muted/30 hover:bg-muted rounded-lg font-medium transition">Admin: Manage Weekly Breakdown</a>
+                </li>
+                <li>
+                    <a href="admin-assignments.html" class="block w-full px-5 py-3 text-lg text-primary bg-muted/30 hover:bg-muted rounded-lg font-medium transition">Admin: Manage Assignments</a>
+                </li>
+                <li>
+                    <a href="student-resources.html" class="block w-full px-5 py-3 text-lg text-primary bg-muted/30 hover:bg-muted rounded-lg font-medium transition">View Course Resources</a>
+                </li>
+                <li>
+                    <a href="student-weekly-breakdown.html" class="block w-full px-5 py-3 text-lg text-primary bg-muted/30 hover:bg-muted rounded-lg font-medium transition">View Weekly Breakdown</a>
+                </li>
+                <li>
+                    <a href="student-assignments.html" class="block w-full px-5 py-3 text-lg text-primary bg-muted/30 hover:bg-muted rounded-lg font-medium transition">View Assignments</a>
+                </li>
+                <li>
+                    <a href="discussion-board.html" class="block w-full px-5 py-3 text-lg text-primary bg-muted/30 hover:bg-muted rounded-lg font-medium transition">General Discussion Board</a>
+                </li>
+            </ul>
+        </section>
+    </main>
 
-        <!-- TODO: Create a 'nav' element to hold the site navigation. -->
-            <!-- TODO: Add a sub-heading ('h2') "Site Navigation". -->
+    <footer class="mt-12 py-6 text-center text-sm text-muted-foreground">
+        <p>&copy; 2025 Web Development Course. All rights reserved.</p>
+    </footer>
 
-            <!-- TODO: Create an unordered list ('ul') to hold the links. -->
-
-                <!-- Section: General -->
-                <!-- TODO: Add a list item ('li') with a link ('a') to the Login page.
-                     - Text: "Login" -->
-
-                <!-- Section: Admin Pages -->
-                <!-- TODO: Add a list item ('li') with a link ('a') to the Admin Portal.
-                     - Text: "Admin Portal (Manage Students)" -->
-                
-                <!-- TODO: Add a list item ('li') with a link ('a') to the Admin Resources page.
-                     - Text: "Admin: Manage Resources" -->
-
-                <!-- TODO: Add a list item ('li') with a link ('a') to the Admin Weekly Breakdown page.
-                     - Text: "Admin: Manage Weekly Breakdown" -->
-
-                <!-- TODO: Add a list item ('li') with a link ('a') to the Admin Assignments page.
-                     - Text: "Admin: Manage Assignments" -->
-
-                <!-- Section: Student Pages -->
-                <!-- TODO: Add a list item ('li') with a link ('a') to the Student Resources page.
-                     - Text: "View Course Resources" -->
-
-                <!-- TODO: Add a list item ('li') with a link ('a') to the Student Weekly Breakdown page.
-                     - Text: "View Weekly Breakdown" -->
-
-                <!-- TODO: Add a list item ('li') with a link ('a') to the Student Assignments page.
-                     - Text: "View Assignments" -->
-              
-                <!-- TODO: Add a list item ('li') with a link ('a') to the Discussion Board.
-                     - Text: "General Discussion Board" -->
-
-            <!-- End of the unordered list. -->
-        <!-- End of the 'nav' element. -->
-
-    <!-- End of 'main'. -->
 </body>
 </html>

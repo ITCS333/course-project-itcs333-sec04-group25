@@ -8,137 +8,287 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <!-- TODO: Add the 'meta' tag for character encoding (UTF-8). -->
-    <meta charset="UTF-8">
-    <!-- TODO: Add the responsive 'viewport' meta tag. -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- TODO: Add a 'title' for the page, e.g., "Admin Portal". -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Portal</title>
-    <!-- TODO: Link to a CSS file or a CSS framework. -->
-    
-</head>
-<body>
+    <link rel="stylesheet" href="../common/output.css" />
+  </head>
+  <body class="min-h-screen bg-background antialiased">
+    <header class="bg-primary-gradient text-primary-foreground py-10 shadow-xl">
+  <div class="container mx-auto px-6 flex flex-col items-center justify-center text-center">
+    <h1 class="text-4xl font-bold tracking-tight">Admin Portal</h1>
+    <p class="text-primary-foreground/90 mt-3 text-lg">
+      Manage students and update your credentials
+    </p>
+  </div>
+</header>
 
-    <!-- TODO: Create a 'header' element for the top of the page. -->
-        <!-- TODO: Inside the header, add a main heading (e.g., 'h1') with the text "Admin Portal". -->
-    <!-- End of the header. -->
+    <main class="container mx-auto px-6 py-12 max-w-6xl space-y-10">
+      <section class="card p-8 shadow-md hover:shadow-lg transition-shadow">
+        <h2
+          class="text-2xl font-bold text-foreground mb-8 border-b-2 border-border pb-4"
+        >
+          Change Your Password
+        </h2>
 
-    <!-- TODO: Create a 'main' element to hold the primary content of the portal. -->
+        <form action="#" class="max-w-2xl">
+          <fieldset class="space-y-6">
+            <legend class="text-base font-medium text-muted-foreground mb-6">
+              Password Update
+            </legend>
 
-        <!-- Section 1: Password Management -->
-        <!-- TODO: Create a 'section' for the password management functionality. -->
-            <!-- TODO: Add a sub-heading (e.g., 'h2') with the text "Change Your Password". -->
+            <div>
+              <label for="current-password" class="label"
+                >Current Password</label
+              >
+              <input type="password" id="current-password"
+                required
+                placeholder="Enter current password"
+                class="input"
+              />
+            </div>
 
-            <!-- TODO: Create a 'form' for changing the password. The 'action' can be '#'. -->
-                <!-- TODO: Use a 'fieldset' to group the password-related fields. -->
-                    <!-- TODO: Add a 'legend' for the fieldset, e.g., "Password Update". -->
+            <div>
+              <label for="new-password" class="label">New Password</label>
+              <input
+                type="password"
+                id="new-password"
+                minlength="8"
+                required
+                placeholder="Minimum 8 characters"
+                class="input focus:ring-2"
+              />
+              <p class="text-xs text-muted-foreground mt-2 italic">
+                Must be at least 8 characters long
+              </p>
+            </div>
 
-                    <!-- TODO: Add a 'label' for the current password input. 'for' should be "current-password". -->
-                    <!-- TODO: Add an 'input' for the current password.
-                         - type="password"
-                         - id="current-password"
-                         - required -->
+            <div>
+              <label for="confirm-password" class="label"
+                >Confirm New Password</label
+              >
+              <input
+                type="password"
+                id="confirm-password"
+                required
+                placeholder="Re-enter new password"
+                class="input focus:ring-2"
+              />
+            </div>
 
-                    <!-- TODO: Add a 'label' for the new password input. 'for' should be "new-password". -->
-                    <!-- TODO: Add an 'input' for the new password.
-                         - type="password"
-                         - id="new-password"
-                         - minlength="8"
-                         - required -->
+            <button
+              type="submit"
+              id="change"
+              class="btn btn-primary-gradient mt-4 shadow-md hover:shadow-lg transition-all"
+            >
+              Update Password
+            </button>
+          </fieldset>
+        </form>
+      </section>
 
-                    <!-- TODO: Add a 'label' for the confirm password input. 'for' should be "confirm-password". -->
-                    <!-- TODO: Add an 'input' to confirm the new password.
-                         - type="password"
-                         - id="confirm-password"
-                         - required -->
+      <section class="card p-8 shadow-md hover:shadow-lg transition-shadow">
+        <h2
+          class="text-2xl font-bold text-foreground mb-8 border-b-2 border-border pb-4"
+        >
+          Manage Students
+        </h2>
 
-                    <!-- TODO: Add a 'button' to submit the form.
-                         - type="submit"
-                         - id="change"
-                         - Text: "Update Password" -->
+        <details
+          class="mb-8 bg-muted/40 p-6 rounded-xl border border-border hover:border-primary/30 transition-colors"
+        >
+          <summary
+            class="cursor-pointer text-lg font-semibold text-foreground hover:text-primary transition-colors select-none list-none"
+          >
+            Add New Student
+          </summary>
 
-                <!-- End of the fieldset. -->
-            <!-- End of the password form. -->
-        <!-- End of the password management section. -->
+          <form action="#" class="mt-6 pt-6 border-t border-border">
+            <fieldset class="space-y-6">
+              <legend class="text-sm font-medium text-muted-foreground mb-4">
+                New Student Information
+              </legend>
 
+              <div class="grid md:grid-cols-2 gap-5">
+                <div>
+                  <label for="student-name" class="label">Full Name</label>
+                  <input
+                    type="text"
+                    id="student-name"
+                    required
+                    placeholder="Enter full name"
+                    class="input focus:ring-2"
+                  />
+                </div>
 
-        <!-- Section 2: Student Management -->
-        <!-- TODO: Create another 'section' for the student management functionality. -->
-            <!-- TODO: Add a sub-heading (e.g., 'h2') with the text "Manage Students". -->
+                <div>
+                  <label for="student-id" class="label">Student ID</label>
+                  <input
+                    type="text"
+                    id="student-id"
+                    required
+                    placeholder="Enter student ID"
+                    class="input focus:ring-2"
+                  />
+                </div>
+              </div>
 
-            <!-- Subsection 2.1: Add New Student Form -->
-            <!-- TODO: Create a 'details' element so the "Add Student" form can be collapsed. -->
-                <!-- TODO: Add a 'summary' element inside 'details' with the text "Add New Student". -->
+              <div class="grid md:grid-cols-2 gap-5">
+                <div>
+                  <label for="student-email" class="label">Email Address</label>
+                  <input
+                    type="email"
+                    id="student-email"
+                    required
+                    placeholder="student@example.com"
+                    class="input focus:ring-2"
+                  />
+                </div>
 
-                <!-- TODO: Create a 'form' for adding a new student. 'action' can be '#'. -->
-                    <!-- TODO: Use a 'fieldset' to group the new student fields. -->
-                        <!-- TODO: Add a 'legend' for the fieldset, e.g., "New Student Information". -->
+                <div>
+                  <label for="default-password" class="label"
+                    >Default Password</label
+                  >
+                  <input
+                    type="text"
+                    id="default-password"
+                    placeholder="Auto-generated if blank"
+                    class="input focus:ring-2"
+                    value="password123"
+                  />
+                </div>
+              </div>
 
-                        <!-- TODO: Add a 'label' and 'input' for the student's full name.
-                             - label 'for': "student-name"
-                             - input 'id': "student-name"
-                             - input 'type': "text"
-                             - input: required -->
+              <button
+                type="submit"
+                id="add"
+                class="btn btn-success shadow-md hover:shadow-lg transition-all"
+              >
+                Add Student
+              </button>
+            </fieldset>
+          </form>
+        </details>
 
-                        <!-- TODO: Add a 'label' and 'input' for the student's ID.
-                             - label 'for': "student-id"
-                             - input 'id': "student-id"
-                             - input 'type': "text"
-                             - input: required -->
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-foreground">
+              Registered Students
+            </h3>
+            <span class="badge badge-primary text-sm px-4 py-2 shadow-sm"
+              >3 Students</span
+            >
+          </div>
 
-                        <!-- TODO: Add a 'label' and 'input' for the student's email.
-                             - label 'for': "student-email"
-                             - input 'id': "student-email"
-                             - input 'type': "email"
-                             - input: required -->
-                        
-                        <!-- TODO: Add a 'label' and 'input' for the default password.
-                             - label 'for': "default-password"
-                             - input 'id': "default-password"
-                             - input 'type': "text"
-                             - You can pre-fill this with a value like "password123" or leave it blank. -->
+          <div
+            class="overflow-x-auto rounded-xl border border-border shadow-sm"
+          >
+            <table id="student-table" class="w-full border-collapse">
+              <thead>
+                <tr class="bg-muted/50 border-b-2 border-border">
+                  <th
+                    class="text-left p-4 font-semibold text-sm uppercase tracking-wider text-foreground"
+                  >
+                    Name
+                  </th>
+                  <th
+                    class="text-left p-4 font-semibold text-sm uppercase tracking-wider text-foreground"
+                  >
+                    Student ID
+                  </th>
+                  <th
+                    class="text-left p-4 font-semibold text-sm uppercase tracking-wider text-foreground"
+                  >
+                    Email
+                  </th>
+                  <th
+                    class="text-center p-4 font-semibold text-sm uppercase tracking-wider text-foreground"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
 
-                        <!-- TODO: Add a 'button' to submit the form.
-                             - type="submit"
-                             - id="add"
-                             - Text: "Add Student" -->
+              <tbody class="divide-y divide-border bg-card">
+                <tr class="hover:bg-muted/20 transition-colors">
+                  <td class="p-4 font-semibold text-foreground">John Doe</td>
+                  <td class="p-4 text-muted-foreground font-mono text-sm">
+                    12345
+                  </td>
+                  <td class="p-4 text-muted-foreground text-sm">
+                    john.doe@example.com
+                  </td>
+                  <td class="p-4">
+                    <div class="flex items-center justify-center gap-2">
+                      <button
+                        class="btn btn-sm btn-secondary shadow-sm hover:shadow transition-all"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-sm btn-destructive shadow-sm hover:shadow transition-all"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
 
-                    <!-- End of the fieldset. -->
-                <!-- End of the add student form. -->
-            <!-- End of the 'details' element. -->
+                <tr class="hover:bg-muted/20 transition-colors">
+                  <td class="p-4 font-semibold text-foreground">Jane Smith</td>
+                  <td class="p-4 text-muted-foreground font-mono text-sm">
+                    12346
+                  </td>
+                  <td class="p-4 text-muted-foreground text-sm">
+                    jane.smith@example.com
+                  </td>
+                  <td class="p-4">
+                    <div class="flex items-center justify-center gap-2">
+                      <button
+                        class="btn btn-sm btn-secondary shadow-sm hover:shadow transition-all"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-sm btn-destructive shadow-sm hover:shadow transition-all"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
 
-
-            <!-- Subsection 2.2: Student List -->
-            <!-- TODO: Add a sub-heading (e.g., 'h3') for the list of students, "Registered Students". -->
-
-            <!-- TODO: Create a 'table' to display the list of students. Give it an id="student-table". -->
-                <!-- TODO: Create a 'thead' for the table headers. -->
-                    <!-- TODO: Create a 'tr' (table row) inside the 'thead'. -->
-                        <!-- TODO: Create 'th' (table header) cells for "Name", "Student ID", "Email", and "Actions". -->
-                    <!-- End of the row. -->
-                <!-- End of 'thead'. -->
-
-                <!-- TODO: Create a 'tbody' for the table body, where student data will go. -->
-                    <!-- TODO: For now, add 2-3 rows of dummy data so you can see how the table is structured. -->
-                    <!-- Example Student Row: -->
-                    <!-- TODO: Create a 'tr' for a student record. -->
-                        <!-- TODO: Create 'td' (table data) cells for a student's name (e.g., "John Doe"), ID (e.g., "12345"), and email (e.g., "john.doe@example.com"). -->
-                        
-                        <!-- TODO: Create a final 'td' for action buttons. -->
-                            <!-- TODO: Add an "Edit" button. -->
-                            <!-- TODO: Add a "Delete" button. -->
-                        <!-- End of the actions 'td'. -->
-                    <!-- End of the student row. -->
-
-                    <!-- TODO: Add another 'tr' for a second student as another example. -->
-                <!-- End of 'tbody'. -->
-            <!-- End of the table. -->
-
-        <!-- End of the student management section. -->
-
-    <!-- End of the main content area. -->
-
-</body>
+                <tr class="hover:bg-muted/20 transition-colors">
+                  <td class="p-4 font-semibold text-foreground">
+                    Mike Johnson
+                  </td>
+                  <td class="p-4 text-muted-foreground font-mono text-sm">
+                    12347
+                  </td>
+                  <td class="p-4 text-muted-foreground text-sm">
+                    mike.johnson@example.com
+                  </td>
+                  <td class="p-4">
+                    <div class="flex items-center justify-center gap-2">
+                      <button
+                        class="btn btn-sm btn-secondary shadow-sm hover:shadow transition-all"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-sm btn-destructive shadow-sm hover:shadow transition-all"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
 </html>
-
