@@ -7,37 +7,327 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <!-- TODO: Add meta tags for charset and viewport. -->
-    
-    <!-- TODO: Add a title, e.g., "Course Resources". -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- TODO: Link to your CSS framework or stylesheet. -->
+    <title>Course Resources</title>
+
+    <link rel="stylesheet" href="../common/output.css">
 </head>
-<body>
 
-    <!-- TODO: Create a 'header' with a main heading ('h1') "Course Resources". -->
+<body class="min-h-screen bg-background">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <header class="mb-8">
+            <h1 class="text-4xl font-bold text-foreground mb-2">Course Resources</h1>
+            <p class="text-muted-foreground">Access all course materials, lecture notes, and learning resources</p>
+        </header>
 
-    <!-- TODO: Create the 'main' content area. -->
-        <!-- TODO: Create a 'section' to contain the list of resources. -->
-            <!-- TODO: Add 2-3 dummy resources using the structure below. -->
+        <!-- Stats Cards -->
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+            <!-- Total Resources Card -->
+            <div class="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="p-2 bg-muted rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-foreground" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="text-xl font-bold text-foreground mb-0.5">42</div>
+                <div class="text-xs text-muted-foreground">Total Resources</div>
+            </div>
 
-            <!-- Example Resource 1: -->
-            <!-- TODO: Use an 'article' element for each resource to group its content semantically. -->
-                <!-- TODO: Add a heading ('h2' or 'h3') for the resource title (e.g., "Chapter 1 Notes"). -->
-                <!-- TODO: Add a paragraph ('p') for the resource description. -->
-                <!-- TODO: Add an anchor tag ('a') that links to the detail page. 
-                     - For now, the 'href' can be "resource-detail.html".
-                     - The link text should be "View Resource & Discussion". -->
-            <!-- End of article. -->
+            <!-- Documents Card -->
+            <div class="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="p-2 bg-muted rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-foreground" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <span class="px-1.5 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-semibold">PDF</span>
+                </div>
+                <div class="text-xl font-bold text-foreground mb-0.5">28</div>
+                <div class="text-xs text-muted-foreground">Documents</div>
+            </div>
 
-            <!-- Example Resource 2: -->
-            <!-- TODO: Create a second 'article' for another resource. -->
-                <!-- TODO: Add a heading, paragraph, and an anchor tag linking to "resource-detail.html". -->
-            <!-- End of article. -->
+            <!-- External Links Card -->
+            <div class="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="p-2 bg-muted rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-foreground" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <span class="px-1.5 py-0.5 bg-info/10 text-info text-xs rounded-full font-semibold">Web</span>
+                </div>
+                <div class="text-xl font-bold text-foreground mb-0.5">12</div>
+                <div class="text-xs text-muted-foreground">External Links</div>
+            </div>
 
-        <!-- End of resource list section. -->
-    <!-- End of main. -->
+            <!-- Video Resources Card -->
+            <div class="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="p-2 bg-muted rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-foreground" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path
+                                d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                        </svg>
+                    </div>
+                    <span
+                        class="px-1.5 py-0.5 bg-warning/10 text-warning text-xs rounded-full font-semibold">Media</span>
+                </div>
+                <div class="text-xl font-bold text-foreground mb-0.5">2</div>
+                <div class="text-xs text-muted-foreground">Video Resources</div>
+            </div>
+        </div>
 
+        <!-- Search and Filters -->
+        <div class="bg-card border border-border rounded-lg p-3 mb-5">
+            <div class="flex flex-col sm:flex-row gap-2">
+                <div class="flex-1">
+                    <div class="relative">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <input type="text" placeholder="Search..."
+                            class="w-full pl-8 pr-3 py-2 bg-background border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200">
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-2">
+                    <select
+                        class="px-2 py-2 bg-background border border-border rounded-md text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200">
+                        <option>All Types</option>
+                        <option>Documents</option>
+                        <option>Links</option>
+                        <option>Videos</option>
+                    </select>
+                    <select
+                        class="px-2 py-2 bg-background border border-border rounded-md text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200">
+                        <option>Category</option>
+                        <option>Lecture Notes</option>
+                        <option>Tutorials</option>
+                        <option>Exercises</option>
+                    </select>
+                    <select
+                        class="px-2 py-2 bg-background border border-border rounded-md text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200">
+                        <option>Newest</option>
+                        <option>Oldest</option>
+                        <option>Most Viewed</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Example Resource 1 -->
+                <article
+                    class="bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+                    <!-- Resource Preview -->
+                    <div
+                        class="aspect-video bg-linear-to-br from-primary/20 to-primary/5 flex items-center justify-center relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-muted-foreground/30"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+
+                    <!-- Resource Content -->
+                    <div class="p-5 flex flex-col flex-1">
+                        <div class="flex items-start justify-between mb-1">
+                            <h2
+                                class="text-xl font-bold text-foreground group-hover:text-primary transition-colors flex-1">
+                                Chapter 1 Notes
+                            </h2>
+                            <span class="badge badge-secondary">PDF</span>
+
+                        </div>
+
+                        <p class="text-sm text-muted-foreground mb-4 leading-relaxed">
+                            Comprehensive guide covering HTML5 structure, semantic elements, and best practices for
+                            modern web development.
+                        </p>
+
+                        <div
+                            class="flex items-center justify-between gap-4 text-xs text-muted-foreground mb-4 mt-auto pb-4 border-b border-border">
+                            <span class="flex items-center gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                44 discussions
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                Added 3 days ago
+                            </span>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <a href="details.html"
+                                class="bg-secondary text-secondary-foreground hover:bg-secondary/90 flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold  transition-colors duration-200">
+                                View Resource & Discussion
+                            </a>
+                            <button
+                                class="bg-secondary text-secondary-foreground hover:bg-secondary/90 p-2.5 border border-border rounded-lg transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-secondary-foreground"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Example Resource 2 -->
+                <article
+                    class="bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+                    <!-- Resource Preview -->
+                    <div
+                        class="aspect-video bg-linear-to-br from-info/20 to-info/5 flex items-center justify-center relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-muted-foreground/30"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+
+                    <!-- Resource Content -->
+                    <div class="p-5 flex flex-col flex-1">
+                        <div class="flex items-start justify-between mb-1">
+                            <h3
+                                class="text-xl font-bold text-foreground group-hover:text-info transition-colors flex-1">
+                                MDN Web Docs - CSS Guide
+                            </h3>
+                            <span class="badge badge-info">Link</span>
+                        </div>
+
+                        <p class="text-sm text-muted-foreground mb-4 leading-relaxed">
+                            Official Mozilla documentation for CSS, including tutorials, references, and examples.
+                        </p>
+
+                        <div
+                            class="flex items-center justify-between gap-4 text-xs text-muted-foreground mb-4 mt-auto pb-4 border-b border-border">
+                            <span class="flex items-center gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                156 discussions
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                Added 1 week ago
+                            </span>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <a href="details.html"
+                                class="bg-secondary text-secondary-foreground flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-muted/70 transition-colors duration-200">
+                                View Resource & Discussion
+                            </a>
+                            <button
+                                class="bg-secondary text-secondary-foreground p-2.5 border border-border rounded-lg hover:bg-muted transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-secondary-foreground"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Example Resource 3 -->
+                <article
+                    class="bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+                    <!-- Resource Preview -->
+                    <div
+                        class="aspect-video bg-linear-to-br from-warning/20 to-warning/5 flex items-center justify-center relative">
+                        <div
+                            class="absolute top-3 right-3 px-2 py-1 bg-background/90 text-foreground text-xs font-semibold rounded">
+                            12:45
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-muted-foreground/30"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                        </svg>
+                    </div>
+
+                    <!-- Resource Content -->
+                    <div class="p-5 flex flex-col flex-1">
+                        <div class="flex items-start justify-between mb-1">
+                            <h3
+                                class="text-xl font-bold text-foreground group-hover:text-warning transition-colors flex-1">
+                                JavaScript Async/Await Tutorial
+                            </h3>
+                            <span class="badge badge-warning">Video</span>
+                        </div>
+
+                        <p class="text-sm text-muted-foreground mb-4 leading-relaxed">
+                            Learn how to work with asynchronous JavaScript using modern async/await syntax.
+                        </p>
+
+                        <div
+                            class="flex items-center justify-between gap-4 text-xs text-muted-foreground mb-4 mt-auto pb-4 border-b border-border">
+                            <span class="flex items-center gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                89 discussions
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                Added 2 days ago
+                            </span>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <a href="details.html"
+                                class="bg-secondary text-secondary-foreground flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-muted/70 transition-colors duration-200">
+                                View Resource & Discussion
+                            </a>
+                            <button
+                                class="bg-secondary text-secondary-foreground p-2.5 border border-border rounded-lg hover:bg-muted transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-secondary-foreground"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
 </body>
+
 </html>
