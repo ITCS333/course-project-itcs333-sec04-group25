@@ -1,24 +1,61 @@
-/*
-  Requirement: Make the "Manage Resources" page interactive.
-
-  Instructions:
-  1. Link this file to `admin.html` using:
-     <script src="admin.js" defer></script>
-  
-  2. In `admin.html`, add an `id="resources-tbody"` to the <tbody> element
-     inside your `resources-table`.
-  
-  3. Implement the TODOs below.
-*/
+import { v7 as uuidv7 } from "uuid";
 
 // --- Global Data Store ---
-// This will hold the resources loaded from the JSON file.
 let resources = [];
 
-// --- Element Selections ---
-// TODO: Select the resource form ('#resource-form').
 
-// TODO: Select the resources table body ('#resources-tbody').
+
+const resourceForm = document.getElementById("resource-form");
+const resourcesTableBody = document.getElementById("resources-tbody");
+
+
+
+// Modal
+function openModal() {
+  modal.classList.remove('hidden');
+  modalOverlay.classList.remove('hidden');
+  // Trigger animation
+  setTimeout(() => {
+    modalContent.classList.remove('scale-95', 'opacity-0');
+    modalContent.classList.add('scale-100', 'opacity-100');
+    modalOverlay.classList.add('opacity-100');
+  }, 10);
+}
+
+function closeModal() {
+  modalContent.classList.remove('scale-100', 'opacity-100');
+  modalContent.classList.add('scale-95', 'opacity-0');
+  modalOverlay.classList.remove('opacity-100');
+  setTimeout(() => {
+    modal.classList.add('hidden');
+    modalOverlay.classList.add('hidden');
+  }, 200);
+}
+const modal = document.getElementById('resource-modal');
+const modalContent = document.getElementById('modal-content');
+const modalOverlay = document.getElementById('modal-overlay');
+const showFormBtnDesktop = document.getElementById('show-form-btn-desktop');
+const showFormBtnMobile = document.getElementById('show-form-btn-mobile');
+const closeModalBtn = document.getElementById('close-modal-btn');
+const cancelBtn = document.getElementById('cancel-btn');
+showFormBtnDesktop.addEventListener('click', openModal);
+showFormBtnMobile.addEventListener('click', openModal);
+closeModalBtn.addEventListener('click', closeModal);
+cancelBtn.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', closeModal);
+
+// Prevent modal close when clicking inside modal content
+modalContent.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+    closeModal();
+  }
+});
+
 
 // --- Functions ---
 
@@ -33,7 +70,74 @@ let resources = [];
  * - A "Delete" button with class "delete-btn" and `data-id="${id}"`.
  */
 function createResourceRow(resource) {
-  // ... your implementation here ...
+  if (resource) {
+    // Create the table row
+    const tr = document.createElement("tr");
+    tr.className = "block group bg-card/50 hover:bg-card hover:border-primary/20 rounded-lg sm:rounded-xl p-4 sm:p-5 lg:p-6 transition-all duration-200 hover:shadow-lg border-border border max-w-full w-full min-w-0";
+    tr.dataset.id = resource.id;
+
+    // Create title cell
+    const tdTitle = document.createElement("td");
+    tdTitle.className = "block max-w-full w-full min-w-0";
+    const divTitle1 = document.createElement("div");
+    divTitle1.className = "flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4 max-w-full w-full min-w-0";
+    const divTitle2 = document.createElement("div");
+    divTitle2.className = "flex-1 min-w-0 shrink";
+    const divTitle3 = document.createElement("div");
+    divTitle3.className = "text-base sm:text-lg font-semibold text-foreground mb-1.5 sm:mb-2 group-hover:text-primary transition-colors wrap-break-word";
+    divTitle3.textContent = resource.title;
+    divTitle2.append(divTitle3);
+    divTitle1.append(divTitle2);
+    tdTitle.append(divTitle1);
+
+    // Create description cell
+    const tdDescription = document.createElement("td");
+    tdDescription.className = "block max-w-full w-full min-w-0";
+    const divDescription = document.createElement("div");
+    divDescription.className = "text-xs sm:text-sm text-muted-foreground leading-relaxed wrap-break-word";
+    divDescription.textContent = resource.description;
+    tdDescription.append(divDescription);
+
+    // Create action cell
+    const tdAction = document.createElement("td");
+    tdAction.className = "block max-w-full w-full min-w-0";
+    const divAction = document.createElement("div");
+    divAction.className = "flex items-center gap-2 sm:gap-2 shrink-0";
+
+    // Create Edit button
+    const editButton = document.createElement("button");
+    editButton.title = "Edit Resource";
+    editButton.className = "edit-btn p-2 sm:p-2.5 bg-info text-info-foreground rounded-lg hover:bg-info/80 hover:scale-110 hover:shadow-md transition-all duration-200";
+    editButton.dataset.id = resource.id;
+    const editSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    editSvg.setAttribute("class", "h-4 w-4");
+    editSvg.setAttribute("viewBox", "0 0 20 20");
+    editSvg.setAttribute("fill", "currentColor");
+    editSvg.innerHTML = '<path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>';
+    editButton.append(editSvg);
+
+    // Create Delete button
+    const deleteButton = document.createElement("button");
+    deleteButton.title = "Delete Resource";
+    deleteButton.className = "delete-btn p-2 sm:p-2.5 bg-destructive text-destructive-foreground rounded-lg hover:bg-destructive/80 hover:scale-110 hover:shadow-md transition-all duration-200";
+    deleteButton.dataset.id = resource.id;
+    const deleteSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    deleteSvg.setAttribute("class", "h-4 w-4");
+    deleteSvg.setAttribute("viewBox", "0 0 20 20");
+    deleteSvg.setAttribute("fill", "currentColor");
+    deleteSvg.innerHTML = '<path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>';
+    deleteButton.append(deleteSvg);
+
+    // Append buttons to action div
+    divAction.append(editButton, deleteButton);
+    tdAction.append(divAction);
+
+    // Append all cells to row
+    tr.append(tdTitle, tdDescription, tdAction);
+
+    return tr;
+  }
+
 }
 
 /**
@@ -45,7 +149,12 @@ function createResourceRow(resource) {
  * append the resulting <tr> to `resourcesTableBody`.
  */
 function renderTable() {
-  // ... your implementation here ...
+  resourcesTableBody.innerHTML = "";
+  for (const r of resources) {
+    if (r) {
+      resourcesTableBody.append(createResourceRow(r));
+    }
+  }
 }
 
 /**
@@ -60,7 +169,15 @@ function renderTable() {
  * 6. Reset the form.
  */
 function handleAddResource(event) {
-  // ... your implementation here ...
+  event.preventDefault();
+  const title = document.getElementById("resource-title")?.value.trim() || "";
+  const description = document.getElementById("resource-description").value.trim() || "";
+  const link = document.getElementById("resource-link")?.value.trim() || "";
+  const id = uuidv7(); //uuidv7 includes timestamp in the uuid, so u can sort Lexicographically
+  resources.push({ id, title, description, link });
+  renderTable();
+  resourceForm.reset();
+  closeModal();
 }
 
 /**
@@ -74,7 +191,13 @@ function handleAddResource(event) {
  * 4. Call `renderTable()` to refresh the list.
  */
 function handleTableClick(event) {
-  // ... your implementation here ...
+  // Find the closest button (handles clicks on SVG or other children)
+  const deleteBtn = event.target.closest(".delete-btn"); // Closest traverse up the dom until it finds the delete button. This is because sometimes the clicks happens on the button's svg
+  if (deleteBtn) {
+    const id = deleteBtn.dataset.id;
+    resources = resources.filter(e => e.id !== id);
+    renderTable();
+  }
 }
 
 /**
@@ -88,9 +211,18 @@ function handleTableClick(event) {
  * 5. Add the 'click' event listener to `resourcesTableBody` (calls `handleTableClick`).
  */
 async function loadAndInitialize() {
-  // ... your implementation here ...
+  try {
+    const res = await fetch("/src/resources/api/resources.json");
+    const resBody = await res.json();
+    resources = resBody;
+    renderTable();
+    resourceForm.addEventListener("submit", event => handleAddResource(event))
+    resourcesTableBody.addEventListener("click", event => handleTableClick(event))
+  }
+  catch (err) {
+    console.error("Error in initializing: ", err)
+  }
 }
 
 // --- Initial Page Load ---
-// Call the main async function to start the application.
 loadAndInitialize();
