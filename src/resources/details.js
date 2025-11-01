@@ -21,9 +21,98 @@
 let currentResourceId = null;
 let currentComments = [];
 
+// Comment Modal functionality for mobile
+const commentModal = document.getElementById('comment-modal');
+const commentModalContent = document.getElementById('comment-modal-content');
+const commentModalOverlay = document.getElementById('comment-modal-overlay');
+const showCommentBtnMobile = document.getElementById('show-comment-btn-mobile');
+const closeCommentModalBtn = document.getElementById('close-comment-modal-btn');
+const cancelCommentBtn = document.getElementById('cancel-comment-btn');
+const commentForm = document.getElementById('comment-form');
+const commentFormMobileWrapper = document.getElementById('comment-form-mobile-wrapper');
+
+// Move form to mobile modal on mobile, keep on desktop otherwise
+function handleFormPlacement() {
+  if (window.innerWidth < 768) { // md breakpoint
+    // Move form to mobile wrapper
+    if (commentFormMobileWrapper && commentForm && commentForm.parentElement !== commentFormMobileWrapper) {
+      commentFormMobileWrapper.appendChild(commentForm);
+      commentForm.classList.remove('hidden');
+    }
+  } else {
+    // Move form back to its original desktop position
+    if (commentForm && commentForm.parentElement !== document.getElementById('discussion-forum')) {
+      document.getElementById('discussion-forum').appendChild(commentForm);
+      commentForm.classList.remove('hidden');
+    }
+  }
+}
+
+// Initialize form placement
+handleFormPlacement();
+// Re-position on resize
+window.addEventListener('resize', handleFormPlacement);
+
+function openCommentModal() {
+  handleFormPlacement(); // Ensure form is in correct position
+  commentModal.classList.remove('hidden');
+  commentModalOverlay.classList.remove('hidden');
+  // Trigger animation
+  setTimeout(() => {
+    commentModalContent.classList.remove('translate-y-full', 'opacity-0');
+    commentModalContent.classList.add('translate-y-0', 'opacity-100');
+    commentModalOverlay.classList.add('opacity-100');
+  }, 10);
+}
+
+function closeCommentModal() {
+  commentModalContent.classList.remove('translate-y-0', 'opacity-100');
+  commentModalContent.classList.add('translate-y-full', 'opacity-0');
+  commentModalOverlay.classList.remove('opacity-100');
+  setTimeout(() => {
+    commentModal.classList.add('hidden');
+    commentModalOverlay.classList.add('hidden');
+  }, 300);
+}
+
+showCommentBtnMobile.addEventListener('click', openCommentModal);
+closeCommentModalBtn.addEventListener('click', closeCommentModal);
+cancelCommentBtn.addEventListener('click', closeCommentModal);
+commentModalOverlay.addEventListener('click', closeCommentModal);
+
+// Prevent modal close when clicking inside modal content
+commentModalContent.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !commentModal.classList.contains('hidden')) {
+    closeCommentModal();
+  }
+});
+
+// Handle form submission (single form for both mobile and desktop)
+commentForm?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  // Add your form submission logic here
+
+  // Close modal if on mobile
+  if (window.innerWidth < 768) {
+    closeCommentModal();
+  }
+});
+
+
 // --- Element Selections ---
 // TODO: Select all the elements you added IDs for in step 2.
-
+const resourceTitle = document.getElementById("resource-title");
+const resourceDescription = document.getElementById("resource-description");
+const resourceLink = document.getElementById("resource-link");
+const newComment = document.getElementById("new-comment");
+const commentList = document.getElementById("comment-list");
+const discussionForm = document.getElementById("discussion-forum")
+const resourceStats = document.getElementById('resource-stats');
 // --- Functions ---
 
 /**
@@ -34,7 +123,8 @@ let currentComments = [];
  * 3. Return the id.
  */
 function getResourceIdFromURL() {
-  // ... your implementation here ...
+  const params = new URLSearchParams(window.location.search);
+  return params.get('id');
 }
 
 /**
@@ -46,7 +136,9 @@ function getResourceIdFromURL() {
  * 3. Set the `href` attribute of `resourceLink` to the resource's link.
  */
 function renderResourceDetails(resource) {
-  // ... your implementation here ...
+  resourceTitle.textContent = resource.title;
+  resourceDescription.textContent = resource.description;
+  resourceLink.setAttribute("href", resource.link);
 }
 
 /**
@@ -56,7 +148,40 @@ function renderResourceDetails(resource) {
  * (e.g., an <article> containing a <p> and a <footer>).
  */
 function createCommentArticle(comment) {
-  // ... your implementation here ...
+  const article = document.createElement("article"); article.className = "bg-card border border-border/50 rounded-xl p-6 hover:border-info/30 hover:shadow-md transition-all duration-200";
+  const articleDiv1 = document.createElement("div"); articleDiv1.className = "flex items-start gap-4";
+  const articleDiv2 = document.createElement("div"); articleDiv2.className = "mt-1 p-3 bg-info/10 rounded-full";
+  articleDiv2.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-info" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>`
+  const articleDiv3 = document.createElement("div"); articleDiv3.className = "flex-1 min-w-0";
+  const p = document.createElement("p"); p.className = "ml-0 text-foreground leading-relaxed mb-3";
+  p.textContent = comment.text;
+  const footer = document.createElement("footer"); footer.className = "ml-0 flex items-center gap-4 text-sm justify-between";
+  const authorSpan = document.createElement("span"); authorSpan.textContent = comment.author; authorSpan.classList = "font-semibold text-accent"
+  const dateSpan = document.createElement("span"); dateSpan.textContent = comment.date || "2 days ago"; dateSpan.classList = "text-muted-foreground text-xs"
+  footer.append(authorSpan, dateSpan);
+  articleDiv3.append(p, footer);
+  articleDiv1.append(articleDiv2, articleDiv3);
+  article.append(articleDiv1);
+  return article;
+  // <div class="flex items-start gap-4">
+  //   <div class="mt-1 p-3 bg-info/10 rounded-full">
+  //     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-info" viewBox="0 0 20 20"
+  //       fill="currentColor">
+  //       <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+  //         clip-rule="evenodd" />
+  //     </svg>
+  //   </div>
+  //   <div class="flex-1 min-w-0">
+  //     <p class="ml-0  text-foreground leading-relaxed mb-3">
+  //       This was very helpful, thanks! The examples really clarified the concepts for me.
+  //       Looking forward to more resources like this.
+  //     </p>
+  //     <footer class="ml-0  flex items-center gap-4 text-sm justify-between">
+  //       <span class="font-semibold text-accent">Jane Doe</span>
+  //       <span class="text-muted-foreground text-xs">2 days ago</span>
+  //     </footer>
+  //   </div>
+  // </div>
 }
 
 /**
@@ -68,7 +193,10 @@ function createCommentArticle(comment) {
  * append the resulting <article> to `commentList`.
  */
 function renderComments() {
-  // ... your implementation here ...
+  commentList.innerHTML = '';
+  currentComments.forEach(comment=> {
+    commentList.append(createCommentArticle(comment));
+  })
 }
 
 /**
@@ -85,7 +213,15 @@ function renderComments() {
  * 7. Clear the `newComment` textarea.
  */
 function handleAddComment(event) {
-  // ... your implementation here ...
+  console.log("sdadada")
+  event.preventDefault();
+  const commentText = newComment.value;
+  if (commentText){
+        const comment = { author: 'Student', text: commentText}
+        currentComments.push(comment);
+        renderComments();
+        newComment.value = "";
+  }
 }
 
 /**
@@ -105,8 +241,29 @@ function handleAddComment(event) {
  * - Add the 'submit' event listener to `commentForm` (calls `handleAddComment`).
  * 8. If the resource is not found, display an error in `resourceTitle`.
  */
+const availability = document.getElementById("availability");
+const resourceInfoContainer = document.getElementById("resource-info-container");
 async function initializePage() {
-  // ... your implementation here ...
+  const currentResourceId = getResourceIdFromURL();
+
+  if (!currentResourceId) { resourceTitle.textContent = "Resource not found."; return;}
+  const [r, c] = await Promise.all([fetch('/src/resources/api/resources.json'), fetch('/src/resources/api/comments.json')])
+  const resources = await r.json();
+  const comments = await c.json();
+  const currentResource = resources.find(e=> e.id === currentResourceId );
+  console.log(resources);
+  currentComments = comments[currentResourceId] || [];
+  if (currentResource){
+    renderResourceDetails(currentResource);
+    renderComments();
+    commentForm.addEventListener("submit", e => handleAddComment(e)); // OR u could do commentForm.addEventListener("submit", handleAddComment)
+  } else {
+    resourceTitle.textContent = "Error! No Resource is found";
+    discussionForm.innerHTML = '';
+    resourceStats.innerHTML = '';
+    availability.innerHTML = 'Not Available'; availability.classList.replace("border-success/20", "border-destructive/20"); availability.classList.replace("bg-success/10", "bg-destructive/10");availability.classList.replace("text-success", "text-destructive")
+    resourceInfoContainer.innerHTML = '';
+  }
 }
 
 // --- Initial Page Load ---

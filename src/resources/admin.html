@@ -351,55 +351,6 @@
         </main>
     </div>
 
-    <script>
-        // Modal functionality
-        const modal = document.getElementById('resource-modal');
-        const modalContent = document.getElementById('modal-content');
-        const modalOverlay = document.getElementById('modal-overlay');
-        const showFormBtnDesktop = document.getElementById('show-form-btn-desktop');
-        const showFormBtnMobile = document.getElementById('show-form-btn-mobile');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-        const cancelBtn = document.getElementById('cancel-btn');
-
-        function openModal() {
-            modal.classList.remove('hidden');
-            modalOverlay.classList.remove('hidden');
-            // Trigger animation
-            setTimeout(() => {
-                modalContent.classList.remove('scale-95', 'opacity-0');
-                modalContent.classList.add('scale-100', 'opacity-100');
-                modalOverlay.classList.add('opacity-100');
-            }, 10);
-        }
-
-        function closeModal() {
-            modalContent.classList.remove('scale-100', 'opacity-100');
-            modalContent.classList.add('scale-95', 'opacity-0');
-            modalOverlay.classList.remove('opacity-100');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modalOverlay.classList.add('hidden');
-            }, 300);
-        }
-
-        showFormBtnDesktop.addEventListener('click', openModal);
-        showFormBtnMobile.addEventListener('click', openModal);
-        closeModalBtn.addEventListener('click', closeModal);
-        cancelBtn.addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', closeModal);
-
-        // Prevent modal close when clicking inside modal content
-        modalContent.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-
-        // Close modal on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                closeModal();
-            }
-        });
-    </script>
 </body>
 
 </html>
