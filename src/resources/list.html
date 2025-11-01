@@ -15,6 +15,7 @@
     <title>Course Resources</title>
 
     <link rel="stylesheet" href="/src/common/styles.css">
+    <script src="/src/resources/list.js" type="module" defer></script>
 </head>
 
 <body class="min-h-screen bg-background">
@@ -39,7 +40,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="text-xl font-bold text-foreground mb-0.5">42</div>
+                <div id="total-resources" class="text-xl font-bold text-foreground mb-0.5">0</div>
                 <div class="text-xs text-muted-foreground">Total Resources</div>
             </div>
 
@@ -56,7 +57,7 @@
                     </div>
                     <span class="px-1.5 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-semibold">PDF</span>
                 </div>
-                <div class="text-xl font-bold text-foreground mb-0.5">28</div>
+                <div id="total-documents" class="text-xl font-bold text-foreground mb-0.5">0</div>
                 <div class="text-xs text-muted-foreground">Documents</div>
             </div>
 
@@ -73,7 +74,7 @@
                     </div>
                     <span class="px-1.5 py-0.5 bg-info/10 text-info text-xs rounded-full font-semibold">Web</span>
                 </div>
-                <div class="text-xl font-bold text-foreground mb-0.5">12</div>
+                <div id="total-links" class="text-xl font-bold text-foreground mb-0.5">0</div>
                 <div class="text-xs text-muted-foreground">External Links</div>
             </div>
 
@@ -90,7 +91,7 @@
                     <span
                         class="px-1.5 py-0.5 bg-warning/10 text-warning text-xs rounded-full font-semibold">Media</span>
                 </div>
-                <div class="text-xl font-bold text-foreground mb-0.5">2</div>
+                <div id="total-videos" class="text-xl font-bold text-foreground mb-0.5">0</div>
                 <div class="text-xs text-muted-foreground">Video Resources</div>
             </div>
         </div>
@@ -107,7 +108,7 @@
                                 d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                                 clip-rule="evenodd" />
                         </svg>
-                        <input type="text" placeholder="Search..."
+                        <input id="search-input" type="text" placeholder="Search..."
                             class="w-full pl-8 pr-3 py-2 bg-background border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200">
                     </div>
                 </div>
@@ -137,7 +138,7 @@
         </div>
 
         <main>
-            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <section id="resource-list-section" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Example Resource 1 -->
                 <article
                     class="bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
@@ -177,7 +178,7 @@
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                44 discussions
+                                44 comments
                             </span>
                             <span class="flex items-center gap-1.5">
                                 Added 3 days ago
@@ -189,7 +190,7 @@
                                 class="bg-secondary text-secondary-foreground hover:bg-secondary/90 flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold  transition-colors duration-200">
                                 View Resource & Discussion
                             </a>
-                            <button
+                            <button id="resource-share" data-resource-id="1"
                                 class="bg-secondary text-secondary-foreground hover:bg-secondary/90 p-2.5 border border-border rounded-lg transition-colors duration-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-secondary-foreground"
                                     viewBox="0 0 20 20" fill="currentColor">
@@ -302,7 +303,7 @@
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                89 discussions
+                                89 comments
                             </span>
                             <span class="flex items-center gap-1.5">
                                 Added 2 days ago
@@ -312,7 +313,7 @@
                         <div class="flex items-center gap-2">
                             <a href="details.html"
                                 class="bg-secondary text-secondary-foreground hover:bg-secondary/90 flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold  transition-colors duration-200">
-                                View Resource & Discussion
+                                View Resource & comments
                             </a>
                             <button
                                 class="bg-secondary text-secondary-foreground p-2.5 border border-border rounded-lg hover:bg-muted transition-colors duration-200">
