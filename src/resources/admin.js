@@ -2,15 +2,28 @@ import { v7 as uuidv7 } from "uuid";
 
 // --- Global Data Store ---
 let resources = [];
-
-
+let editingResourceId = null; // Track which resource is being edited
 
 const resourceForm = document.getElementById("resource-form");
+const editResourceForm = document.getElementById("edit-resource-form");
 const resourcesTableBody = document.getElementById("resources-tbody");
 
+// Add Modal Elements
+const modal = document.getElementById('resource-modal');
+const modalContent = document.getElementById('modal-content');
+const modalOverlay = document.getElementById('modal-overlay');
+const showFormBtnDesktop = document.getElementById('show-form-btn-desktop');
+const showFormBtnMobile = document.getElementById('show-form-btn-mobile');
+const closeModalBtn = document.getElementById('close-modal-btn');
+const cancelBtn = document.getElementById('cancel-btn');
 
+// Edit Modal Elements
+const editModal = document.getElementById('edit-modal');
+const editModalContent = document.getElementById('edit-modal-content');
+const closeEditModalBtn = document.getElementById('close-edit-modal-btn');
+const cancelEditBtn = document.getElementById('cancel-edit-btn');
 
-// Modal
+// Add Modal Functions
 function openModal() {
   modal.classList.remove('hidden');
   modalOverlay.classList.remove('hidden');
@@ -30,29 +43,76 @@ function closeModal() {
     modal.classList.add('hidden');
     modalOverlay.classList.add('hidden');
   }, 200);
+  resourceForm.reset();
 }
-const modal = document.getElementById('resource-modal');
-const modalContent = document.getElementById('modal-content');
-const modalOverlay = document.getElementById('modal-overlay');
-const showFormBtnDesktop = document.getElementById('show-form-btn-desktop');
-const showFormBtnMobile = document.getElementById('show-form-btn-mobile');
-const closeModalBtn = document.getElementById('close-modal-btn');
-const cancelBtn = document.getElementById('cancel-btn');
+
+// Edit Modal Functions
+function openEditModal(resource) {
+  editingResourceId = resource.id;
+  document.getElementById("edit-resource-title").value = resource.title;
+  document.getElementById("edit-resource-description").value = resource.description;
+  document.getElementById("edit-resource-link").value = resource.link;
+
+  editModal.classList.remove('hidden');
+  modalOverlay.classList.remove('hidden');
+  // Trigger animation
+  setTimeout(() => {
+    editModalContent.classList.remove('scale-95', 'opacity-0');
+    editModalContent.classList.add('scale-100', 'opacity-100');
+    modalOverlay.classList.add('opacity-100');
+  }, 10);
+}
+
+function closeEditModal() {
+  editModalContent.classList.remove('scale-100', 'opacity-100');
+  editModalContent.classList.add('scale-95', 'opacity-0');
+  modalOverlay.classList.remove('opacity-100');
+  setTimeout(() => {
+    editModal.classList.add('hidden');
+    modalOverlay.classList.add('hidden');
+  }, 200);
+  editingResourceId = null;
+  editResourceForm.reset();
+}
+
+// Event Listeners for Add Modal
 showFormBtnDesktop.addEventListener('click', openModal);
 showFormBtnMobile.addEventListener('click', openModal);
 closeModalBtn.addEventListener('click', closeModal);
 cancelBtn.addEventListener('click', closeModal);
-modalOverlay.addEventListener('click', closeModal);
+
+// Event Listeners for Edit Modal
+closeEditModalBtn.addEventListener('click', closeEditModal);
+cancelEditBtn.addEventListener('click', closeEditModal);
+
+// Overlay click handler
+modalOverlay.addEventListener('click', () => {
+  if (!modal.classList.contains('hidden')) {
+    closeModal();
+  }
+  if (!editModal.classList.contains('hidden')) {
+    closeEditModal();
+  }
+});
 
 // Prevent modal close when clicking inside modal content
 modalContent.addEventListener('click', (e) => {
   e.stopPropagation();
 });
 
+editModalContent.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+
 // Close modal on Escape key
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-    closeModal();
+  if (e.key === 'Escape') {
+    if (!modal.classList.contains('hidden')) {
+      closeModal();
+    }
+    if (!editModal.classList.contains('hidden')) {
+      closeEditModal();
+    }
   }
 });
 
@@ -173,11 +233,35 @@ function handleAddResource(event) {
   const title = document.getElementById("resource-title")?.value.trim() || "";
   const description = document.getElementById("resource-description").value.trim() || "";
   const link = document.getElementById("resource-link")?.value.trim() || "";
-  const id = uuidv7(); //uuidv7 includes timestamp in the uuid, so u can sort Lexicographically
+
+  const id = uuidv7();
   resources.push({ id, title, description, link });
+
   renderTable();
-  resourceForm.reset();
   closeModal();
+}
+
+/**
+ * Handle editing an existing resource
+ */
+function handleEditResource(event) {
+  event.preventDefault();
+  const title = document.getElementById("edit-resource-title")?.value.trim() || "";
+  const description = document.getElementById("edit-resource-description").value.trim() || "";
+  const link = document.getElementById("edit-resource-link")?.value.trim() || "";
+
+  const index = resources.findIndex(r => r.id === editingResourceId);
+  if (index !== -1) {
+    resources[index] = {
+      ...resources[index],
+      title,
+      description,
+      link
+    };
+  }
+
+  renderTable();
+  closeEditModal();
 }
 
 /**
@@ -197,6 +281,16 @@ function handleTableClick(event) {
     const id = deleteBtn.dataset.id;
     resources = resources.filter(e => e.id !== id);
     renderTable();
+    return;
+  }
+
+  const editBtn = event.target.closest(".edit-btn");
+  if (editBtn) {
+    const id = editBtn.dataset.id;
+    const resource = resources.find(e => e.id === id);
+    if (resource) {
+      openEditModal(resource);
+    }
   }
 }
 
@@ -216,8 +310,9 @@ async function loadAndInitialize() {
     const resBody = await res.json();
     resources = resBody;
     renderTable();
-    resourceForm.addEventListener("submit", event => handleAddResource(event))
-    resourcesTableBody.addEventListener("click", event => handleTableClick(event))
+    resourceForm.addEventListener("submit", event => handleAddResource(event));
+    editResourceForm.addEventListener("submit", event => handleEditResource(event));
+    resourcesTableBody.addEventListener("click", event => handleTableClick(event));
   }
   catch (err) {
     console.error("Error in initializing: ", err)

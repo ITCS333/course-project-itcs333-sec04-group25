@@ -194,7 +194,7 @@ function createCommentArticle(comment) {
  */
 function renderComments() {
   commentList.innerHTML = '';
-  currentComments.forEach(comment=> {
+  currentComments.forEach(comment => {
     commentList.append(createCommentArticle(comment));
   })
 }
@@ -216,11 +216,11 @@ function handleAddComment(event) {
   console.log("sdadada")
   event.preventDefault();
   const commentText = newComment.value;
-  if (commentText){
-        const comment = { author: 'Student', text: commentText}
-        currentComments.push(comment);
-        renderComments();
-        newComment.value = "";
+  if (commentText) {
+    const comment = { author: 'Student', text: commentText }
+    currentComments.push(comment);
+    renderComments();
+    newComment.value = "";
   }
 }
 
@@ -243,17 +243,48 @@ function handleAddComment(event) {
  */
 const availability = document.getElementById("availability");
 const resourceInfoContainer = document.getElementById("resource-info-container");
+const shareResourceBtn = document.getElementById("share-resource-btn");
+
+// Share button functionality
+if (shareResourceBtn) {
+  shareResourceBtn.addEventListener("click", async () => {
+    const resourceId = getResourceIdFromURL();
+    const shareUrl = window.location.href;
+    const resourceTitleText = resourceTitle?.textContent || "Resource";
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: resourceTitleText,
+          text: `Check out this resource: ${resourceTitleText}`,
+          url: shareUrl,
+        });
+      } catch (err) {
+        console.log("Share failed:", err);
+      }
+    } else {
+      // Fallback: Copy to clipboard
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        alert("Link copied to clipboard!");
+      } catch (err) {
+        alert("Unable to share. URL: " + shareUrl);
+      }
+    }
+  });
+}
+
 async function initializePage() {
   const currentResourceId = getResourceIdFromURL();
 
-  if (!currentResourceId) { resourceTitle.textContent = "Resource not found."; return;}
+  if (!currentResourceId) { resourceTitle.textContent = "Resource not found."; return; }
   const [r, c] = await Promise.all([fetch('/src/resources/api/resources.json'), fetch('/src/resources/api/comments.json')])
   const resources = await r.json();
   const comments = await c.json();
-  const currentResource = resources.find(e=> e.id === currentResourceId );
+  const currentResource = resources.find(e => e.id === currentResourceId);
   console.log(resources);
   currentComments = comments[currentResourceId] || [];
-  if (currentResource){
+  if (currentResource) {
     renderResourceDetails(currentResource);
     renderComments();
     commentForm.addEventListener("submit", e => handleAddComment(e)); // OR u could do commentForm.addEventListener("submit", handleAddComment)
@@ -261,7 +292,7 @@ async function initializePage() {
     resourceTitle.textContent = "Error! No Resource is found";
     discussionForm.innerHTML = '';
     resourceStats.innerHTML = '';
-    availability.innerHTML = 'Not Available'; availability.classList.replace("border-success/20", "border-destructive/20"); availability.classList.replace("bg-success/10", "bg-destructive/10");availability.classList.replace("text-success", "text-destructive")
+    availability.innerHTML = 'Not Available'; availability.classList.replace("border-success/20", "border-destructive/20"); availability.classList.replace("bg-success/10", "bg-destructive/10"); availability.classList.replace("text-success", "text-destructive")
     resourceInfoContainer.innerHTML = '';
   }
 }
