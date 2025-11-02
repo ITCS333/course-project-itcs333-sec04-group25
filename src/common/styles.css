@@ -20,6 +20,8 @@
     --color-warning-foreground: var(--warning-foreground);
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
+    --color-error: var(--destructive);
+    --color-error-foreground: var(--destructive-foreground);
     --color-info: var(--info);
     --color-info-foreground: var(--info-foreground);
     --color-accent: var(--accent);
@@ -109,7 +111,7 @@
 
     /* Primary - Bright Sky Blue (brighter version for dark mode visibility) */
     --primary: oklch(86.449% 0.06639 263.334);
-    --primary-gradient: linear-gradient(135deg, oklch(86.449% 0.06639 263.334) 0%, oklch(73.983% 0.12186 258.296) 100%);
+--primary-gradient: linear-gradient(135deg, oklch(80% 0.10 220) 0%, oklch(60% 0.15 230) 100%);
     /* Lighter blue that maintains brand */
     --primary-foreground: oklch(0 0 0);
     /* Dark navy text */
@@ -475,6 +477,10 @@
         @apply bg-destructive text-destructive-foreground hover:opacity-90 focus:ring-destructive shadow-sm;
     }
 
+    .btn-error {
+        @apply bg-error text-error-foreground hover:opacity-90 focus:ring-error shadow-sm;
+    }
+
     .btn-info {
         @apply bg-info text-info-foreground hover:opacity-90 focus:ring-info shadow-sm;
     }
@@ -542,6 +548,10 @@
         @apply bg-destructive/10 text-destructive border-destructive/20;
     }
 
+    .badge-error {
+        @apply bg-error/10 text-error border-error/20;
+    }
+
     .badge-info {
         @apply bg-info/10 text-info border-info/20;
     }
@@ -561,6 +571,10 @@
 
     .alert-destructive {
         @apply bg-destructive/10 border-destructive/20 text-destructive;
+    }
+
+    .alert-error {
+        @apply bg-error/10 border-error/20 text-error;
     }
 
     .alert-info {
