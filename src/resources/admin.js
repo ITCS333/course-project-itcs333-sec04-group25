@@ -233,12 +233,12 @@ function handleAddResource(event) {
   const title = document.getElementById("resource-title")?.value.trim() || "";
   const description = document.getElementById("resource-description").value.trim() || "";
   const link = document.getElementById("resource-link")?.value.trim() || "";
-
-  const id = uuidv7();
-  resources.push({ id, title, description, link });
-
-  renderTable();
-  closeModal();
+  if (title && description && link){
+    const id = uuidv7();
+    resources.push({ id, title, description, link });
+    renderTable();
+    closeModal();
+  }
 }
 
 /**

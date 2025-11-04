@@ -213,9 +213,8 @@ function renderComments() {
  * 7. Clear the `newComment` textarea.
  */
 function handleAddComment(event) {
-  console.log("sdadada")
   event.preventDefault();
-  const commentText = newComment.value;
+  const commentText = newComment.value.trim();
   if (commentText) {
     const comment = { author: 'Student', text: commentText }
     currentComments.push(comment);
