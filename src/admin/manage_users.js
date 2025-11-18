@@ -35,6 +35,10 @@ const searchInput = document.getElementById("search-input");
 // TODO: Select all table header (th) elements in thead.
 const tableHeaders = document.querySelectorAll("#student-table thead th");
 
+// Default Password Input and Generate Button
+const defaultPasswordInput = document.getElementById("default-password");
+const generatePasswordBtn = document.getElementById("generate-password-btn");
+
 // customized Confirm, alert, and prompt
 
 //confirm
@@ -515,6 +519,21 @@ function handleSort(event) {
   renderTable(students);
 }
 
+// Generating Default Password
+function generatePassword() {
+  const passwordInput = document.getElementById("default-password");
+  const length = 8;
+  const charset =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&";
+  let password = "";
+  const randomValues = new Uint32Array(length);
+  window.crypto.getRandomValues(randomValues);
+  for (let i = 0; i < length; i++) {
+    password += charset[randomValues[i] % charset.length];
+  }
+  passwordInput.value = password;
+}
+
 /**
  * TODO: Implement the loadStudentsAndInitialize function.
  * This function needs to be 'async'.
@@ -547,6 +566,11 @@ async function loadStudentsAndInitialize() {
   studentTableBody.addEventListener("click", handleTableClick);
   searchInput.addEventListener("input", handleSearch);
   tableHeaders.forEach((th) => th.addEventListener("click", handleSort));
+
+  // Generate Password button listener
+  if (generatePasswordBtn) {
+    generatePasswordBtn.addEventListener("click", generatePassword);
+  }
 }
 
 // --- Initial Page Load ---
