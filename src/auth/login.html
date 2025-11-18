@@ -1,78 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <link rel="stylesheet" href="/src/common/styles.css" />
-    <script src="login.js" defer></script>
-  </head>
-
-  <body class="dark min-h-screen">
-    <div class="min-h-screen flex">
-      <!-- Image Side -->
-      <div
-        class="hidden lg:block lg:w-1/2 bg-cover bg-center relative"
-        style="background-image: url('../../assets/login.jpg')"
-      >
-        <div
-          class="absolute inset-0 bg-primary/60-gradient flex items-center justify-center"
-        >
-          <div class="text-primary-foreground text-center p-8">
-            <h1 class="text-5xl font-bold mb-4 text-white">Course Management System</h1>
-          </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="/src/common/styles.css" />
+  <script src="login.js" defer></script>
+</head>
+<body class="dark min-h-screen">
+  <div class="min-h-screen flex">
+    <!-- Image Side -->
+    <div class="hidden lg:block lg:w-1/2 bg-cover bg-center relative" style="background-image: url('../../assets/login.jpg')">
+      <div class="absolute inset-0 bg-primary/60-gradient flex items-center justify-center">
+        <div class="text-primary-foreground text-center p-8">
+          <h1 class="text-5xl font-bold mb-4 text-white">Course Management System</h1>
         </div>
       </div>
-
-      <!-- Login Form Side -->
-      <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
-        <main class="w-full max-w-md">
-          <section>
-            <h2 class="text-3xl font-bold text-foreground mb-6">
-              Welcome Back!
-            </h2>
-            <form action="#" id="login-form">
-              <fieldset class="space-y-4">
-                <legend class="text-xl font-semibold text-foreground mb-4">
-                  Secure Login
-                </legend>
-
-                <div>
-                  <label for="email" class="label">Email Address</label>
-                  <input
-                    type="email"
-                    id="email"
-                    required
-                    placeholder="Enter your email"
-                    class="input"
-                  />
-                </div>
-
-                <div>
-                  <label for="password" class="label">Password</label>
-                  <input
-                    type="password"
-                    id="password"
-                    minlength="8"
-                    required
-                    placeholder="Enter your password"
-                    class="input"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  id="login"
-                  class="btn btn-primary-gradient w-full mt-6"
-                >
-                  Log In
-                </button>
-              </fieldset>
-              <div id="message-container"></div>
-            </form>
-          </section>
-        </main>
-      </div>
-  </body>
+    </div>
+    <!-- Login Form Side -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
+      <main class="w-full max-w-md">
+        <section>
+          <h2 class="text-3xl font-bold text-foreground mb-6">Welcome Back!</h2>
+          <form action="#" id="login-form">
+            <fieldset class="space-y-4">
+              <legend class="text-xl font-semibold text-foreground mb-4">Secure Login</legend>
+              <div>
+                <label for="email" class="label">Email Address</label>
+                <input type="email" id="email" required placeholder="Enter your email" class="input" />
+              </div>
+              <div>
+                <label for="password" class="label">Password</label>
+                <input type="password" id="password" minlength="8" required placeholder="Enter your password" class="input" />
+              </div>
+              <button type="submit" id="login" class="btn btn-primary-gradient w-full mt-6">Log In</button>
+            </fieldset>
+            <div id="message-container"></div>
+          </form>
+        </section>
+        <p>Forgot your password? <a href="#" class="text-blue-500">Reset it here</a>.</p>
+      </main>
+    </div>
+  </div>
+</body>
 </html>
-
