@@ -1,4 +1,5 @@
 /*
+  File: board.js
   Requirement: Make the "Discussion Board" page interactive.
 
   Instructions:
