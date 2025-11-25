@@ -5,9 +5,6 @@
   Fill in the HTML elements as described in the comments.
   This page allows the teacher (admin) to perform full CRUD operations on the weekly course content.
 -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
     <!-- TODO: Add the 'meta' tag for character encoding (UTF-8). -->
     
     <!-- TODO: Add the responsive 'viewport' meta tag. -->
@@ -15,9 +12,6 @@
     <!-- TODO: Add a title, e.g., "Manage Weekly Breakdown". -->
 
     <!-- TODO: Link to your CSS framework or stylesheet. -->
-</head>
-<body>
-
     <!-- TODO: Create a 'header' with a main heading ('h1') "Manage Weekly Breakdown". -->
 
     <!-- TODO: Create the 'main' content area. -->
@@ -79,6 +73,217 @@
         <!-- End of list section. -->
 
     <!-- End of main. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Weekly Breakdown</title>
+    <link rel="stylesheet" href="/src/common/styles.css">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+    
+    <header class="bg-primary-gradient text-primary-foreground py-12 shadow-xl">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold">Manage Weekly Breakdown</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+        <section class="bg-card shadow-xl rounded-2xl p-8 mb-8 border border-border">
+            <h2 class="text-2xl font-bold text-foreground mb-6">Add a New Week</h2>
+            <form id="week-form" action="#" class="space-y-6">
+                <fieldset class="border border-border rounded-lg p-6 space-y-4">
+                    <legend class="text-lg font-semibold text-foreground px-2">Weekly Details</legend>
+                    
+                    <div>
+                        <label for="week-title" class="block text-sm font-medium text-foreground mb-2">
+                            Week Title
+                        </label>
+                        <input 
+                            type="text" 
+                            id="week-title" 
+                            required 
+                            placeholder="Week 1: Introduction to HTML"
+                            class="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground">
+                    </div>
+
+                    <div>
+                        <label for="week-start-date" class="block text-sm font-medium text-foreground mb-2">
+                            Week's Starting Date
+                        </label>
+                        <input 
+                            type="date" 
+                            id="week-start-date" 
+                            required
+                            class="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground">
+                    </div>
+
+                    <div>
+                        <label for="week-description" class="block text-sm font-medium text-foreground mb-2">
+                            Week's Description and Notes
+                        </label>
+                        <textarea 
+                            rows="5" 
+                            id="week-description"
+                            placeholder="Enter week description and learning objectives..."
+                            class="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground resize-none"></textarea>
+                    </div>
+
+                    <div>
+                        <label for="week-links" class="block text-sm font-medium text-foreground mb-2">
+                            Week Links (one per line)
+                        </label>
+                        <textarea 
+                            id="week-links" 
+                            rows="3"
+                            placeholder="https://example.com/resource1&#10;https://example.com/resource2"
+                            class="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground resize-none"></textarea>
+                    </div>
+
+                    <button 
+                        id="add-week" 
+                        type="submit" 
+                        class="w-full sm:w-auto px-8 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02]">
+                        Add Week
+                    </button>
+                </fieldset>
+            </form>
+        </section>
+        
+        <section class="bg-card shadow-xl rounded-2xl p-8 border border-border">
+            <h2 class="text-2xl font-bold text-foreground mb-6">Current Weekly Breakdown</h2>
+            <div class="overflow-x-auto">
+                <table id="weeks-table" class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-muted/50">
+                            <th class="px-6 py-4 text-left font-semibold text-foreground border-b-2 border-border">
+                                Week Title
+                            </th>
+                            <th class="px-6 py-4 text-left font-semibold text-foreground border-b-2 border-border">
+                                Description
+                            </th>
+                            <th class="px-6 py-4 text-left font-semibold text-foreground border-b-2 border-border">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="weeks-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+<div id="edit-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md hidden items-center justify-center z-50 p-4 transition-all duration-300">
+    <div class="bg-card rounded-3xl shadow-2xl border-2 border-primary/20 w-full max-w-3xl max-h-[95vh] overflow-hidden transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+        
+        <div class="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border-b-2 border-border px-8 py-6 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-foreground">Edit Week Details</h2>
+            </div>
+            <button id="close-modal" class="w-10 h-10 flex items-center justify-center rounded-xl bg-muted/50 hover:bg-destructive/20 text-muted-foreground hover:text-destructive transition-all duration-200 hover:scale-110">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="overflow-y-auto max-h-[calc(95vh-180px)]">
+            <form id="edit-form" class="p-8 space-y-6">
+                
+                <div class="space-y-2">
+                    <label for="edit-week-title" class="flex items-center gap-2 text-sm font-semibold text-foreground">
+                        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
+                        </svg>
+                        Week Title
+                    </label>
+                    <input 
+                        type="text" 
+                        id="edit-week-title" 
+                        required 
+                        placeholder="e.g., Week 1: Introduction to HTML"
+                        class="w-full px-4 py-3 border-2 border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-background text-foreground placeholder:text-muted-foreground/50">
+                </div>
+
+                <div class="space-y-2">
+                    <label for="edit-week-start-date" class="flex items-center gap-2 text-sm font-semibold text-foreground">
+                        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        Starting Date
+                    </label>
+                    <input 
+                        type="date" 
+                        id="edit-week-start-date" 
+                        required
+                        class="w-full px-4 py-3 border-2 border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-background text-foreground">
+                </div>
+
+                <div class="space-y-2">
+                    <label for="edit-week-description" class="flex items-center gap-2 text-sm font-semibold text-foreground">
+                        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+                        </svg>
+                        Description and Notes
+                    </label>
+                    <textarea 
+                        rows="5" 
+                        id="edit-week-description"
+                        required
+                        placeholder="Enter detailed description and learning objectives..."
+                        class="w-full px-4 py-3 border-2 border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-background text-foreground resize-none placeholder:text-muted-foreground/50"></textarea>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="edit-week-links" class="flex items-center gap-2 text-sm font-semibold text-foreground">
+                        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                        </svg>
+                        Week Links
+                        <span class="text-xs text-muted-foreground font-normal">(one per line)</span>
+                    </label>
+                    <textarea 
+                        id="edit-week-links" 
+                        rows="3"
+                        placeholder="https://example.com/resource1&#10;https://example.com/resource2"
+                        class="w-full px-4 py-3 border-2 border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-background text-foreground resize-none placeholder:text-muted-foreground/50 font-mono text-sm"></textarea>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="border-t-2 border-border bg-muted/30 px-8 py-4 flex gap-4">
+            <button 
+                type="button" 
+                id="cancel-edit"
+                class="flex-1 px-6 py-2.5 bg-muted hover:bg-muted/80 text-foreground font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 border-2 border-border hover:border-border/50">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                Cancel
+            </button>
+            <button 
+                type="submit"
+                form="edit-form"
+                class="flex-1 px-6 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Save Changes
+            </button>
+        </div>
+        
+    </div>
+</div>
+
+    <script src="admin.js" defer></script>
 </body>
 </html>
 

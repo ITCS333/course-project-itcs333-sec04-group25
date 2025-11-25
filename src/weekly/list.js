@@ -13,6 +13,7 @@
 
 // --- Element Selections ---
 // TODO: Select the section for the week list ('#week-list-section').
+const listSection = document.querySelector('#week-list-section');
 
 // --- Functions ---
 
@@ -24,7 +25,32 @@
  * (This is how the detail page will know which week to load).
  */
 function createWeekArticle(week) {
-  // ... your implementation here ...
+  const article = document.createElement('article');
+  article.className = 'bg-card shadow-xl rounded-2xl p-8 border border-border hover:shadow-2xl transition-shadow';
+  
+  const h2 = document.createElement('h2');
+  h2.className = 'text-2xl font-bold text-foreground mb-3';
+  h2.textContent = week.title;
+  
+  const startDateP = document.createElement('p');
+  startDateP.className = 'text-sm text-muted-foreground mb-3';
+  startDateP.innerHTML = `<strong>Starts on:</strong> ${week.startDate}`;
+  
+  const descriptionP = document.createElement('p');
+  descriptionP.className = 'text-foreground mb-4';
+  descriptionP.textContent = week.description;
+  
+  const link = document.createElement('a');
+  link.href = `details.html?id=${week.id}`;
+  link.className = 'inline-block px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-semibold';
+  link.textContent = 'View Details & Discussion';
+  
+  article.appendChild(h2);
+  article.appendChild(startDateP);
+  article.appendChild(descriptionP);
+  article.appendChild(link);
+  
+  return article;
 }
 
 /**
@@ -39,7 +65,20 @@ function createWeekArticle(week) {
  * - Append the returned <article> element to `listSection`.
  */
 async function loadWeeks() {
-  // ... your implementation here ...
+  try {
+    const response = await fetch('api/weeks.json');
+    const weeks = await response.json();
+    
+    listSection.innerHTML = '';
+    
+    weeks.forEach(week => {
+      const article = createWeekArticle(week);
+      listSection.appendChild(article);
+    });
+  } catch (error) {
+    console.error('Error loading weeks:', error);
+    listSection.innerHTML = '<p class="text-destructive">Error loading weekly breakdown.</p>';
+  }
 }
 
 // --- Initial Page Load ---

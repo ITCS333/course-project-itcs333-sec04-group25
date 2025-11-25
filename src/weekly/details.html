@@ -3,64 +3,138 @@
 
   Instructions:
   This page displays the full details for one week and allows for discussion.
+
+  TODO: Add meta tags for charset and viewport.
+  TODO: Add a title, for now use "Week Details".
+  TODO: Link to your CSS framework or stylesheet.
+  TODO: Create a 'header' with a main heading ('h1'). Use a dummy title like "Week 1: Introduction to HTML".
+  TODO: Create the 'main' content area.
+  TODO: Use an 'article' to display the main weekly information.
+  TODO: Add a paragraph ('p') to display the start date, e.g., "Starts on: YYYY-MM-DD".
+  TODO: Add a sub-heading ('h2') "Description & Notes".
+  TODO: Add a paragraph ('p') with dummy text for the week's detailed notes.
+  TODO: Add another sub-heading ('h2') "Exercises & Resources".
+  TODO: Use an unordered list ('ul') to display the links for the week.
+  TODO: Add list items ('li') with anchor tags ('a') for each resource. Use dummy links for now.
+  TODO: Create a 'section' for the discussion, with an 'id' of "discussion-forum".
+  TODO: Add a sub-heading ('h2') "Discussion".
+  TODO: Add a container (like a 'div') for the list of comments.
+  TODO: Add 1-2 dummy comments to show the structure.
+  TODO: Use an 'article' for each comment.
+  TODO: Use a 'p' for the comment text (e.g., "I have a question about the 'header' tag.").
+  TODO: Use a 'footer' to show the author (e.g., "Posted by: John Doe").
+  TODO: Create a 'form' for users to post new comments. Action can be '#'.
+  TODO: Use a 'fieldset' to group the controls.
+  TODO: Add a 'legend', e.g., "Ask a Question".
+  TODO: Add a 'label' and 'textarea' for the comment box.
+       - label 'for': "new-comment"
+       - textarea 'id': "new-comment", required
+  TODO: Add a 'button' to submit the comment.
+       - type="submit", Text: "Post Comment"
 -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- TODO: Add meta tags for charset and viewport. -->
-    
-    <!-- TODO: Add a title, for now use "Week Details". -->
-
-    <!-- TODO: Link to your CSS framework or stylesheet. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week Details</title>
+    <link rel="stylesheet" href="/src/common/styles.css">
 </head>
-<body>
-    <!-- TODO: Create a 'header' with a main heading ('h1'). Use a dummy title like "Week 1: Introduction to HTML". -->
+<body class="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+    
+    <header class="bg-primary-gradient text-primary-foreground py-12 shadow-xl">
+        <div class="container mx-auto px-6">
+            <h1 id="week-title" class="text-4xl font-bold">Week 1: Introduction to HTML</h1>
+        </div>
+    </header>
 
-    <!-- TODO: Create the 'main' content area. -->
+    <main class="container mx-auto px-6 py-8">
+        
+        <article class="bg-card shadow-xl rounded-2xl p-8 mb-8 border border-border">
+            <p id="week-start-date" class="text-sm text-muted-foreground mb-6">
+                <strong>Starts on:</strong> 2025-01-13
+            </p>
+            
+            <h2 class="text-2xl font-bold text-foreground mb-4">Description & Notes</h2>
+            
+            <p id="week-description" class="text-foreground mb-6 leading-relaxed">
+                This week introduces the fundamentals of HTML. You will learn about basic structure, 
+                semantic elements, and how to create well-formed web pages.
+            </p>
 
-        <!-- Section 1: Weekly Information -->
-        <!-- TODO: Use an 'article' to display the main weekly information. -->
-            <!-- TODO: Add a paragraph ('p') to display the start date, e.g., "Starts on: YYYY-MM-DD". -->
-            <!-- TODO: Add a sub-heading ('h2') "Description & Notes". -->
-            <!-- TODO: Add a paragraph ('p') with dummy text for the week's detailed notes. -->
+            <h2 class="text-2xl font-bold text-foreground mb-4">Exercises & Resources</h2>
+            
+            <ul id="week-links-list" class="space-y-2 list-disc list-inside text-foreground">
+                <li>
+                    <a href="#" class="text-primary hover:text-primary/80 underline font-medium">
+                        Exercise 1 - Basic Tags
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="text-primary hover:text-primary/80 underline font-medium">
+                        Exercise 2 - HTML Structure
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="text-primary hover:text-primary/80 underline font-medium">
+                        Resource - MDN HTML Guide
+                    </a>
+                </li>
+            </ul>
+        </article>
 
-            <!-- TODO: Add another sub-heading ('h2') "Exercises & Resources". -->
-            <!-- TODO: Use an unordered list ('ul') to display the links for the week. -->
-                <!-- TODO: Add list items ('li') with anchor tags ('a') for each resource. Use dummy links for now. -->
-                <!-- Example: <li><a href="#">Exercise 1 - Basic Tags</a></li> -->
-            <!-- End of the list. -->
-        <!-- End of article. -->
+        <section id="discussion-forum" class="bg-card shadow-xl rounded-2xl p-8 border border-border">
+            <h2 class="text-2xl font-bold text-foreground mb-6">Discussion</h2>
 
-        <!-- Section 2: Discussion Forum -->
-        <!-- TODO: Create a 'section' for the discussion, with an 'id' of "discussion-forum". -->
-            <!-- TODO: Add a sub-heading ('h2') "Discussion". -->
+            <div id="comment-list" class="space-y-4 mb-8">
+                <article class="bg-muted/30 rounded-lg p-4 border border-border">
+                    <p class="text-foreground mb-2">
+                        I have a question about the 'header' tag. When should we use it versus a regular 'div'?
+                    </p>
+                    <footer class="text-sm text-muted-foreground">
+                        Posted by: John Doe
+                    </footer>
+                </article>
 
-            <!-- Subsection 2.1: Existing Comments -->
-            <!-- TODO: Add a container (like a 'div') for the list of comments. -->
-                <!-- TODO: Add 1-2 dummy comments to show the structure. -->
+                <article class="bg-muted/30 rounded-lg p-4 border border-border">
+                    <p class="text-foreground mb-2">
+                        Great lesson! The exercises really helped me understand semantic HTML better.
+                    </p>
+                    <footer class="text-sm text-muted-foreground">
+                        Posted by: Jane Smith
+                    </footer>
+                </article>
+            </div>
 
-                <!-- Example Comment 1: -->
-                <!-- TODO: Use an 'article' for each comment. -->
-                    <!-- TODO: Use a 'p' for the comment text (e.g., "I have a question about the 'header' tag."). -->
-                    <!-- TODO: Use a 'footer' to show the author (e.g., "Posted by: John Doe"). -->
-                <!-- End of comment article. -->
+            <form id="comment-form" action="#" class="bg-muted/20 rounded-lg p-6 border border-border">
+                <fieldset class="space-y-4">
+                    <legend class="text-lg font-semibold text-foreground mb-4">Ask a Question</legend>
 
-            <!-- Subsection 2.2: Add a Comment Form -->
-            <!-- TODO: Create a 'form' for users to post new comments. Action can be '#'. -->
-                <!-- TODO: Use a 'fieldset' to group the controls. -->
-                    <!-- TODO: Add a 'legend', e.g., "Ask a Question". -->
-
-                    <!-- TODO: Add a 'label' and 'textarea' for the comment box.
-                         - label 'for': "new-comment"
-                         - textarea 'id': "new-comment", required -->
+                    <div>
+                        <label for="new-comment-text" class="block text-sm font-medium text-foreground mb-2">
+                            Your Comment
+                        </label>
+                        <textarea 
+                            id="new-comment-text" 
+                            required 
+                            rows="4"
+                            placeholder="Type your question or comment here..."
+                            class="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground resize-none"></textarea>
+                    </div>
                     
-                    <!-- TODO: Add a 'button' to submit the comment.
-                         - type="submit", Text: "Post Comment" -->
-                <!-- End of fieldset. -->
-            <!-- End of form. -->
-        <!-- End of discussion section. -->
+                    <button 
+                        type="submit" 
+                        class="px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02]">
+                        Post Comment
+                    </button>
+                </fieldset>
+            </form>
+        </section>
 
-    <!-- End of main. -->
+    </main>
+
+    <script src="details.js"></script>
 </body>
 </html>
 
