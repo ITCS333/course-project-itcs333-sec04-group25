@@ -339,6 +339,7 @@ function renderTable(studentArray) {
  * 4. If validation passes, show an alert: "Password updated successfully!"
  * 5. Clear all three password input fields.
  */
+
 async function handleChangePassword(event) {
   event.preventDefault();
   const currentPassword = document.getElementById("current-password").value;
@@ -355,10 +356,36 @@ async function handleChangePassword(event) {
     return;
   }
 
-  await showAlert("Password updated successfully!", "success");
-  document.getElementById("current-password").value = "";
-  document.getElementById("new-password").value = "";
-  document.getElementById("confirm-password").value = "";
+  // Note: You'll need to get the student_id from somewhere (session, URL param, etc.)
+  // For now, this is a placeholder - adjust based on your authentication system
+  const studentId = sessionStorage.getItem("user_id") || "current_student_id";
+
+  try {
+    const response = await fetch("api/index.php?action=change_password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        student_id: studentId,
+        current_password: currentPassword,
+        new_password: newPassword,
+      }),
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      await showAlert("Password updated successfully!", "success");
+      document.getElementById("current-password").value = "";
+      document.getElementById("new-password").value = "";
+      document.getElementById("confirm-password").value = "";
+    } else {
+      await showAlert(result.message || "Failed to update password", "error");
+    }
+  } catch (error) {
+    console.error("Error changing password:", error);
+    await showAlert("An error occurred while changing the password.", "error");
+  }
 }
 
 /**
@@ -395,18 +422,41 @@ async function handleAddStudent(event) {
     await showAlert("Student with the same email already exists.", "error");
     return;
   }
-  const newStudent = { name, id, email, password: defaultPassword };
-  students.push(newStudent);
-  renderTable(students);
-  document.getElementById("student-name").value = "";
-  document.getElementById("student-id").value = "";
-  document.getElementById("student-email").value = "";
-  document.getElementById("default-password").value = "";
+  try {
+    const response = await fetch("api/index.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        student_id: id,
+        name: name,
+        email: email,
+        password: defaultPassword,
+      }),
+    });
 
-  const details = document.getElementById("add-student-details");
-  if (details) details.removeAttribute("open");
+    const result = await response.json();
+    if (result.success) {
+      const newStudent = { name, id, email };
+      students.push(newStudent);
+      renderTable(students);
+      document.getElementById("student-name").value = "";
+      document.getElementById("student-id").value = "";
+      document.getElementById("student-email").value = "";
+      document.getElementById("default-password").value = "";
 
-  await showAlert("Student added successfully!", "success");
+      const details = document.getElementById("add-student-details");
+      if (details) details.removeAttribute("open");
+
+      await showAlert("Student added successfully!", "success");
+    } else {
+      await showAlert(result.message || "Failed to add student", "error");
+    }
+  } catch (error) {
+    console.error("Error adding student:", error);
+    await showAlert("An error occurred while adding the student.", "error");
+  }
 }
 
 /**
@@ -431,9 +481,24 @@ async function handleTableClick(event) {
     if (!confirmed) return;
 
     const studentId = deleteBtn.getAttribute("data-id");
-    students = students.filter((student) => student.id !== studentId);
-    renderTable(students);
-    await showAlert("Student deleted successfully!", "success");
+
+    try {
+      const response = await fetch(`api/index.php?student_id=${studentId}`, {
+        method: "DELETE",
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        students = students.filter((student) => student.id !== studentId);
+        renderTable(students);
+        await showAlert("Student deleted successfully!", "success");
+      } else {
+        await showAlert(result.message || "Failed to delete student", "error");
+      }
+    } catch (error) {
+      console.error("Error deleting student:", error);
+      await showAlert("An error occurred while deleting the student.", "error");
+    }
   }
 
   if (editBtn) {
@@ -451,11 +516,33 @@ async function handleTableClick(event) {
       return;
     }
 
-    student.name = updatedData.name;
-    student.id = updatedData.id;
-    student.email = updatedData.email;
-    renderTable(students);
-    await showAlert("Student updated successfully!", "success");
+    try {
+      const response = await fetch("api/index.php", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          student_id: student.id,
+          name: updatedData.name,
+          email: updatedData.email,
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        student.name = updatedData.name;
+        student.id = updatedData.id;
+        student.email = updatedData.email;
+        renderTable(students);
+        await showAlert("Student updated successfully!", "success");
+      } else {
+        await showAlert(result.message || "Failed to update student", "error");
+      }
+    } catch (error) {
+      console.error("Error updating student:", error);
+      await showAlert("An error occurred while updating the student.", "error");
+    }
   }
 }
 
@@ -552,10 +639,15 @@ function generatePassword() {
  */
 async function loadStudentsAndInitialize() {
   try {
-    const response = await fetch("api/students.json");
+    const response = await fetch("api/index.php");
     if (!response.ok) throw new Error("Network response was not ok");
-    students = await response.json();
-    renderTable(students);
+    const result = await response.json();
+    if (result.success) {
+      students = result.data;
+      renderTable(students);
+    } else {
+      console.error("Error loading students:", result.message);
+    }
   } catch (error) {
     console.error("Error loading students:", error);
   }
