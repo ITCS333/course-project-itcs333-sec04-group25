@@ -14,11 +14,20 @@
 // --- Global Data Store ---
 // This will hold the weekly data loaded from the JSON file.
 let weeks = [];
+let editingWeekId = null; // Track which week is being edited
 
 // --- Element Selections ---
 // TODO: Select the week form ('#week-form').
+const WeekForm = document.querySelector('#week-form');
 
 // TODO: Select the weeks table body ('#weeks-tbody').
+const WeekTbody = document.querySelector('#weeks-tbody');
+
+// Modal elements
+const editModal = document.querySelector('#edit-modal');
+const editForm = document.querySelector('#edit-form');
+const closeModalBtn = document.querySelector('#close-modal');
+const cancelEditBtn = document.querySelector('#cancel-edit');
 
 // --- Functions ---
 
@@ -33,7 +42,29 @@ let weeks = [];
  * - A "Delete" button with class "delete-btn" and `data-id="${id}"`.
  */
 function createWeekRow(week) {
-  // ... your implementation here ...
+  const Week = document.createElement('tr');
+  Week.className = 'border-b border-border hover:bg-muted/30 transition-colors';
+  
+  const title = document.createElement('td');
+  title.className = 'px-6 py-4 text-foreground';
+  title.textContent = week.title;
+  
+  const description = document.createElement('td');
+  description.className = 'px-6 py-4 text-foreground';
+  description.textContent = week.description;
+  
+  const actionTd = document.createElement("td");
+  actionTd.className = 'px-6 py-4 whitespace-nowrap';
+  actionTd.innerHTML = `
+      <button class="edit-btn px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors mr-2" data-id="${week.id}">Edit</button>
+      <button class="delete-btn px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive/90 transition-colors" data-id="${week.id}">Delete</button>
+  `;
+
+  Week.appendChild(title);
+  Week.appendChild(description);
+  Week.appendChild(actionTd);
+
+  return Week;
 }
 
 /**
@@ -45,7 +76,12 @@ function createWeekRow(week) {
  * append the resulting <tr> to `weeksTableBody`.
  */
 function renderTable() {
-  // ... your implementation here ...
+  WeekTbody.innerHTML = '';
+
+  for(week of weeks){
+    const row = createWeekRow(week);
+    WeekTbody.appendChild(row);
+  }
 }
 
 /**
@@ -62,7 +98,32 @@ function renderTable() {
  * 7. Reset the form.
  */
 function handleAddWeek(event) {
-  // ... your implementation here ...
+   event.preventDefault();
+
+   const title =  document.querySelector('#week-title').value;
+   const startDate = document.querySelector('#week-start-date').value;
+   const description = document.querySelector('#week-description').value;
+
+   if (!title.trim() || !startDate || !description.trim()) {
+     alert('Please fill in all required fields with valid content.');
+     return;
+   }
+
+
+   const linksValue = document.querySelector('#week-links').value;
+   const links = linksValue.split('\n').filter(link => link.trim() !== '');
+
+   const newWeek = {
+    id: `week_${Date.now()}`,
+    title: title,
+    startDate: startDate,
+    description: description,
+    links: links
+  };
+
+  weeks.push(newWeek);
+  renderTable();
+  WeekForm.reset();
 }
 
 /**
@@ -76,7 +137,86 @@ function handleAddWeek(event) {
  * 4. Call `renderTable()` to refresh the list.
  */
 function handleTableClick(event) {
-  // ... your implementation here ...
+  if (event.target.classList.contains('delete-btn')) {
+    const weekId = event.target.getAttribute('data-id');
+    if (confirm('Are you sure you want to delete this week?')) {
+      weeks = weeks.filter(week => week.id !== weekId);
+      renderTable();
+    }
+  }
+  
+  if (event.target.classList.contains('edit-btn')) {
+    const weekId = event.target.getAttribute('data-id');
+    openEditModal(weekId);
+  }
+}
+
+/**
+ * Open the edit modal and populate it with week data
+ */
+function openEditModal(weekId) {
+  const week = weeks.find(w => w.id === weekId);
+  
+  if (week) {
+    editingWeekId = weekId;
+    
+    document.querySelector('#edit-week-title').value = week.title;
+    document.querySelector('#edit-week-start-date').value = week.startDate;
+    document.querySelector('#edit-week-description').value = week.description;
+    document.querySelector('#edit-week-links').value = week.links.join('\n');
+    
+    document.body.style.overflow = 'hidden';
+    
+    editModal.classList.remove('hidden');
+    editModal.classList.add('flex');
+    
+    setTimeout(() => {
+      document.querySelector('#modal-content').classList.remove('scale-95', 'opacity-0');
+      document.querySelector('#modal-content').classList.add('scale-100', 'opacity-100');
+    }, 10);
+  }
+}
+
+/**
+ * Close the edit modal
+ */
+function closeEditModal() {
+  document.querySelector('#modal-content').classList.add('scale-95', 'opacity-0');
+  document.querySelector('#modal-content').classList.remove('scale-100', 'opacity-100');
+  
+  setTimeout(() => {
+    editModal.classList.add('hidden');
+    editModal.classList.remove('flex');
+    editingWeekId = null;
+    editForm.reset();
+    
+    document.body.style.overflow = '';
+  }, 300);
+}
+
+/**
+ * Handle edit form submission
+ */
+function handleEditSubmit(event) {
+  event.preventDefault();
+  
+  const weekIndex = weeks.findIndex(w => w.id === editingWeekId);
+  
+  if (weekIndex !== -1) {
+    const linksValue = document.querySelector('#edit-week-links').value;
+    const links = linksValue.split('\n').filter(link => link.trim() !== '');
+    
+    weeks[weekIndex] = {
+      ...weeks[weekIndex],
+      title: document.querySelector('#edit-week-title').value,
+      startDate: document.querySelector('#edit-week-start-date').value,
+      description: document.querySelector('#edit-week-description').value,
+      links: links
+    };
+    
+    renderTable();
+    closeEditModal();
+  }
 }
 
 /**
@@ -90,7 +230,21 @@ function handleTableClick(event) {
  * 5. Add the 'click' event listener to `weeksTableBody` (calls `handleTableClick`).
  */
 async function loadAndInitialize() {
-  // ... your implementation here ...
+  const response = await fetch('api/weeks.json');
+  weeks = await response.json();
+  renderTable();
+  
+  WeekForm.addEventListener('submit', handleAddWeek);
+  WeekTbody.addEventListener('click', handleTableClick);
+  editForm.addEventListener('submit', handleEditSubmit);
+  closeModalBtn.addEventListener('click', closeEditModal);
+  cancelEditBtn.addEventListener('click', closeEditModal);
+  
+  editModal.addEventListener('click', (e) => {
+    if (e.target === editModal) {
+      closeEditModal();
+    }
+  });
 }
 
 // --- Initial Page Load ---
