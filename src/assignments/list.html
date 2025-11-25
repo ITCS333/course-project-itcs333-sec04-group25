@@ -8,35 +8,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- TODO: Add meta tags for charset and viewport. -->
-    
-    <!-- TODO: Add a title, e.g., "Course Assignments". -->
-
-    <!-- TODO: Link to your CSS framework or stylesheet. -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Assignments</title>
+    <link rel="stylesheet" href="/src/common/styles.css">
+    <script src="/src/assignments/list.js" type="module" defer></script>
 </head>
-<body>
+<body class="min-h-screen bg-background">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <header class="mb-8">
+            <h1 class="text-4xl font-bold text-foreground mb-2">Course Assignments</h1>
+            <p class="text-muted-foreground">View and manage all course assignments and submissions</p>
+        </header>
 
-    <!-- TODO: Create a 'header' with a main heading ('h1') "Course Assignments". -->
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+            <!-- Total Assignments Card -->
+            <div class="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="p-2 bg-muted rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-foreground" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+                <div id="total-assignments" class="text-xl font-bold text-foreground mb-0.5">3</div>
+                <div class="text-xs text-muted-foreground">Total Assignments</div>
+            </div>
 
-    <!-- TODO: Create the 'main' content area. -->
-        <!-- TODO: Create a 'section' to contain the list of assignments. -->
-            <!-- TODO: Add 2-3 dummy assignment entries using the structure below. -->
+            <!-- Pending Assignments Card -->
+            <div class="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="p-2 bg-muted rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-foreground" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <span class="px-1.5 py-0.5 bg-warning/10 text-warning text-xs rounded-full font-semibold">Pending</span>
+                </div>
+                <div id="pending-assignments" class="text-xl font-bold text-foreground mb-0.5">2</div>
+                <div class="text-xs text-muted-foreground">Due Soon</div>
+            </div>
 
-            <!-- Example Assignment 1: -->
-            <!-- TODO: Use an 'article' element for each assignment. -->
-                <!-- TODO: Add a heading ('h2') for the assignment's title (e.g., "Assignment 1: HTML Basics"). -->
-                <!-- TODO: Add a paragraph ('p') to display the due date, e.g., "Due: YYYY-MM-DD". -->
-                <!-- TODO: Add another paragraph ('p') for a brief description. -->
-                <!-- TODO: Add an anchor tag ('a') that links to the detail page. 
-                     - For now, the 'href' can be "assignment-detail.html".
-                     - The link text should be "View Details & Discussion". -->
-            <!-- End of article. -->
+            <!-- Completed Assignments Card -->
+            <div class="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="p-2 bg-muted rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-foreground" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <span class="px-1.5 py-0.5 bg-success/10 text-success text-xs rounded-full font-semibold">Done</span>
+                </div>
+                <div id="completed-assignments" class="text-xl font-bold text-foreground mb-0.5">1</div>
+                <div class="text-xs text-muted-foreground">Completed</div>
+            </div>
 
-            <!-- Example Assignment 2: -->
-            <!-- TODO: Create a second 'article' for another assignment with the same structure. -->
+            <!-- Average Score Card -->
+            <div class="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="p-2 bg-muted rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-foreground" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                    </div>
+                    <span class="px-1.5 py-0.5 bg-info/10 text-info text-xs rounded-full font-semibold">Score</span>
+                </div>
+                <div id="average-score" class="text-xl font-bold text-foreground mb-0.5">85%</div>
+                <div class="text-xs text-muted-foreground">Average Grade</div>
+            </div>
+        </div>
 
-        <!-- End of assignment list section. -->
-    <!-- End of main. -->
+        <!-- Search and Filters -->
+        <div class="bg-card border border-border rounded-lg p-3 mb-5">
+            <div class="flex flex-col sm:flex-row gap-2">
+                <div class="flex-1">
+                    <div class="relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                        <input id="search-input" type="text" placeholder="Search assignments..." class="w-full pl-8 pr-3 py-2 bg-background border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200">
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-2">
+                    <select class="px-2 py-2 bg-background border border-border rounded-md text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200">
+                        <option>All Status</option>
+                        <option>Pending</option>
+                        <option>Completed</option>
+                        <option>Late</option>
+                    </select>
+                    <select class="px-2 py-2 bg-background border border-border rounded-md text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200">
+                        <option>Due Date</option>
+                        <option>Newest</option>
+                        <option>Oldest</option>
+                    </select>
+                    <select class="px-2 py-2 bg-background border border-border rounded-md text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200">
+                        <option>All Scores</option>
+                        <option>High to Low</option>
+                        <option>Low to High</option>
+                    </select>
+                </div>
+            </div>
+        </div>
 
+        <!-- Assignment List Section -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Example Assignment 1 -->
+            <article class="bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+                <!-- Assignment Preview -->
+                <div class="aspect-video bg-linear-to-br from-primary/20 to-primary/5 flex items-center justify-center relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-muted-foreground/30" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="absolute top-3 right-3 px-2 py-1 bg-warning/20 text-warning text-xs font-semibold rounded-full">Due: Nov 10</span>
+                </div>
+
+                <!-- Assignment Content -->
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-start justify-between mb-1">
+                        <h2 class="text-xl font-bold text-foreground group-hover:text-primary transition-colors flex-1">Assignment 1: HTML Basics</h2>
+                        <span class="badge badge-warning">Pending</span>
+                    </div>
+
+                    <p class="text-sm text-muted-foreground mb-4 leading-relaxed">Create a basic webpage using HTML5 structure with headings, lists, and links. Focus on clean, semantic markup.</p>
+
+                    <div class="flex items-center justify-between gap-4 text-xs text-muted-foreground mb-4 mt-auto pb-4 border-b border-border">
+                        <span class="flex items-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                            </svg>
+                            Not submitted
+                        </span>
+                        <span class="flex items-center gap-1.5">7 days left</span>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <a href="details.html" class="bg-secondary text-secondary-foreground hover:bg-secondary/90 flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors duration-200">
+                            View Details & Feedback
+                        </a>
+                        <button class="bg-secondary text-secondary-foreground hover:bg-secondary/90 p-2.5 border border-border rounded-lg transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-secondary-foreground" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Example Assignment 2 -->
+            <article class="bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+                <div class="aspect-video bg-linear-to-br from-info/20 to-info/5 flex items-center justify-center relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-muted-foreground/30" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="absolute top-3 right-3 px-2 py-1 bg-warning/20 text-warning text-xs font-semibold rounded-full">Due: Nov 20</span>
+                </div>
+
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-start justify-between mb-1">
+                        <h2 class="text-xl font-bold text-foreground group-hover:text-info transition-colors flex-1">Assignment 2: CSS Styling</h2>
+                        <span class="badge badge-info">Not Started</span>
+                    </div>
+
+                    <p class="text-sm text-muted-foreground mb-4 leading-relaxed">Apply CSS styles to improve the layout and presentation of your HTML webpage. Use classes and external stylesheets.</p>
+
+                    <div class="flex items-center justify-between gap-4 text-xs text-muted-foreground mb-4 mt-auto pb-4 border-b border-border">
+                        <span class="flex items-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                            </svg>
+                            Not started
+                        </span>
+                        <span class="flex items-center gap-1.5">17 days left</span>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <a href="details.html" class="bg-secondary text-secondary-foreground hover:bg-secondary/90 flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors duration-200">
+                            View Details & Feedback
+                        </a>
+                        <button class="bg-secondary text-secondary-foreground hover:bg-secondary/90 p-2.5 border border-border rounded-lg transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-secondary-foreground" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Example Assignment 3 -->
+            <article class="bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+                <div class="aspect-video bg-linear-to-br from-success/20 to-success/5 flex items-center justify-center relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-muted-foreground/30" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="absolute top-3 right-3 px-2 py-1 bg-success/20 text-success text-xs font-semibold rounded-full">Submitted</span>
+                </div>
+
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-start justify-between mb-1">
+                        <h2 class="text-xl font-bold text-foreground group-hover:text-success transition-colors flex-1">Assignment 3: JavaScript Basics</h2>
+                        <span class="badge badge-success">Done</span>
+                    </div>
+
+                    <p class="text-sm text-muted-foreground mb-4 leading-relaxed">Enhance your webpage with interactivity using JavaScript. Include at least one event listener and DOM manipulation.</p>
+
+                    <div class="flex items-center justify-between gap-4 text-xs text-muted-foreground mb-4 mt-auto pb-4 border-b border-border">
+                        <span class="flex items-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                            </svg>
+                            Grade: 85%
+                        </span>
+                        <span class="flex items-center gap-1.5">Submitted Oct 30</span>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <a href="details.html" class="bg-secondary text-secondary-foreground hover:bg-secondary/90 flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors duration-200">
+                            View Details & Feedback
+                        </a>
+                        <button class="bg-secondary text-secondary-foreground hover:bg-secondary/90 p-2.5 border border-border rounded-lg transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-secondary-foreground" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+    </div>
 </body>
 </html>
