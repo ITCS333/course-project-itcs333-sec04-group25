@@ -321,3 +321,4 @@ async function loadAndInitialize() {
 
 // --- Initial Page Load ---
 loadAndInitialize();
+const r = fetch("http://localhost:8000/src/resources/api/index.php").then((res) => res.json()).then((realRes) => console.log(realRes))
