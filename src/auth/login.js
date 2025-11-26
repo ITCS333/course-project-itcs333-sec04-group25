@@ -118,18 +118,36 @@ async function handleLogin(event) {
 
   try {
     // Send login request to the API
-    const response = await fetch("api/index.php", {
+    const response = await fetch("http://localhost:8000/auth/api/index.php", {
       method: "POST",
+      credentials: "include", // Required to receive and send cookies
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
     });
 
+    // Check if response is ok (status 200-299)
+    if (!response.ok) {
+      displayMessage(
+        `Server error: ${response.status} - ${response.statusText}`,
+        "error"
+      );
+      return;
+    }
+
     const result = await response.json();
 
     if (result.success) {
       displayMessage("Login successful! Redirecting...", "success");
+
+      // Store user info in sessionStorage for use across pages
+      if (result.user) {
+        sessionStorage.setItem("user_id", result.user.id);
+        sessionStorage.setItem("user_name", result.user.name);
+        sessionStorage.setItem("user_email", result.user.email);
+      }
+
       // Clear form
       emailInput.value = "";
       passwordInput.value = "";
