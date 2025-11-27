@@ -665,7 +665,7 @@ async function checkAuth() {
         "error"
       );
       setTimeout(() => {
-        window.location.href = "../auth/login.html";
+        window.location.href = "../../index.html";
       }, 2000);
       return false;
     }
@@ -683,7 +683,7 @@ async function checkAuth() {
         "error"
       );
       setTimeout(() => {
-        window.location.href = "../auth/login.html";
+        window.location.href = "../../index.html";
       }, 2000);
       return false;
     }
@@ -693,7 +693,7 @@ async function checkAuth() {
     console.error("Authentication check failed:", error);
     await showAlert("Authentication failed. Please log in.", "error");
     setTimeout(() => {
-      window.location.href = "../auth/login.html";
+      window.location.href = "../../index.html";
     }, 2000);
     return false;
   }
@@ -715,7 +715,7 @@ async function loadStudents() {
         "error"
       );
       setTimeout(() => {
-        window.location.href = "../auth/login.html";
+        window.location.href = "../../index.html";
       }, 2000);
       return;
     }
@@ -737,7 +737,7 @@ async function loadStudents() {
           "error"
         );
         setTimeout(() => {
-          window.location.href = "../auth/login.html";
+          window.location.href = "../../index.html";
         }, 2000);
         return;
       }
