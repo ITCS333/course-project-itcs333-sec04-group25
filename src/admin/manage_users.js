@@ -34,6 +34,7 @@ const searchInput = document.getElementById("search-input");
 
 // TODO: Select all table header (th) elements in thead.
 const tableHeaders = document.querySelectorAll("#student-table thead th");
+const numberOfStudents = document.getElementById("number-of-students");
 
 // Default Password Input and Generate Button
 const defaultPasswordInput = document.getElementById("default-password");
@@ -491,6 +492,7 @@ async function handleTableClick(event) {
         `http://localhost:8000/admin/api/index.php?id=${studentId}`,
         {
           method: "DELETE",
+          credentials: "include",
         }
       );
 
@@ -546,6 +548,7 @@ async function handleTableClick(event) {
         "http://localhost:8000/admin/api/index.php",
         {
           method: "PUT",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -720,6 +723,7 @@ async function loadStudents() {
     if (!response.ok) throw new Error("Network response was not ok");
     const result = await response.json();
     if (result.success) {
+      numberOfStudents.textContent = result.data.length + " Students";
       students = result.data;
       renderTable(students);
     } else {
