@@ -18,6 +18,7 @@
 
 // --- Global Data Store ---
 // These will hold the data related to *this* resource.
+const API_HOST = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 let currentResourceId = null;
 let currentComments = [];
 
@@ -212,14 +213,37 @@ function renderComments() {
  * 6. Call `renderComments()` to refresh the list.
  * 7. Clear the `newComment` textarea.
  */
-function handleAddComment(event) {
+async function handleAddComment(event) {
   event.preventDefault();
   const commentText = newComment.value.trim();
   if (commentText) {
     const comment = { author: 'Student', text: commentText }
-    currentComments.push(comment);
-    renderComments();
-    newComment.value = "";
+    const result = await APIAddComment("Student", commentText);;
+    if(result.success){
+      currentComments.push(comment);
+      renderComments();
+      newComment.value = "";
+    } else {
+      alert("Error: " + (result?.message || ""));
+    }
+  }
+}
+
+async function APIAddComment(author, text){
+  try {
+    const req = await fetch(`${API_HOST}/resources/api/index.php?action=comment`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({resource_id:currentResourceId, author, text})
+    });
+    const res = await req.json();
+    return res; // Return the full response object
+  } catch (e){
+    console.error("API Error:", e);
+    return { success: false, message: " error: " + e.message };
   }
 }
 
@@ -274,15 +298,12 @@ if (shareResourceBtn) {
 }
 
 async function initializePage() {
-  const currentResourceId = getResourceIdFromURL();
+  currentResourceId = Number(getResourceIdFromURL());
 
   if (!currentResourceId) { resourceTitle.textContent = "Resource not found."; return; }
-  const [r, c] = await Promise.all([fetch('/src/resources/api/resources.json'), fetch('/src/resources/api/comments.json')])
-  const resources = await r.json();
-  const comments = await c.json();
-  const currentResource = resources.find(e => e.id === currentResourceId);
-  console.log(resources);
-  currentComments = comments[currentResourceId] || [];
+  const [r, c] = await Promise.all([fetch(`${API_HOST}/resources/api/index.php?id=${currentResourceId}`), fetch(`${API_HOST}/resources/api/index.php?resource_id=${currentResourceId}&action=comments`)])
+  const currentResource = (await r.json()).data;
+  currentComments = (await c.json()).data || [];
   if (currentResource) {
     renderResourceDetails(currentResource);
     renderComments();

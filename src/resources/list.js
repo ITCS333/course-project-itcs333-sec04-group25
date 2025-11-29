@@ -13,6 +13,7 @@
 
 // --- Element Selections ---
 // TODO: Select the section for the resource list ('#resource-list-section').
+const API_HOST = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 let allResources = [];
 let shownResources = [];
 const resourceListSection = document.getElementById("resource-list-section");
@@ -88,7 +89,7 @@ async function handleSearch(e) {
 
 async function countComments(resourceId) {
   try {
-    const res = await fetch("/src/resources/api/comments.json");
+    const res = await fetch(`${API_HOST}/resources/api/index.php?resource_id=${resourceId}&action=comments`);
     const comments = await res.json();
     return comments[resourceId]?.length || 0;
   } catch (err) {
@@ -150,7 +151,7 @@ async function createResourceArticle(resource) {
   clockSvg.setAttribute("fill", "currentColor");
   clockSvg.innerHTML = '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />';
 
-  const commentCount = await countComments(resource.id);
+  const commentCount = await countComments(Number(resource.id));
   const commentText = document.createTextNode(`${commentCount} comments`);
 
   commentsSpan.append(clockSvg, commentText);
@@ -225,10 +226,9 @@ async function createResourceArticle(resource) {
 async function loadResources() {
 
   try {
-    const res = await fetch("/src/resources/api/resources.json");
+    const res = await fetch(`${API_HOST}/resources/api/index.php`);
     allResources = await res.json();
-    shownResources = allResources.map(resource => resource);
-
+    shownResources = allResources?.data?.map(resource => resource);
     updateStatistics(shownResources);
 
     resourceListSection.innerHTML = "";
