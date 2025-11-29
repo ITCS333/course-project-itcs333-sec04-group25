@@ -34,6 +34,7 @@ const searchInput = document.getElementById("search-input");
 
 // TODO: Select all table header (th) elements in thead.
 const tableHeaders = document.querySelectorAll("#student-table thead th");
+const numberOfStudents = document.getElementById("number-of-students");
 
 // Default Password Input and Generate Button
 const defaultPasswordInput = document.getElementById("default-password");
@@ -339,6 +340,7 @@ function renderTable(studentArray) {
  * 4. If validation passes, show an alert: "Password updated successfully!"
  * 5. Clear all three password input fields.
  */
+
 async function handleChangePassword(event) {
   event.preventDefault();
   const currentPassword = document.getElementById("current-password").value;
@@ -355,10 +357,36 @@ async function handleChangePassword(event) {
     return;
   }
 
-  await showAlert("Password updated successfully!", "success");
-  document.getElementById("current-password").value = "";
-  document.getElementById("new-password").value = "";
-  document.getElementById("confirm-password").value = "";
+  // Note: The user ID will be retrieved from the session on the server side
+  try {
+    const response = await fetch(
+      "http://localhost:8000/admin/api/index.php?action=change_password",
+      {
+        method: "POST",
+        credentials: "include", // Include session cookies
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          current_password: currentPassword,
+          new_password: newPassword,
+        }),
+      }
+    );
+
+    const result = await response.json();
+    if (result.success) {
+      await showAlert("Password updated successfully!", "success");
+      document.getElementById("current-password").value = "";
+      document.getElementById("new-password").value = "";
+      document.getElementById("confirm-password").value = "";
+    } else {
+      await showAlert(result.message || "Failed to update password", "error");
+    }
+  } catch (error) {
+    console.error("Error changing password:", error);
+    await showAlert("An error occurred while changing the password.", "error");
+  }
 }
 
 /**
@@ -395,18 +423,45 @@ async function handleAddStudent(event) {
     await showAlert("Student with the same email already exists.", "error");
     return;
   }
-  const newStudent = { name, id, email, password: defaultPassword };
-  students.push(newStudent);
-  renderTable(students);
-  document.getElementById("student-name").value = "";
-  document.getElementById("student-id").value = "";
-  document.getElementById("student-email").value = "";
-  document.getElementById("default-password").value = "";
+  try {
+    const response = await fetch("http://localhost:8000/admin/api/index.php", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: id,
+        name: name,
+        email: email,
+        password: defaultPassword,
+      }),
+    });
 
-  const details = document.getElementById("add-student-details");
-  if (details) details.removeAttribute("open");
+    const result = await response.json();
+    if (result.success) {
+      const newStudent = { name, id, email };
+      students.push(newStudent);
+      renderTable(students);
+      document.getElementById("student-name").value = "";
+      document.getElementById("student-id").value = "";
+      document.getElementById("student-email").value = "";
+      document.getElementById("default-password").value = "";
 
-  await showAlert("Student added successfully!", "success");
+      const details = document.getElementById("add-student-details");
+      if (details) details.removeAttribute("open");
+
+      await showAlert("Student added successfully!", "success");
+    } else {
+      await showAlert(
+        result.error || result.message || "Failed to add student",
+        "error"
+      );
+    }
+  } catch (error) {
+    console.error("Error adding student:", error);
+    await showAlert("An error occurred while adding the student.", "error");
+  }
 }
 
 /**
@@ -431,14 +486,40 @@ async function handleTableClick(event) {
     if (!confirmed) return;
 
     const studentId = deleteBtn.getAttribute("data-id");
-    students = students.filter((student) => student.id !== studentId);
-    renderTable(students);
-    await showAlert("Student deleted successfully!", "success");
+
+    try {
+      const response = await fetch(
+        `http://localhost:8000/admin/api/index.php?id=${studentId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      const result = await response.json();
+      if (result.success) {
+        students = students.filter(
+          (student) => String(student.id) !== String(studentId)
+        );
+        renderTable(students);
+        await showAlert("Student deleted successfully!", "success");
+      } else {
+        await showAlert(result.message || "Failed to delete student", "error");
+      }
+    } catch (error) {
+      console.error("Error deleting student:", error);
+      await showAlert("An error occurred while deleting the student.", "error");
+    }
   }
 
   if (editBtn) {
     const studentId = editBtn.getAttribute("data-id");
-    const student = students.find((s) => s.id === studentId);
+    const student = students.find((s) => String(s.id) === String(studentId));
+
+    if (!student) {
+      await showAlert("Student not found.", "error");
+      return;
+    }
 
     const updatedData = await showEditStudentForm(student);
     if (!updatedData) return;
@@ -451,11 +532,45 @@ async function handleTableClick(event) {
       return;
     }
 
-    student.name = updatedData.name;
-    student.id = updatedData.id;
-    student.email = updatedData.email;
-    renderTable(students);
-    await showAlert("Student updated successfully!", "success");
+    try {
+      const updatePayload = {
+        id: student.id, // Old ID to identify the record
+        name: updatedData.name,
+        email: updatedData.email,
+      };
+
+      // Only include new_id if the ID actually changed
+      if (updatedData.id !== student.id) {
+        updatePayload.new_id = updatedData.id;
+      }
+
+      const response = await fetch(
+        "http://localhost:8000/admin/api/index.php",
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatePayload),
+        }
+      );
+
+      const result = await response.json();
+      if (result.success) {
+        // Reload students from server to get fresh data
+        await loadStudents();
+        await showAlert("Student updated successfully!", "success");
+      } else {
+        await showAlert(
+          result.error || result.message || "Failed to update student",
+          "error"
+        );
+      }
+    } catch (error) {
+      console.error("Error updating student:", error);
+      await showAlert("An error occurred while updating the student.", "error");
+    }
   }
 }
 
@@ -535,6 +650,113 @@ function generatePassword() {
 }
 
 /**
+ * Check if user is authenticated and has admin access
+ */
+async function checkAuth() {
+  try {
+    const response = await fetch("http://localhost:8000/admin/api/index.php", {
+      credentials: "include",
+    });
+
+    // If we get a 403 (Forbidden) or 401 (Unauthorized), redirect to login
+    if (response.status === 403 || response.status === 401) {
+      await showAlert(
+        "Access denied. Only Admin have access to this page.",
+        "error"
+      );
+      setTimeout(() => {
+        window.location.href = "../../index.html";
+      }, 2000);
+      return false;
+    }
+
+    const result = await response.json();
+
+    // If the API returns an access denied error, redirect to login
+    if (
+      !result.success &&
+      (result.error === "Access denied" ||
+        result.error === "Admin access required")
+    ) {
+      await showAlert(
+        "Access denied. Only Admin have access to this page.",
+        "error"
+      );
+      setTimeout(() => {
+        window.location.href = "../../index.html";
+      }, 2000);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Authentication check failed:", error);
+    await showAlert("Authentication failed. Please log in.", "error");
+    setTimeout(() => {
+      window.location.href = "../../index.html";
+    }, 2000);
+    return false;
+  }
+}
+
+/**
+ * Load students from the API
+ */
+async function loadStudents() {
+  try {
+    const response = await fetch("http://localhost:8000/admin/api/index.php", {
+      credentials: "include",
+    });
+
+    // Check for authentication errors
+    if (response.status === 403 || response.status === 401) {
+      await showAlert(
+        "Your session has expired. Please log in again.",
+        "error"
+      );
+      setTimeout(() => {
+        window.location.href = "../../index.html";
+      }, 2000);
+      return;
+    }
+
+    if (!response.ok) throw new Error("Network response was not ok");
+    const result = await response.json();
+    if (result.success) {
+      numberOfStudents.textContent = result.data.length + " Students";
+      students = result.data;
+      renderTable(students);
+    } else {
+      // If access denied, redirect to login
+      if (
+        result.error === "Access denied" ||
+        result.error === "Admin access required"
+      ) {
+        await showAlert(
+          "Access denied. Only Admin have access to this page.",
+          "error"
+        );
+        setTimeout(() => {
+          window.location.href = "../../index.html";
+        }, 2000);
+        return;
+      }
+      console.error("Error loading students:", result.message);
+      await showAlert(
+        "Failed to load students: " + (result.message || "Unknown error"),
+        "error"
+      );
+    }
+  } catch (error) {
+    console.error("Error loading students:", error);
+    await showAlert(
+      "Error loading students. Please check the console.",
+      "error"
+    );
+  }
+}
+
+/**
  * TODO: Implement the loadStudentsAndInitialize function.
  * This function needs to be 'async'.
  * It should:
@@ -551,14 +773,13 @@ function generatePassword() {
  * - "click" on each header in `tableHeaders` -> `handleSort`
  */
 async function loadStudentsAndInitialize() {
-  try {
-    const response = await fetch("api/students.json");
-    if (!response.ok) throw new Error("Network response was not ok");
-    students = await response.json();
-    renderTable(students);
-  } catch (error) {
-    console.error("Error loading students:", error);
+  // Check authentication first
+  const isAuthenticated = await checkAuth();
+  if (!isAuthenticated) {
+    return; // Stop execution if not authenticated
   }
+
+  await loadStudents();
 
   // Set up event listeners
   changePasswordForm.addEventListener("submit", handleChangePassword);
