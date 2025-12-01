@@ -45,6 +45,10 @@
 // Allow specific HTTP methods (GET, POST, PUT, DELETE, OPTIONS)
 // Allow specific headers (Content-Type, Authorization)
 
+require_once __DIR__ . '/../../common/DatabaseHelper.php';
+require_once __DIR__ . '/../../common/DBConfig.php';
+require_once __DIR__ . '/../../common/middlewares.php';
+
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: " . ($_ENV['FRONTEND_URL'] ?? 'http://localhost:5173'));
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
@@ -68,9 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 //          $db = $database->getConnection();
 
 
-require_once '../../common/DBConfig.php';
-require_once '../../common/DatabaseHelper.php';
-require_once __DIR__ . '/../../common/middlewares.php';
+
 $dbHelper = new DatabaseHelper(
     $config['host'],
     $config['dbname'],

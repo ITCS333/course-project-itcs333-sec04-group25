@@ -7,6 +7,11 @@
  * creates sessions, and returns JSON responses.
  */
 
+
+require_once __DIR__ . '/../../common/DatabaseHelper.php';
+require_once __DIR__ . '/../../common/DBConfig.php';
+require_once __DIR__ . '/../../common/middlewares.php';
+
 // --- Configure session for cross-origin (MUST be before session_start) ---
 session_set_cookie_params([
     'lifetime' => 0,

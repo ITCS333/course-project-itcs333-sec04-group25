@@ -66,7 +66,7 @@ export async function checkAdmin() {
         return true;
     } catch (error) {
         console.error("Authentication check failed:", error);
-        await redirect("Authentication failed. Please log in.");
+        await redirect("Access denied.\nOnly Admin have access to this page.", "/index.html");
         return false;
     }
 }
