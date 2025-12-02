@@ -54,9 +54,10 @@
 // TODO: Include the database connection class
 // Assume the Database class has a method getConnection() that returns a PDO instance
 // Example: require_once '../config/Database.php';
+
 require_once __DIR__ . '/../../common/DatabaseHelper.php';
 require_once __DIR__ . '/../../common/DBConfig.php';
-
+require_once __DIR__ . '/../../common/middlewares.php';
 // TODO: Set headers for JSON response and CORS
 // Set Content-Type to application/json
 // Allow cross-origin requests (CORS) if needed
@@ -76,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === "OPTIONS") {
 }
 
 
-$user_id =$_SESSION["user_id"];
+// $user_id = $_SESSION["user_id"];
 
 // TODO: Get the PDO database connection
 // Example: $database = new Database();
@@ -234,14 +235,14 @@ function createResource($db, $data)
     // TODO: Validate required fields
     // Check if title and link are provided and not empty
     // If any required field is missing, return error response with 400 status
-    if(!isset($data)){
+    if (!isset($data)) {
         sendResponse("Error, fields are missing", 400);
     }
     if (isset($data)) {
         if (!isset($data["title"]) || !isset($data["link"]) || empty($data["link"]) || empty($data["title"])) {
             sendResponse("Error, fields are missing", 400);
         }
-    } 
+    }
 
     // TODO: Sanitize input data
     // Trim whitespace from all fields
@@ -308,7 +309,7 @@ function updateResource($db, $data)
 {
     // TODO: Validate that resource ID is provided
     // If not, return error response with 400 status
-    if(!validateRequiredFields($data, ["id"])){
+    if (!validateRequiredFields($data, ["id"])) {
         sendResponse(["message" => "Resource id is missing."], 400);
     }
     // TODO: Check if resource exists
@@ -643,7 +644,7 @@ function deleteComment($db, $commentId)
 
 try {
     // TODO: Route the request based on HTTP method and action parameter
-
+    requireLogin();
     if ($method === 'GET') {
         // TODO: Check the action parameter to determine which function to call
         switch ($action) {
@@ -685,11 +686,13 @@ try {
                 createComment($db, $jsonBody);
                 break;
             default:
+                requireAdmin();
                 createResource($db, $jsonBody);
         }
     } elseif ($method === 'PUT') {
         // TODO: Update a resource
         // Call updateResource()
+        requireAdmin();
         updateResource($db, $jsonBody);
     } elseif ($method === 'DELETE') {
         // TODO: Check the action parameter to determine which function to call
@@ -706,6 +709,7 @@ try {
                 deleteComment($db, $comment_id);
                 break;
             default:
+                requireAdmin();
                 deleteResource($db, $id);
         }
     } else {

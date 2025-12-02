@@ -38,22 +38,20 @@ const topicListContainer = document.getElementById('topic-list-container');
 
 function createTopicArticle(topic) {
   const article = document.createElement('article');
-  article.classList.add('topic');
+  article.className = 'topic-item card p-5 rounded-lg shadow-md space-y-3 bg-white';
   article.innerHTML = `
-    <a href="topic.html?id=${topic.id}" class="topic-link">
-      <h2 class="topic-subject">${topic.subject}</h2>
-    </a>  
-    <div class="topic-footer">
-      <span class="topic-author">By: ${topic.author}</span>
-      <span class="topic-date">${topic.date}</span>
-    </div>
-    <div class="topic-actions">
-      <button class="edit-btn">Edit</button>
-      <button class="delete-btn" data-id="${topic.id}">Delete</button>
+    <h3 class="text-2xl font-bold">
+      <a href="topic.html?id=${topic.id}" class="hover:underline">${topic.subject}</a>
+    </h3>
+    <footer class="topic-metadata text-sm text-muted-foreground">
+      <p>Posted by: ${topic.author} on ${topic.date}</p>
+    </footer>
+    <div class="topic-actions flex gap-4 pt-2">
+      <a href="#" class="edit-btn text-info hover:underline">Edit</a>
+      <a href="#" class="delete-btn text-destructive hover:underline" data-id="${topic.id}">Delete</a>
     </div>
   `;
   return article;
-  
 }
 
 /**
@@ -117,6 +115,7 @@ function handleCreateTopic(event) {
  */
 function handleTopicListClick(event) {
   if (event.target.classList.contains('delete-btn')) {
+    event.preventDefault(); // Prevent link navigation
     const topicId = event.target.getAttribute('data-id');
     topics = topics.filter(topic => topic.id !== topicId);
     renderTopics();

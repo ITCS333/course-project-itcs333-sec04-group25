@@ -13,6 +13,7 @@
 
 // --- Element Selections ---
 // TODO: Select the section for the week list ('#week-list-section').
+import { checkLogin, API_HOST } from "/src/common/helpers.js";
 const listSection = document.querySelector('#week-list-section');
 
 // --- Functions ---
@@ -66,15 +67,27 @@ function createWeekArticle(week) {
  */
 async function loadWeeks() {
   try {
-    const response = await fetch('api/weeks.json');
-    const weeks = await response.json();
-    
-    listSection.innerHTML = '';
-    
-    weeks.forEach(week => {
-      const article = createWeekArticle(week);
-      listSection.appendChild(article);
+    const response = await fetch(`${API_HOST}/weekly/api/index.php?resource=weeks`,{
+      credentials: "include"
     });
+    const apiResult = await response.json();
+    if (apiResult.success) {
+      const weeks = apiResult.data;
+      listSection.innerHTML = '';
+      weeks.forEach(week => {
+        // Map fields if needed (e.g., start_date to startDate)
+        const weekObj = {
+          id: week.id,
+          title: week.title,
+          startDate: week.start_date,
+          description: week.description
+        };
+        const article = createWeekArticle(weekObj);
+        listSection.appendChild(article);
+      });
+    } else {
+      listSection.innerHTML = '<p class="text-destructive">Error loading weekly breakdown.</p>';
+    }
   } catch (error) {
     console.error('Error loading weeks:', error);
     listSection.innerHTML = '<p class="text-destructive">Error loading weekly breakdown.</p>';
@@ -83,4 +96,7 @@ async function loadWeeks() {
 
 // --- Initial Page Load ---
 // Call the function to populate the page.
-loadWeeks();
+checkLogin().then(ok => {
+  if (ok) loadWeeks();
+})
+

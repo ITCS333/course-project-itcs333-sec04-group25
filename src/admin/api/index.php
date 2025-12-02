@@ -29,6 +29,9 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+require_once __DIR__ . '/../../common/DatabaseHelper.php';
+require_once __DIR__ . '/../../common/DBConfig.php';
+require_once __DIR__ . '/../../common/middlewares.php';
 
 // TODO: Set headers for JSON response and CORS
 // Set Content-Type to application/json
@@ -54,10 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Assume the Database class has a method getConnection() that returns a PDO instance
 
 // TODO: Get the PDO database connection
-require_once __DIR__ . '/../../common/DatabaseHelper.php';
-require_once __DIR__ . '/../../common/DBConfig.php';
-require_once __DIR__ . '/../../common/middlewares.php';
-
 $dbHelper = new DatabaseHelper(
     $config['host'],
     $config['dbname'],

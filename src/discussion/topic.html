@@ -20,7 +20,7 @@
 
     <!-- TODO: Create a 'header' with a main heading ('h1'). Use a dummy title like "Question about CSS Flexbox". -->
     <header class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-900">Question about CSS Flexbox</h1>
+        <h1 id="topic-subject" class="text-4xl font-bold text-gray-900">Question about CSS Flexbox</h1>
     </header>
 
     <!-- TODO: Create the 'main' content area. -->
@@ -30,10 +30,10 @@
         <!-- TODO: Use an 'article' to display the main topic post. Give it an 'id' like "original-post". -->
         <article id="original-post" class="bg-white p-6 rounded-xl shadow-md space-y-4">
             <!-- TODO: Add a paragraph ('p') with the dummy text of the original message. -->
-            <p class="text-gray-800">I am having trouble aligning items using CSS Flexbox. Can someone help?</p>
+            <p id="op-message"class="text-gray-800">I am having trouble aligning items using CSS Flexbox. Can someone help?</p>
 
             <!-- TODO: Use a 'footer' for the metadata: "Posted by: Student Name on YYYY-MM-DD". -->
-            <footer class="text-sm text-gray-500">
+            <footer id="op-footer"class="text-sm text-gray-500">
                 Posted by: Mohammed on 2025-11-10
             </footer>
 
@@ -54,7 +54,7 @@
             <h2 class="text-3xl font-semibold">Replies</h2>
 
             <!-- TODO: Add a container (like a 'div') for the list of replies. -->
-            <div class="replies-list space-y-6">
+            <div id="reply-list-container" class="replies-list space-y-6">
 
                 <!-- TODO: Add 1-2 dummy replies to show the structure. -->
                 <!-- Example Reply 1: -->
@@ -86,7 +86,7 @@
             <h2 class="text-3xl font-semibold">Post a Reply</h2>
 
             <!-- TODO: Create a 'form' for users to post new replies. Action can be '#'. -->
-            <form action="#" method="post" class="space-y-6">
+            <form id="reply-form" action="#" method="post" class="space-y-6">
                 <!-- TODO: Use a 'fieldset' to group the controls. -->
                 <fieldset class="space-y-4">
                     <!-- TODO: Add a 'legend', e.g., "Your Reply". -->

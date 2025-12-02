@@ -113,25 +113,17 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-2">
-                    <select
+                    <select id="filter-type"
                         class="px-2 py-2 bg-background border border-border rounded-md text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200">
-                        <option>All Types</option>
-                        <option>Documents</option>
-                        <option>Links</option>
-                        <option>Videos</option>
+                        <option value="all">All Types</option>
+                        <option value="docs">Docs</option>
+                        <option value="links">Links</option>
+                        <option value="videos">Videos</option>
                     </select>
-                    <select
+                    <select id="sort-by"
                         class="px-2 py-2 bg-background border border-border rounded-md text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200">
-                        <option>Category</option>
-                        <option>Lecture Notes</option>
-                        <option>Tutorials</option>
-                        <option>Exercises</option>
-                    </select>
-                    <select
-                        class="px-2 py-2 bg-background border border-border rounded-md text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200">
-                        <option>Newest</option>
-                        <option>Oldest</option>
-                        <option>Most Viewed</option>
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
                     </select>
                 </div>
             </div>

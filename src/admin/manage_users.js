@@ -11,8 +11,8 @@
 
 // --- Global Data Store ---
 // This array will be populated with data fetched from 'students.json'.
-const API_HOST = import.meta.env.VITE_API_URL || "http://localhost:8000";
-console.log(API_HOST);
+import { checkAdmin, API_HOST } from "/src/common/helpers.js";
+
 let students = [];
 
 // --- Element Selections ---
@@ -654,55 +654,6 @@ function generatePassword() {
   passwordInput.value = password;
 }
 
-/**
- * Check if user is authenticated and has admin access
- */
-async function checkAuth() {
-  try {
-    const response = await fetch(`${API_HOST}/admin/api/index.php`, {
-      credentials: "include",
-    });
-
-    // If we get a 403 (Forbidden) or 401 (Unauthorized), redirect to login
-    if (response.status === 403 || response.status === 401) {
-      await showAlert(
-        "Access denied. Only Admin have access to this page.",
-        "error"
-      );
-      setTimeout(() => {
-        window.location.href = "../../index.html";
-      }, 10);
-      return false;
-    }
-
-    const result = await response.json();
-
-    // If the API returns an access denied error, redirect to login
-    if (
-      !result.success &&
-      (result.error === "Access denied" ||
-        result.error === "Admin access required")
-    ) {
-      await showAlert(
-        "Access denied. Only Admin have access to this page.",
-        "error"
-      );
-      setTimeout(() => {
-        window.location.href = "../../index.html";
-      }, 10);
-      return false;
-    }
-
-    return true;
-  } catch (error) {
-    console.error("Authentication check failed:", error);
-    await showAlert("Authentication failed. Please log in.", "error");
-    setTimeout(() => {
-      window.location.href = "../../index.html";
-    }, 10);
-    return false;
-  }
-}
 
 /**
  * Load students from the API
@@ -778,12 +729,6 @@ async function loadStudents() {
  * - "click" on each header in `tableHeaders` -> `handleSort`
  */
 async function loadStudentsAndInitialize() {
-  // Check authentication first
-  const isAuthenticated = await checkAuth();
-  if (!isAuthenticated) {
-    return; // Stop execution if not authenticated
-  }
-
   // Show the page after successful authentication
   await loadStudents();
 
@@ -802,5 +747,9 @@ async function loadStudentsAndInitialize() {
 
 // --- Initial Page Load ---
 // Call the main async function to start the application.
-loadStudentsAndInitialize();
-document.body.style.visibility = "visible";
+checkAdmin().then(ok => {
+  if (ok) {
+    loadStudentsAndInitialize(); document.body.style.visibility = 'visible';}
+}) 
+
+

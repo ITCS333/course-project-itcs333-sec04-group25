@@ -1,3 +1,5 @@
+import {  API_HOST } from "/src/common/helpers.js";
+
 /*
   Requirement: Add client-side validation to the login form.
 
@@ -118,7 +120,7 @@ async function handleLogin(event) {
 
   try {
     // Send login request to the API
-    const response = await fetch("http://localhost:8000/auth/api/index.php", {
+    const response = await fetch(`${API_HOST}/auth/api/index.php`, {
       method: "POST",
       credentials: "include", // Required to receive and send cookies
       headers: {
@@ -141,11 +143,11 @@ async function handleLogin(event) {
     if (result.success) {
       displayMessage("Login successful! Redirecting...", "success");
 
-      // Store user info in sessionStorage for use across pages
+      // Store user info in localStorage for use across pages
       if (result.user) {
-        sessionStorage.setItem("user_id", result.user.id);
-        sessionStorage.setItem("user_name", result.user.name);
-        sessionStorage.setItem("user_email", result.user.email);
+        localStorage.setItem("user_id", result.user.id);
+        localStorage.setItem("user_name", result.user.name);
+        localStorage.setItem("user_email", result.user.email);
       }
 
       // Clear form
@@ -156,7 +158,7 @@ async function handleLogin(event) {
       setTimeout(() => {
         // Redirect to admin portal or dashboard
         window.location.href = "../../index.html";
-      }, 1500);
+      }, 500);
     } else {
       displayMessage(
         result.message || "Login failed. Please try again.",

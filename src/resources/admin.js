@@ -1,5 +1,5 @@
 import { v7 as uuidv7 } from "uuid";
-const API_HOST = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+import { checkAdmin, API_HOST } from "/src/common/helpers.js";
 // --- Global Data Store ---
 let resources = [];
 let editingResourceId = null; // Track which resource is being edited
@@ -256,13 +256,21 @@ async function APIAddResource(title, description, link) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ title, description, link })
-    }
-    );
+    });
+
     const res = await req.json();
-    return res; // Return the full response object with success, data, and message
+
+    if (!req.ok || !res.success) {
+      throw res;
+    }
+
+    return res;
   } catch (e) {
     console.error("API Error:", e);
-    return { success: false, message: " error: " + e.message };
+    if (e.success !== undefined) {
+      return e;
+    }
+    return { success: false, message: e.message };
   }
 }
 
@@ -305,11 +313,20 @@ async function APIEditResource(id, title, description, link) {
       },
       body: JSON.stringify({ id, title, description, link })
     });
+
     const res = await req.json();
-    return res; // Return the full response object with success, data, and message
+
+    if (!req.ok || !res.success) {
+      throw res;
+    }
+
+    return res;
   } catch (e) {
     console.error("API Error:", e);
-    return { success: false, message: "Network error: " + e.message };
+    if (e.success !== undefined) {
+      return e;
+    }
+    return { success: false, message: e.message };
   }
 }
 
@@ -319,11 +336,20 @@ async function APIDeleteResource(id) {
       method: "DELETE",
       credentials: "include"
     });
+
     const res = await req.json();
-    return res; // Return the full response object with success, data, and message
+
+    if (!req.ok || !res.success) {
+      throw res;
+    }
+
+    return res;
   } catch (e) {
     console.error("API Error:", e);
-    return { success: false, message: "Network error: " + e.message };
+    if (e.success !== undefined) {
+      return e;
+    }
+    return { success: false, message: e.message };
   }
 }
 
@@ -376,19 +402,24 @@ async function handleTableClick(event) {
  */
 async function loadAndInitialize() {
   try {
-    const res = await fetch(`${API_HOST}/resources/api/index.php`);
-    const resBody = await res.json();
-    resources = resBody?.data;
+    const req = await fetch(`${API_HOST}/resources/api/index.php`, { credentials: 'include' });
+    const res = await req.json();
+    if (!req?.ok || !res?.success) {
+      throw res; // Throw the actual API response
+    }
+    resources = res?.data;
     renderTable();
     resourceForm.addEventListener("submit", event => handleAddResource(event));
     editResourceForm.addEventListener("submit", event => handleEditResource(event));
     resourcesTableBody.addEventListener("click", event => handleTableClick(event));
   }
   catch (err) {
-    console.error("Error in initializing: ", err)
+    console.error("Error in initializing: ", err?.message)
   }
 }
 
 // --- Initial Page Load ---
-loadAndInitialize();
+checkAdmin().then(ok => {
+  if (ok) loadAndInitialize();
+}) 
 // const r = fetch(`${API_HOST}/resources/api/index.php`).then((res) => res.json()).then((realRes) => console.log(realRes))
