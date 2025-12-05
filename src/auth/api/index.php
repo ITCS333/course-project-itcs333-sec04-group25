@@ -7,6 +7,21 @@
  * creates sessions, and returns JSON responses.
  */
 
+
+require_once __DIR__ . '/../../common/DatabaseHelper.php';
+require_once __DIR__ . '/../../common/DBConfig.php';
+require_once __DIR__ . '/../../common/middlewares.php';
+
+// --- Configure session for cross-origin (MUST be before session_start) ---
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '',
+    'secure' => false, // Set to true if using HTTPS
+    'httponly' => true,
+    'samesite' => 'Lax' // Use Lax for HTTP, None requires HTTPS
+]);
+
 // --- Session Management ---
 // TODO: Start a PHP session using session_start()
 // This must be called before any output is sent to the browser
@@ -22,15 +37,21 @@ header('Content-Type: application/json');
 
 // TODO: (Optional) Set CORS headers if your frontend and backend are on different domains
 // You'll need headers for Access-Control-Allow-Origin, Methods, and Headers
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
+header("Access-Control-Allow-Origin: " . ($_ENV['FRONTEND_URL'] ?? 'http://localhost:5173'));
+header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Credentials: true'); // Required to send cookies cross-origin
 
 
 // --- Check Request Method ---
 // TODO: Verify that the request method is POST
 // Use the $_SERVER superglobal to check the REQUEST_METHOD
 // If the request is not POST, return an error response and exit
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405); // Method Not Allowed
     echo json_encode(['error' => 'Only POST requests are allowed']);
@@ -87,8 +108,17 @@ if (strlen($password) < 8) {
 // TODO: Get the database connection using the provided function
 // Assume getDBConnection() returns a PDO instance with error mode set to exception
 // The function is defined elsewhere (e.g., in a config file or db.php)
-require_once '../../common/db.php';
-$db = getDBConnection();
+require_once '../../common/DatabaseHelper.php';
+require_once '../../common/DBConfig.php';
+
+$dbHelper = new DatabaseHelper(
+    $config['host'],
+    $config['dbname'],
+    $config['username'],
+    $config['password'],
+    $config['options']
+);
+$db = $dbHelper->getConnection();
 
 
 // TODO: Wrap database operations in a try-catch block to handle PDO exceptions
@@ -101,7 +131,7 @@ try {
 // Use a WHERE clause to filter by email
 // IMPORTANT: Use a placeholder (? or :email) for the email value
 // This prevents SQL injection attacks
-    $sql = "SELECT id, name, email, password FROM users WHERE email = :email";
+    $sql = "SELECT id, name, email, is_admin, password FROM users WHERE email = :email";
 
 
     // --- Prepare the Statement ---
@@ -147,6 +177,8 @@ try {
             $_SESSION['user_name'] = $user['name'];
             $_SESSION['user_email'] = $user['email'];
             $_SESSION['logged_in'] = true;
+            $_SESSION['is_admin'] = $user['is_admin'];
+
 
             // TODO: Prepare a success response array
             // Include:

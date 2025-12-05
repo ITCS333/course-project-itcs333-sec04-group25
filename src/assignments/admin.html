@@ -14,6 +14,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- TODO: Add a title, e.g., "Manage Assignments". -->
     <title>Manage Assignments</title>
+    <script>
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
     <!-- TODO: Link to your CSS framework or stylesheet. -->
     <link href="/src/common/styles.css" rel="stylesheet">
     <script src="/src/assignments/admin.js" type="module" defer></script>

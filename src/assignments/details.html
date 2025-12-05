@@ -11,7 +11,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Assignment Details</title>
-
+    <script>
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
     <link rel="stylesheet" href="/src/common/styles.css">
     <script src="/src/assignments/details.js" type="module" defer></script>
     

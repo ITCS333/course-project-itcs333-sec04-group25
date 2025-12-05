@@ -1,46 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
+  <link rel="preload" href="/assets/login.jpg" as="image" />
   <link rel="stylesheet" href="/src/common/styles.css" />
-  <script src="login.js" defer></script>
+  <script src="/src/auth/login.js" type="module" defer></script>
 </head>
-<body class="dark min-h-screen">
+
+<body class="min-h-screen bg-background">
   <div class="min-h-screen flex">
     <!-- Image Side -->
-    <div class="hidden lg:block lg:w-1/2 bg-cover bg-center relative" style="background-image: url('../../assets/login.jpg')">
-      <div class="absolute inset-0 bg-primary/60-gradient flex items-center justify-center">
-        <div class="text-primary-foreground text-center p-8">
-          <h1 class="text-5xl font-bold mb-4 text-white">Course Management System</h1>
+    <div class="hidden lg:block lg:w-1/2 bg-cover bg-center relative overflow-hidden"
+      style="background-image: url('/assets/login.jpg')">
+      <div
+        class="absolute inset-0 bg-linear-to-br from-black/60 via-black/50 to-black/45  backdrop-blur-[2px] flex items-center justify-center">
+        <div class="text-center p-8 space-y-4 animate-slideIn">
+          <h1 class="text-6xl font-extrabold text-white drop-shadow-2xl tracking-tight leading-tight">
+            Course Management
+          </h1>
+          <h1 class="text-6xl font-extrabold text-white drop-shadow-2xl tracking-tight leading-tight">
+            System
+          </h1>
+          <div class="w-24 h-1 bg-white/80 mx-auto mt-6 rounded-full"></div>
         </div>
       </div>
     </div>
     <!-- Login Form Side -->
-    <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
-      <main class="w-full max-w-md">
-        <section>
-          <h2 class="text-3xl font-bold text-foreground mb-6">Welcome Back!</h2>
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 bg-background">
+      <main class="w-full max-w-md animate-fadeInUp">
+        <section class="bg-card rounded-2xl shadow-2xl p-8 border border-border">
+          <h2 class="text-4xl font-extrabold mb-2 text-foreground">
+            Welcome Back!
+          </h2>
           <form action="#" id="login-form">
-            <fieldset class="space-y-4">
-              <legend class="text-xl font-semibold text-foreground mb-4">Secure Login</legend>
+            <fieldset class="space-y-6 border-none p-0 bg-transparent">
+              <legend class="text-xl font-semibold text-foreground mb-4">
+                Secure Login
+              </legend>
               <div>
-                <label for="email" class="label">Email Address</label>
-                <input type="email" id="email" required placeholder="Enter your email" class="input" />
+                <label for="email" class="block text-sm font-semibold text-foreground mb-2">Email Address</label>
+                <input type="email" id="email" required placeholder="Enter your email"
+                  class="input w-full px-4 py-3 rounded-lg border-2 border-border bg-input text-foreground placeholder:text-muted-foreground transition-all duration-200 hover:border-primary/50 focus:border-primary focus:ring-4 focus:ring-primary/10 focus:outline-none" />
               </div>
               <div>
-                <label for="password" class="label">Password</label>
-                <input type="password" id="password" minlength="8" required placeholder="Enter your password" class="input" />
+                <label for="password" class="block text-sm font-semibold text-foreground mb-2">Password</label>
+                <input type="password" id="password" minlength="8" required placeholder="Enter your password"
+                  class="input w-full px-4 py-3 rounded-lg border-2 border-border bg-input text-foreground placeholder:text-muted-foreground transition-all duration-200 hover:border-primary/50 focus:border-primary focus:ring-4 focus:ring-primary/10 focus:outline-none" />
               </div>
-              <button type="submit" id="login" class="btn btn-primary-gradient w-full mt-6">Log In</button>
+              <button type="submit" id="login"
+                class="btn btn-primary w-full py-3.5 rounded-lg font-semibold text-base transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/30 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-primary/30">
+                Log In
+              </button>
             </fieldset>
             <div id="message-container"></div>
           </form>
         </section>
-        <p>Forgot your password? <a href="#" class="text-blue-500">Reset it here</a>.</p>
       </main>
     </div>
   </div>
 </body>
+
 </html>

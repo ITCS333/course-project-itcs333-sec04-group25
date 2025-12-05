@@ -29,6 +29,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weekly Course Breakdown</title>
+    <script>
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
     <link rel="stylesheet" href="/src/common/styles.css">
 </head>
 <body class="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
@@ -87,6 +93,6 @@
         </section>
     </main>
 
-    <script src="list.js"></script>
+    <script src="/src/weekly/list.js" type="module"></script>
 </body>
 </html>

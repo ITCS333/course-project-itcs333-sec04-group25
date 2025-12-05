@@ -19,6 +19,12 @@
 
     <!-- TODO: Add a title, e.g., "Manage Resources". -->
     <title>Manage Resources</title>
+    <script>
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
     <link href="/src/common/styles.css" rel="stylesheet">
     <!-- TODO: Link to your CSS framework or stylesheet. -->
     <script src="/src/resources/admin.js" type="module" defer></script>

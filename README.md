@@ -12,7 +12,8 @@
 | 5   | Mohammed Ebrahim Habib    | 202309564  | 5
 
 ## A link to your live, hosted application on Replit.
-`To be filled`
+Replit Project: https://replit.com/@taljamri/ITCS333-Course-Project?v=1<br>
+Live Application: https://cc9d91a7-0a87-4051-b1e7-03ed1b11711d-00-2wjn6ucwnsj0v.sisko.replit.dev/
 
 
 ## Development Environment Setup
@@ -142,8 +143,12 @@ course-project-itcs333-sec04-group25/
 ├── vite.config.js                   # Vite configs (Don't touch)
 ├── src/
 │   ├── admin/                       # Task 1: Admin Portal
+│   │   ├── api/
+│   │   │   ├── index.php
+│   │   │   └── students.json
 │   │   ├── manage_users.html
 │   │   └── manage_users.js
+│
 │   ├── resources/                   # Task 2: Course Resources
 │   │   ├── admin.html
 │   │   ├── admin.js
@@ -152,6 +157,10 @@ course-project-itcs333-sec04-group25/
 │   │   ├── details.html
 │   │   ├── details.js
 │   │   └── api/
+│   │       ├── comments.json
+│   │       ├── index.php
+│   │       └── resources.json
+│
 │   ├── weekly/                      # Task 3: Weekly Breakdown
 │   │   ├── admin.html
 │   │   ├── admin.js
@@ -160,6 +169,10 @@ course-project-itcs333-sec04-group25/
 │   │   ├── details.html
 │   │   ├── details.js
 │   │   └── api/
+│   │       ├── comments.json
+│   │       ├── index.php
+│   │       └── weeks.json
+│
 │   ├── assignments/                 # Task 4: Assignments
 │   │   ├── admin.html
 │   │   ├── admin.js
@@ -168,23 +181,42 @@ course-project-itcs333-sec04-group25/
 │   │   ├── details.html
 │   │   ├── details.js
 │   │   └── api/
+│   │       ├── assignments.json
+│   │       ├── comments.json
+│   │       └── index.php
+│
 │   ├── discussion/                  # Task 5: Discussion Boards
-│   │   ├── baord.html               
+│   │   ├── baord.html               # kept EXACTLY as your original (typo preserved)
 │   │   ├── board.js
 │   │   ├── topic.html
 │   │   └── topic.js
+│
 │   ├── auth/                        # Authentication
 │   │   ├── login.html
 │   │   ├── login.js
 │   │   └── students.json
+│
 │   └── common/                      # Shared Resources
+│       ├── DBConfig.php
+│       ├── DatabaseHelper.php
+│       ├── EnvLoader.php
+│       ├── helpers.js
+│       ├── middlewares.php
 │       └── styles.css               # Global Styles + Tailwind Styles
-├── assets/                          # Images, fonts, etc.
+│
+├── assets/
 │   ├── README.md
 │   └── login.jpg
-├── examples/
-│   ├── admin-resources-sample.html  # Tailwind examples
-│   └── example.html                 # Tailwind examples
-├── package.json                     # Node dependencies (Don't touch)
+├── examples/                        # Examples of Tailwind CSS
+│   ├── admin-resources-sample.html
+│   └── example.html
+├── DbSchema.sql                     # Database schema
+├── .env
+├── .gitignore
+├── LICENSE
+├── README.md
+├── dist/                            # Production build generated using npm run build though Vite
+├── node_modules/                    # Installed Packages
+├── package.json
 └── package-lock.json
 ```

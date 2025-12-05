@@ -16,6 +16,7 @@
 
   3. Implement the TODOs below.
 */
+import { checkLogin, API_HOST } from "/src/common/helpers.js";
 
 // --- Global Data Store ---
 // These will hold the data related to *this* assignment.
@@ -219,4 +220,6 @@ async function initializePage() {
 }
 
 // --- Initial Page Load ---
-initializePage();
+checkLogin().then(ok => {
+  if (ok) initializePage();
+})

@@ -79,6 +79,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Weekly Breakdown</title>
+    <script>
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
     <link rel="stylesheet" href="/src/common/styles.css">
 </head>
 <body class="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
@@ -154,7 +160,7 @@
         <section class="bg-card shadow-xl rounded-2xl p-8 border border-border">
             <h2 class="text-2xl font-bold text-foreground mb-6">Current Weekly Breakdown</h2>
             <div class="overflow-x-auto">
-                <table id="weeks-table" class="w-full border-collapse">
+                <table id="weeks-table" class="min-w-full w-full">
                     <thead>
                         <tr class="bg-muted/50">
                             <th class="px-6 py-4 text-left font-semibold text-foreground border-b-2 border-border">
@@ -255,35 +261,31 @@
                         placeholder="https://example.com/resource1&#10;https://example.com/resource2"
                         class="w-full px-4 py-3 border-2 border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-background text-foreground resize-none placeholder:text-muted-foreground/50 font-mono text-sm"></textarea>
                 </div>
-
+                <div class="border-t-2 border-border bg-muted/30 px-8 py-4 flex gap-4">
+                    <button 
+                        type="button" 
+                        id="cancel-edit"
+                        class="flex-1 px-6 py-2.5 bg-muted hover:bg-muted/80 text-foreground font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 border-2 border-border hover:border-border/50">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        Cancel
+                    </button>
+                    <button 
+                        type="submit"
+                        form="edit-form"
+                        class="flex-1 px-6 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        Save Changes
+                    </button>
+                </div>
             </form>
         </div>
-
-        <div class="border-t-2 border-border bg-muted/30 px-8 py-4 flex gap-4">
-            <button 
-                type="button" 
-                id="cancel-edit"
-                class="flex-1 px-6 py-2.5 bg-muted hover:bg-muted/80 text-foreground font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 border-2 border-border hover:border-border/50">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-                Cancel
-            </button>
-            <button 
-                type="submit"
-                form="edit-form"
-                class="flex-1 px-6 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                Save Changes
-            </button>
-        </div>
-        
     </div>
 </div>
-
-    <script src="admin.js" defer></script>
+    <script src="/src/weekly/admin.js" type="module" defer></script>
 </body>
 </html>
 

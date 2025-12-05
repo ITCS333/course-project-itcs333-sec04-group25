@@ -1,5 +1,5 @@
 import { v7 as uuidv7 } from "uuid";
-
+import { checkAdmin, API_HOST } from "/src/common/helpers.js";
 // --- Global Data Store ---
 let resources = [];
 let editingResourceId = null; // Track which resource is being edited
@@ -228,40 +228,129 @@ function renderTable() {
  * 5. Call `renderTable()` to refresh the list.
  * 6. Reset the form.
  */
-function handleAddResource(event) {
+async function handleAddResource(event) {
   event.preventDefault();
   const title = document.getElementById("resource-title")?.value.trim() || "";
   const description = document.getElementById("resource-description").value.trim() || "";
   const link = document.getElementById("resource-link")?.value.trim() || "";
-  if (title && description && link){
-    const id = uuidv7();
-    resources.push({ id, title, description, link });
-    renderTable();
-    closeModal();
+  if (title && description && link) {
+    const result = await APIAddResource(title, description, link);
+    if (result.success) {
+      const id = Number(result.data?.id);
+      resources.push({ id, title, description, link });
+      renderTable();
+      closeModal();
+    } else {
+      alert(result.message || "Failed to add resource");
+    }
+
+  }
+}
+
+async function APIAddResource(title, description, link) {
+  try {
+    const req = await fetch(`${API_HOST}/resources/api/index.php`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title, description, link })
+    });
+
+    const res = await req.json();
+
+    if (!req.ok || !res.success) {
+      throw res;
+    }
+
+    return res;
+  } catch (e) {
+    console.error("API Error:", e);
+    if (e.success !== undefined) {
+      return e;
+    }
+    return { success: false, message: e.message };
   }
 }
 
 /**
  * Handle editing an existing resource
  */
-function handleEditResource(event) {
+async function handleEditResource(event) {
   event.preventDefault();
   const title = document.getElementById("edit-resource-title")?.value.trim() || "";
   const description = document.getElementById("edit-resource-description").value.trim() || "";
   const link = document.getElementById("edit-resource-link")?.value.trim() || "";
 
-  const index = resources.findIndex(r => r.id === editingResourceId);
-  if (index !== -1) {
-    resources[index] = {
-      ...resources[index],
-      title,
-      description,
-      link
-    };
+  if (title && description && link) {
+    const result = await APIEditResource(editingResourceId, title, description, link);
+    if (result.success) {
+      const index = resources.findIndex(r => r.id === editingResourceId);
+      if (index !== -1) {
+        resources[index] = {
+          ...resources[index],
+          title,
+          description,
+          link
+        };
+      }
+      renderTable();
+      closeEditModal();
+    } else {
+      alert(result.message || "Failed to update resource");
+    }
   }
+}
 
-  renderTable();
-  closeEditModal();
+async function APIEditResource(id, title, description, link) {
+  try {
+    const req = await fetch(`${API_HOST}/resources/api/index.php`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id, title, description, link })
+    });
+
+    const res = await req.json();
+
+    if (!req.ok || !res.success) {
+      throw res;
+    }
+
+    return res;
+  } catch (e) {
+    console.error("API Error:", e);
+    if (e.success !== undefined) {
+      return e;
+    }
+    return { success: false, message: e.message };
+  }
+}
+
+async function APIDeleteResource(id) {
+  try {
+    const req = await fetch(`${API_HOST}/resources/api/index.php?id=${parseInt(id)}`, {
+      method: "DELETE",
+      credentials: "include"
+    });
+
+    const res = await req.json();
+
+    if (!req.ok || !res.success) {
+      throw res;
+    }
+
+    return res;
+  } catch (e) {
+    console.error("API Error:", e);
+    if (e.success !== undefined) {
+      return e;
+    }
+    return { success: false, message: e.message };
+  }
 }
 
 /**
@@ -274,19 +363,26 @@ function handleEditResource(event) {
  * with the matching ID (in-memory only).
  * 4. Call `renderTable()` to refresh the list.
  */
-function handleTableClick(event) {
+async function handleTableClick(event) {
   // Find the closest button (handles clicks on SVG or other children)
   const deleteBtn = event.target.closest(".delete-btn"); // Closest traverse up the dom until it finds the delete button. This is because sometimes the clicks happens on the button's svg
   if (deleteBtn) {
-    const id = deleteBtn.dataset.id;
-    resources = resources.filter(e => e.id !== id);
-    renderTable();
+    const id = Number(deleteBtn.dataset.id);
+    if (confirm("Are you sure you want to delete this resource?")) {
+      const result = await APIDeleteResource(id);
+      if (result.success) {
+        resources = resources.filter(e => e.id !== id);
+        renderTable();
+      } else {
+        alert(result.message || "Failed to delete resource");
+      }
+    }
     return;
   }
 
   const editBtn = event.target.closest(".edit-btn");
   if (editBtn) {
-    const id = editBtn.dataset.id;
+    const id = Number(editBtn.dataset.id);
     const resource = resources.find(e => e.id === id);
     if (resource) {
       openEditModal(resource);
@@ -306,18 +402,24 @@ function handleTableClick(event) {
  */
 async function loadAndInitialize() {
   try {
-    const res = await fetch("/src/resources/api/resources.json");
-    const resBody = await res.json();
-    resources = resBody;
+    const req = await fetch(`${API_HOST}/resources/api/index.php`, { credentials: 'include' });
+    const res = await req.json();
+    if (!req?.ok || !res?.success) {
+      throw res; // Throw the actual API response
+    }
+    resources = res?.data;
     renderTable();
     resourceForm.addEventListener("submit", event => handleAddResource(event));
     editResourceForm.addEventListener("submit", event => handleEditResource(event));
     resourcesTableBody.addEventListener("click", event => handleTableClick(event));
   }
   catch (err) {
-    console.error("Error in initializing: ", err)
+    console.error("Error in initializing: ", err?.message)
   }
 }
 
 // --- Initial Page Load ---
-loadAndInitialize();
+checkAdmin().then(ok => {
+  if (ok) loadAndInitialize();
+}) 
+// const r = fetch(`${API_HOST}/resources/api/index.php`).then((res) => res.json()).then((realRes) => console.log(realRes))

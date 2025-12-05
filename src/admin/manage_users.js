@@ -11,6 +11,8 @@
 
 // --- Global Data Store ---
 // This array will be populated with data fetched from 'students.json'.
+import { checkAdmin, API_HOST } from "/src/common/helpers.js";
+
 let students = [];
 
 // --- Element Selections ---
@@ -34,6 +36,7 @@ const searchInput = document.getElementById("search-input");
 
 // TODO: Select all table header (th) elements in thead.
 const tableHeaders = document.querySelectorAll("#student-table thead th");
+const numberOfStudents = document.getElementById("number-of-students");
 
 // Default Password Input and Generate Button
 const defaultPasswordInput = document.getElementById("default-password");
@@ -342,9 +345,25 @@ function renderTable(studentArray) {
 
 async function handleChangePassword(event) {
   event.preventDefault();
+  const studentId = document.getElementById("student-id-password").value.trim();
   const currentPassword = document.getElementById("current-password").value;
   const newPassword = document.getElementById("new-password").value;
   const confirmPassword = document.getElementById("confirm-password").value;
+
+  if (studentId === "") {
+    await showAlert("Student ID is required.", "error");
+    return;
+  }
+
+  // Check if the student exists in the students array
+  const student = students.find((s) => String(s.id) === String(studentId));
+  if (!student) {
+    await showAlert(
+      "Student ID not found. Please enter a valid student ID.",
+      "error"
+    );
+    return;
+  }
 
   if (newPassword !== confirmPassword) {
     await showAlert("Passwords do not match.", "error");
@@ -356,22 +375,23 @@ async function handleChangePassword(event) {
     return;
   }
 
-  // Note: You'll need to get the student_id from somewhere (session, URL param, etc.)
-  // For now, this is a placeholder - adjust based on your authentication system
-  const studentId = sessionStorage.getItem("user_id") || "current_student_id";
-
+  // Note: The user ID will be retrieved from the session on the server side
   try {
-    const response = await fetch("api/index.php?action=change_password", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        student_id: studentId,
-        current_password: currentPassword,
-        new_password: newPassword,
-      }),
-    });
+    const response = await fetch(
+      `${API_HOST}/admin/api/index.php?action=change_password`,
+      {
+        method: "POST",
+        credentials: "include", // Include session cookies
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          student_id: studentId,
+          current_password: currentPassword,
+          new_password: newPassword,
+        }),
+      }
+    );
 
     const result = await response.json();
     if (result.success) {
@@ -423,13 +443,14 @@ async function handleAddStudent(event) {
     return;
   }
   try {
-    const response = await fetch("api/index.php", {
+    const response = await fetch(`${API_HOST}/admin/api/index.php`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        student_id: id,
+        id: id,
         name: name,
         email: email,
         password: defaultPassword,
@@ -451,7 +472,10 @@ async function handleAddStudent(event) {
 
       await showAlert("Student added successfully!", "success");
     } else {
-      await showAlert(result.message || "Failed to add student", "error");
+      await showAlert(
+        result.error || result.message || "Failed to add student",
+        "error"
+      );
     }
   } catch (error) {
     console.error("Error adding student:", error);
@@ -483,17 +507,26 @@ async function handleTableClick(event) {
     const studentId = deleteBtn.getAttribute("data-id");
 
     try {
-      const response = await fetch(`api/index.php?student_id=${studentId}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${API_HOST}/admin/api/index.php?id=${studentId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
 
       const result = await response.json();
       if (result.success) {
-        students = students.filter((student) => student.id !== studentId);
+        students = students.filter(
+          (student) => String(student.id) !== String(studentId)
+        );
         renderTable(students);
         await showAlert("Student deleted successfully!", "success");
       } else {
-        await showAlert(result.message || "Failed to delete student", "error");
+        await showAlert(
+          result.error || result.message || "Failed to delete student",
+          "error"
+        );
       }
     } catch (error) {
       console.error("Error deleting student:", error);
@@ -503,41 +536,58 @@ async function handleTableClick(event) {
 
   if (editBtn) {
     const studentId = editBtn.getAttribute("data-id");
-    const student = students.find((s) => s.id === studentId);
+    const student = students.find((s) => String(s.id) === String(studentId));
+
+    if (!student) {
+      await showAlert("Student not found.", "error");
+      return;
+    }
 
     const updatedData = await showEditStudentForm(student);
     if (!updatedData) return;
 
+    // Use string comparison to ensure consistency
     if (
-      updatedData.id !== student.id &&
-      students.some((s) => s.id === updatedData.id)
+      String(updatedData.id) !== String(student.id) &&
+      students.some((s) => String(s.id) === String(updatedData.id))
     ) {
       await showAlert("A student with this ID already exists.", "error");
       return;
     }
 
     try {
-      const response = await fetch("api/index.php", {
+      const updatePayload = {
+        id: student.id, // Old ID to identify the record
+        name: updatedData.name,
+        email: updatedData.email,
+      };
+
+      // Only include new_id if the ID actually changed (string comparison)
+      if (String(updatedData.id) !== String(student.id)) {
+        updatePayload.new_id = updatedData.id;
+      }
+      // Important: Do NOT include new_id if it's the same as the old ID
+      // This prevents the backend from checking for conflicts with itself
+
+      const response = await fetch(`${API_HOST}/admin/api/index.php`, {
         method: "PUT",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          student_id: student.id,
-          name: updatedData.name,
-          email: updatedData.email,
-        }),
+        body: JSON.stringify(updatePayload),
       });
 
       const result = await response.json();
       if (result.success) {
-        student.name = updatedData.name;
-        student.id = updatedData.id;
-        student.email = updatedData.email;
-        renderTable(students);
+        // Reload students from server to get fresh data
+        await loadStudents();
         await showAlert("Student updated successfully!", "success");
       } else {
-        await showAlert(result.message || "Failed to update student", "error");
+        await showAlert(
+          result.error || result.message || "Failed to update student",
+          "error"
+        );
       }
     } catch (error) {
       console.error("Error updating student:", error);
@@ -622,6 +672,63 @@ function generatePassword() {
 }
 
 /**
+ * Load students from the API
+ */
+async function loadStudents() {
+  try {
+    const response = await fetch(`${API_HOST}/admin/api/index.php`, {
+      credentials: "include",
+    });
+
+    // Check for authentication errors
+    if (response.status === 403 || response.status === 401) {
+      await showAlert(
+        "Your session has expired. Please log in again.",
+        "error"
+      );
+      setTimeout(() => {
+        window.location.href = "../../index.html";
+      }, 2000);
+      return;
+    }
+
+    if (!response.ok) throw new Error("Network response was not ok");
+    const result = await response.json();
+    if (result.success) {
+      numberOfStudents.textContent = result.data.length + " Students";
+      students = result.data;
+      renderTable(students);
+    } else {
+      // If access denied, redirect to login
+      if (
+        result.error === "Access denied" ||
+        result.error === "Admin access required"
+      ) {
+        await showAlert(
+          "Access denied. Only Admin have access to this page.",
+          "error"
+        );
+        setTimeout(() => {
+          window.location.href = "../../index.html";
+        }, 2000);
+        return;
+      }
+      console.error("Error loading students:", result.message);
+      await showAlert(
+        "Failed to load students: " + (result.message || "Unknown error"),
+        "error"
+      );
+    }
+  } catch (error) {
+    console.error("Error loading students:", error);
+    await showAlert(
+      "Error loading students. Please check the console.",
+      "error"
+    );
+  }
+}
+
+/**
  * TODO: Implement the loadStudentsAndInitialize function.
  * This function needs to be 'async'.
  * It should:
@@ -638,19 +745,8 @@ function generatePassword() {
  * - "click" on each header in `tableHeaders` -> `handleSort`
  */
 async function loadStudentsAndInitialize() {
-  try {
-    const response = await fetch("api/index.php");
-    if (!response.ok) throw new Error("Network response was not ok");
-    const result = await response.json();
-    if (result.success) {
-      students = result.data;
-      renderTable(students);
-    } else {
-      console.error("Error loading students:", result.message);
-    }
-  } catch (error) {
-    console.error("Error loading students:", error);
-  }
+  // Show the page after successful authentication
+  await loadStudents();
 
   // Set up event listeners
   changePasswordForm.addEventListener("submit", handleChangePassword);
@@ -667,4 +763,9 @@ async function loadStudentsAndInitialize() {
 
 // --- Initial Page Load ---
 // Call the main async function to start the application.
-loadStudentsAndInitialize();
+checkAdmin().then((ok) => {
+  if (ok) {
+    loadStudentsAndInitialize();
+    document.body.style.visibility = "visible";
+  }
+});

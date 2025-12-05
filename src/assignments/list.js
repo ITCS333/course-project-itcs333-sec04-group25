@@ -13,6 +13,7 @@
 
 // --- Element Selections ---
 // TODO: Select the section for the assignment list ('#assignment-list-section').
+import { checkLogin, API_HOST } from "/src/common/helpers.js";
 const assignmentListSection = document.getElementById('assignment-list-section');
 const totalAssignmentsEl = document.getElementById('total-assignments');
 const totalDueSoonEl = document.getElementById('total-due-soon');
@@ -166,4 +167,7 @@ async function loadAssignments() {
 
 // --- Initial Page Load ---
 // Call the function to populate the page.
-loadAssignments();
+checkLogin().then(ok => {
+  if (ok) loadAssignments();
+})
+

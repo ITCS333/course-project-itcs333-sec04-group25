@@ -7,6 +7,8 @@
   - Keep the TODO comments in place per project guidelines.
 */
 
+import { checkAdmin, API_HOST } from "/src/common/helpers.js";
+
 // --- Global Data Store ---
 let assignments = [];
 let editingAssignmentId = null; // track editing
@@ -356,4 +358,6 @@ async function loadAndInitialize() {
 }
 
 // --- Initial Page Load ---
-loadAndInitialize();
+checkAdmin().then(ok => {
+  if (ok) loadAndInitialize();
+});
