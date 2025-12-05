@@ -35,20 +35,16 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Week Details</title>
-    <script>
-      const theme = localStorage.getItem('theme');
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      }
-    </script>
     <link rel="stylesheet" href="/src/common/styles.css">
 </head>
+
 <body class="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-    
+
     <header class="bg-primary-gradient text-primary-foreground py-12 shadow-xl">
         <div class="container mx-auto px-6">
             <h1 id="week-title" class="text-4xl font-bold">Week 1: Introduction to HTML</h1>
@@ -56,21 +52,21 @@
     </header>
 
     <main class="container mx-auto px-6 py-8">
-        
+
         <article class="bg-card shadow-xl rounded-2xl p-8 mb-8 border border-border">
             <p id="week-start-date" class="text-sm text-muted-foreground mb-6">
                 <strong>Starts on:</strong> 2025-01-13
             </p>
-            
+
             <h2 class="text-2xl font-bold text-foreground mb-4">Description & Notes</h2>
-            
+
             <p id="week-description" class="text-foreground mb-6 leading-relaxed">
-                This week introduces the fundamentals of HTML. You will learn about basic structure, 
+                This week introduces the fundamentals of HTML. You will learn about basic structure,
                 semantic elements, and how to create well-formed web pages.
             </p>
 
             <h2 class="text-2xl font-bold text-foreground mb-4">Exercises & Resources</h2>
-            
+
             <ul id="week-links-list" class="space-y-2 list-disc list-inside text-foreground">
                 <li>
                     <a href="#" class="text-primary hover:text-primary/80 underline font-medium">
@@ -121,16 +117,12 @@
                         <label for="new-comment-text" class="block text-sm font-medium text-foreground mb-2">
                             Your Comment
                         </label>
-                        <textarea 
-                            id="new-comment-text" 
-                            required 
-                            rows="4"
+                        <textarea id="new-comment-text" required rows="4"
                             placeholder="Type your question or comment here..."
                             class="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground resize-none"></textarea>
                     </div>
-                    
-                    <button 
-                        type="submit" 
+
+                    <button type="submit"
                         class="px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02]">
                         Post Comment
                     </button>
@@ -142,5 +134,5 @@
 
     <script src="/src/weekly/details.js" type="module"></script>
 </body>
-</html>
 
+</html>
