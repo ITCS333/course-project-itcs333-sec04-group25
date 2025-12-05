@@ -187,8 +187,11 @@ function getAllWeeks($db)
     // Decode the JSON string back to an array using json_decode()
 
     foreach ($weeks as &$week) {
-        if (isset($week['links'])) {
-            $week['links'] = json_decode($week['links'], true) ?: [];
+        if (isset($week['links']) && is_string($week['links'])) {
+            $decoded = json_decode($week['links'], true);
+            $week['links'] = is_array($decoded) ? $decoded : [];
+        } else {
+            $week['links'] = [];
         }
     }
 
@@ -289,8 +292,16 @@ function createWeek($db, $data)
     // If links is provided and is an array, encode it to JSON using json_encode()
     // If links is not provided, use an empty array []
 
-    $links = isset($data['links']) && is_array($data['links']) ? json_encode($data['links']) : json_encode([]);
-
+    $linksArray = isset($data['links']) && is_array($data['links']) ? $data['links'] : [];
+    
+    // Validate URLs before encoding
+    foreach ($linksArray as $link) {
+        if (validateUrl($link) == false) {
+            sendResponse(["message" => "Error occurred. This resource link is invalid: $link"], 400);
+        }
+    }
+    
+    $links = json_encode($linksArray);
     // TODO: Prepare INSERT query
     // INSERT INTO weeks (title, start_date, description, links) VALUES (?, ?, ?, ?)
 
@@ -836,6 +847,13 @@ function sanitizeInput($data)
     // TODO: Return sanitized data
 
     return $data;
+}
+
+function validateUrl($url)
+{
+    // TODO: Use filter_var with FILTER_VALIDATE_URL
+    // Return true if valid, false otherwise
+    return filter_var($url, FILTER_VALIDATE_URL) !== false; // filter_var returns a string if it is a valid, and returns false if it invalid
 }
 
 /**

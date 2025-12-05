@@ -51,10 +51,6 @@ function createWeekRow(week) {
   title.className = 'px-6 py-4 text-foreground';
   title.textContent = week.title;
 
-  const startDate = document.createElement('td');
-  startDate.className = 'px-6 py-4 text-foreground';
-  startDate.textContent = week.startDate;
-
   const description = document.createElement('td');
   description.className = 'px-6 py-4 text-foreground';
   description.textContent = week.description;
@@ -67,7 +63,6 @@ function createWeekRow(week) {
   `;
 
   Week.appendChild(title);
-  Week.appendChild(startDate);
   Week.appendChild(description);
   Week.appendChild(actionTd);
 
@@ -85,7 +80,7 @@ function createWeekRow(week) {
 function renderTable() {
   WeekTbody.innerHTML = '';
 
-  for (week of weeks) {
+  for (let week of weeks) {
     const row = createWeekRow(week);
     WeekTbody.appendChild(row);
   }
@@ -121,7 +116,7 @@ async function handleAddWeek(event) {
   const links = linksValue.split('\n').filter(link => link.trim() !== '');
 
   try {
-    const response = await fetch(`${API_HOST}/src/weekly/api/index.php?resource=weeks`, {
+    const response = await fetch(`${API_HOST}/weekly/api/index.php?resource=weeks`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: "include",
