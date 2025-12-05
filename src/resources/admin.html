@@ -6,11 +6,11 @@
   This page allows the teacher (admin) to perform full CRUD operations on course resources.
 -->
 <!DOCTYPE html>
-<html lang="en" class="overflow-x-hidden max-w-full">
+<html lang="en">
 
 <head>
     <!-- TODO: Add the 'meta' tag for character encoding (UTF-8). -->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
 
     <!-- TODO: Add the responsive 'viewport' meta tag.
          The 'name' should be 'viewport' and the 'content' should set the 'width' to 'device-width'
@@ -19,418 +19,126 @@
 
     <!-- TODO: Add a title, e.g., "Manage Resources". -->
     <title>Manage Resources</title>
-    <link href="/src/common/styles.css" rel="stylesheet">
+
     <!-- TODO: Link to your CSS framework or stylesheet. -->
+    <link href="/src/common/styles.css" rel="stylesheet">
     <script src="/src/resources/admin.js" type="module" defer></script>
 </head>
 
-<body class="min-h-screen overflow-x-hidden overscroll-x-none max-w-full relative">
-    <!-- Blur Overlay (hidden by default) -->
-    <div id="modal-overlay"
-        class="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 hidden transition-opacity duration-300"></div>
+<body>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 w-full overflow-x-hidden">
-        <!-- TODO: Create a 'header' with a main heading ('h1') "Manage Course Resources". -->
-        <header class="mb-6 sm:mb-8 lg:mb-10">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div class="min-w-0">
-                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-2 wrap-break-word">Manage
-                        Course Resources
-                    </h1>
-                    <p class="text-sm sm:text-base lg:text-lg text-muted-foreground wrap-break-word">Create, edit, and
-                        manage all course
-                        resources in one place
-                    </p>
-                </div>
-                <!-- Desktop button -->
-                <button id="show-form-btn-desktop"
-                    class="hidden sm:inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-primary text-primary-foreground rounded-lg sm:rounded-xl font-semibold shadow-lg sm:shadow-xl hover:shadow-xl sm:hover:shadow-2xl hover:scale-105 transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0" viewBox="0 0 20 20"
-                        fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    Add New Resource
-                </button>
-            </div>
-        </header>
+    <!-- TODO: Create a 'header' with a main heading ('h1') "Manage Course Resources". -->
+    <header>
+        <h1>Manage Course Resources</h1>
+    </header>
 
-        <!-- Mobile FAB (Floating Action Button) -->
-        <button id="show-form-btn-mobile"
-            class="sm:hidden fixed bottom-6 right-4 z-50 w-12 h-12 bg-primary/50 text-primary-foreground rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                    clip-rule="evenodd" />
-            </svg>
-        </button>
+    <!-- TODO: Create the 'main' content area. -->
+    <main>
 
-        <!-- TODO: Create the 'main' content area. -->
-        <!-- TODO: Create the 'main' content area. -->
-        <main class="overflow-x-hidden max-w-full">
+        <!-- Section 1: Add/Edit Resource Form -->
+        <!-- TODO: Create a 'section' for the form. -->
+        <section>
+            <!-- TODO: Add a sub-heading ('h2') "Add a New Resource". -->
+            <h2>Add a New Resource</h2>
 
-            <!-- Section 1: Add Resource Form -->
-            <!-- TODO: Create a 'section' for the form. -->
-            <section class="hidden fixed inset-0 z-50 overflow-y-auto" id="resource-modal">
-                <!-- TODO: Add a sub-heading ('h2') "Add a New Resource". -->
-                <div class="flex min-h-full items-center justify-center p-3 sm:p-4">
-                    <div class="bg-card rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-2xl border-2 border-primary/20 transform transition-all duration-300 scale-95 opacity-0 mx-4 overflow-hidden"
-                        id="modal-content">
-                        <!-- Modal Header -->
-                        <div
-                            class="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-4 sm:py-5 border-b-2 border-border bg-linear-to-r from-primary/10 via-secondary/5 to-transparent">
-                            <h2
-                                class="text-lg sm:text-xl lg:text-2xl font-bold text-foreground flex items-center gap-2 my-0">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7 text-primary shrink-0"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                <span class="hidden sm:inline wrap-break-words">Add a New Resource</span>
-                                <span class="sm:hidden wrap-break-words">Add Resource</span>
-                            </h2>
-                            <button id="close-modal-btn"
-                                class="text-muted-foreground hover:text-destructive transition-all duration-200 p-1.5 sm:p-2 rounded-lg sm:rounded-xl hover:bg-destructive/10 hover:rotate-90">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
+            <!-- TODO: Create a 'form' with an id "resource-form". Action can be '#'. -->
+            <form action="#" id="resource-form">
+                <!-- TODO: Use a 'fieldset' to group the form controls. -->
+                <fieldset>
+                    <!-- TODO: Add a 'legend', e.g., "Resource Details". -->
+                    <legend>Resource Details</legend>
 
-                        <!-- Modal Body -->
-                        <div class="px-4 sm:px-6 lg:px-8 py-5 sm:py-6 lg:py-8">
-                            <!-- TODO: Create a 'form' with an id "resource-form". Action can be '#'. -->
-                            <form action="#" id="resource-form" class="space-y-4 sm:space-y-6">
-                                <!-- TODO: Use a 'fieldset' to group the form controls. -->
-                                <fieldset class="space-y-4 sm:space-y-6 border-0 p-0">
-                                    <!-- TODO: Add a 'legend', e.g., "Resource Details". -->
-                                    <legend class="sr-only">Resource Details</legend>
+                    <!-- TODO: Add a 'label' and 'input' for the resource title.
+                         - label 'for': "resource-title"
+                         - input 'id': "resource-title", type="text", required -->
+                    <label for="resource-title">Resource Title</label>
+                    <input id="resource-title" type="text" required>
 
-                                    <!-- TODO: Add a 'label' and 'input' for the resource title.
-                                         - label 'for': "resource-title"
-                                         - input 'id': "resource-title", type="text", required -->
-                                    <div class="space-y-1.5 sm:space-y-2">
-                                        <label for="resource-title"
-                                            class="block text-xs sm:text-sm font-bold text-foreground uppercase tracking-wide">
-                                            Resource Title <span class="text-destructive">*</span>
-                                        </label>
-                                        <input id="resource-title" type="text" name="resource-title"
-                                            placeholder="e.g., Chapter 1 Notes, Tutorial Video" required
-                                            class="w-full px-3 sm:px-4 py-2.5 sm:py-3.5 bg-input border-0 rounded-lg sm:rounded-xl text-sm sm:text-base text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary transition-all duration-200 hover:bg-input/80 wrap-break-word">
-                                    </div>
+                    <!-- TODO: Add a 'label' and 'textarea' for the resource description.
+                         - label 'for': "resource-description"
+                         - textarea 'id': "resource-description" -->
+                    <label for="resource-description">Description</label>
+                    <textarea id="resource-description"></textarea>
 
-                                    <!-- TODO: Add a 'label' and 'textarea' for the resource description.
-                                         - label 'for': "resource-description"
-                                         - textarea 'id': "resource-description" -->
-                                    <div class="space-y-1.5 sm:space-y-2">
-                                        <label for="resource-description"
-                                            class="block text-xs sm:text-sm font-bold text-foreground uppercase tracking-wide">
-                                            Description
-                                        </label>
-                                        <textarea name="resource-description" id="resource-description"
-                                            placeholder="Provide a brief description of the resource..." rows="4"
-                                            class="w-full px-3 sm:px-4 py-2.5 sm:py-3.5 bg-input border-0 rounded-lg sm:rounded-xl text-sm sm:text-base text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary resize-y min-h-[100px] sm:min-h-[120px] transition-all duration-200 hover:bg-input/80 wrap-break-word"></textarea>
-                                    </div>
+                    <!-- TODO: Add a 'label' and 'input' for the resource link.
+                         - label 'for': "resource-link"
+                         - input 'id': "resource-link", type="url", required -->
+                    <label for="resource-link">Resource Link</label>
+                    <input id="resource-link" type="url" required>
 
-                                    <!-- TODO: Add a 'label' and 'input' for the resource link.
-                                         - label 'for': "resource-link"
-                                         - input 'id': "resource-link", type="url", required -->
-                                    <div class="space-y-1.5 sm:space-y-2">
-                                        <label for="resource-link"
-                                            class="block text-xs sm:text-sm font-bold text-foreground uppercase tracking-wide">
-                                            Resource Link <span class="text-destructive">*</span>
-                                        </label>
-                                        <input name="resource-link" id="resource-link" type="url"
-                                            placeholder="https://example.com/example.pdf" required
-                                            class="w-full px-3 sm:px-4 py-2.5 sm:py-3.5 bg-input border-0 rounded-lg sm:rounded-xl text-sm sm:text-base text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary transition-all duration-200 hover:bg-input/80 wrap-break-word">
-                                    </div>
+                    <!-- TODO: Add a 'button' to submit the form.
+                         - id="add-resource", type="submit", Text: "Add Resource" -->
+                    <button id="add-resource" type="submit">Add Resource</button>
+                    <!-- End of fieldset. -->
+                </fieldset>
+                <!-- End of form. -->
+            </form>
+            <!-- End of form section. -->
+        </section>
 
-                                    <!-- TODO: Add a 'button' to submit the form.
-                                         - id="add-resource", type="submit", Text: "Add Resource" -->
-                                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6">
-                                        <button type="submit" id="add-resource"
-                                            class="flex-1 px-4 sm:px-6 py-2.5 sm:py-3.5 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg sm:rounded-xl text-sm sm:text-base font-bold shadow-lg sm:shadow-xl hover:shadow-xl sm:hover:shadow-2xl  transition-all duration-200">
-                                            Add Resource
-                                        </button>
-                                        <button type="button" id="cancel-btn"
-                                            class="px-4 sm:px-8 py-2.5 sm:py-3.5 bg-muted hover:text-destructive/90 text-foreground rounded-lg sm:rounded-xl text-sm sm:text-base font-bold hover:bg-muted/70 transition-all duration-200">
-                                            Cancel
-                                        </button>
-                                    </div>
-                                    <!-- End of fieldset. -->
-                                </fieldset>
-                                <!-- End of form. -->
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- End of form section. -->
-            </section>
 
-            <!-- Section 2: Edit Resource Form -->
-            <section class="hidden fixed inset-0 z-50 overflow-y-auto" id="edit-modal">
-                <div class="flex min-h-full items-center justify-center p-3 sm:p-4">
-                    <div class="bg-card rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-2xl border-2 border-info/20 transform transition-all duration-300 scale-95 opacity-0 mx-4 overflow-hidden"
-                        id="edit-modal-content">
-                        <!-- Modal Header -->
-                        <div
-                            class="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-4 sm:py-5 border-b-2 border-border bg-linear-to-r from-info/10 via-secondary/5 to-transparent">
-                            <h2
-                                class="text-lg sm:text-xl lg:text-2xl font-bold text-foreground flex items-center gap-2 my-0">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7 text-info shrink-0" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path
-                                        d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                </svg>
-                                <span class="hidden sm:inline wrap-break-words">Edit Resource</span>
-                                <span class="sm:hidden wrap-break-words">Edit Resource</span>
-                            </h2>
-                            <button id="close-edit-modal-btn"
-                                class="text-muted-foreground hover:text-destructive transition-all duration-200 p-1.5 sm:p-2 rounded-lg sm:rounded-xl hover:bg-destructive/10 hover:rotate-90">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
+        <!-- Section 2: Existing Resources List -->
+        <!-- TODO: Create a 'section' to display the list of current resources. -->
+        <section>
+            <!-- TODO: Add a sub-heading ('h2') "Existing Resources". -->
+            <h2>Existing Resources</h2>
 
-                        <!-- Modal Body -->
-                        <div class="px-4 sm:px-6 lg:px-8 py-5 sm:py-6 lg:py-8">
-                            <form action="#" id="edit-resource-form" class="space-y-4 sm:space-y-6">
-                                <fieldset class="space-y-4 sm:space-y-6 border-0 p-0">
-                                    <legend class="sr-only">Resource Details</legend>
+            <!-- TODO: Create a 'table' with id "resources-table". -->
+            <table id="resources-table">
+                <!-- TODO: Create a 'thead' and a 'tr' inside it. -->
+                <thead>
+                    <tr>
+                        <!-- TODO: Add 'th' elements for "Title", "Description", and "Actions". -->
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
 
-                                    <div class="space-y-1.5 sm:space-y-2">
-                                        <label for="edit-resource-title"
-                                            class="block text-xs sm:text-sm font-bold text-foreground uppercase tracking-wide">
-                                            Resource Title <span class="text-destructive">*</span>
-                                        </label>
-                                        <input id="edit-resource-title" type="text" name="edit-resource-title"
-                                            placeholder="e.g., Chapter 1 Notes, Tutorial Video" required
-                                            class="w-full px-3 sm:px-4 py-2.5 sm:py-3.5 bg-input border-0 rounded-lg sm:rounded-xl text-sm sm:text-base text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-info transition-all duration-200 hover:bg-input/80 wrap-break-word">
-                                    </div>
-
-                                    <div class="space-y-1.5 sm:space-y-2">
-                                        <label for="edit-resource-description"
-                                            class="block text-xs sm:text-sm font-bold text-foreground uppercase tracking-wide">
-                                            Description
-                                        </label>
-                                        <textarea name="edit-resource-description" id="edit-resource-description"
-                                            placeholder="Provide a brief description of the resource..." rows="4"
-                                            class="w-full px-3 sm:px-4 py-2.5 sm:py-3.5 bg-input border-0 rounded-lg sm:rounded-xl text-sm sm:text-base text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-info resize-y min-h-[100px] sm:min-h-[120px] transition-all duration-200 hover:bg-input/80 wrap-break-word"></textarea>
-                                    </div>
-
-                                    <div class="space-y-1.5 sm:space-y-2">
-                                        <label for="edit-resource-link"
-                                            class="block text-xs sm:text-sm font-bold text-foreground uppercase tracking-wide">
-                                            Resource Link <span class="text-destructive">*</span>
-                                        </label>
-                                        <input name="edit-resource-link" id="edit-resource-link" type="url"
-                                            placeholder="https://example.com/example.pdf" required
-                                            class="w-full px-3 sm:px-4 py-2.5 sm:py-3.5 bg-input border-0 rounded-lg sm:rounded-xl text-sm sm:text-base text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-info transition-all duration-200 hover:bg-input/80 wrap-break-word">
-                                    </div>
-
-                                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6">
-                                        <button type="submit" id="update-resource"
-                                            class="flex-1 px-4 sm:px-6 py-2.5 sm:py-3.5 bg-info hover:bg-info/90 text-info-foreground rounded-lg sm:rounded-xl text-sm sm:text-base font-bold shadow-lg sm:shadow-xl hover:shadow-xl sm:hover:shadow-2xl  transition-all duration-200">
-                                            Update Resource
-                                        </button>
-                                        <button type="button" id="cancel-edit-btn"
-                                            class="px-4 sm:px-8 py-2.5 sm:py-3.5 bg-muted hover:text-destructive/90 text-foreground rounded-lg sm:rounded-xl text-sm sm:text-base font-bold hover:bg-muted/70 transition-all duration-200">
-                                            Cancel
-                                        </button>
-                                    </div>
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section 2: Existing Resources List -->
-            <!-- TODO: Create a 'section' to display the list of current resources. -->
-            <section class="space-y-4 sm:space-y-6 max-w-full">
-                <!-- TODO: Add a sub-heading ('h2') "Existing Resources". -->
-                <!-- Section Header -->
-                <div class="mb-4 sm:mb-6 lg:mb-8">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-foreground mb-1 sm:mb-2">Existing Resources</h2>
-                    <p class="text-sm sm:text-base text-muted-foreground">Manage and organize all course materials</p>
-                </div>
-
-                <!-- TODO: Create a 'table' with id "resources-table". -->
-                <!-- Table styled as cards -->
-                <table id="resources-table"
-                    class="w-full min-w-0 block space-y-3 sm:space-y-4 bg-transparent border-none shadow-none max-w-full">
-                    <!-- TODO: Create a 'thead' and a 'tr' inside it. -->
-                    <!-- TODO: Add 'th' elements for "Title", "Description", and "Actions". -->
-                    <thead class="sr-only">
-                        <tr>
-                            <th scope="col">Title</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-
-                    <!-- TODO: Create a 'tbody' for the data. -->
+                <!-- TODO: Create a 'tbody' for the data. -->
+                <tbody id="resources-tbody">
                     <!-- TODO: Add 2-3 rows of dummy data to see the structure. -->
-                    <tbody id="resources-tbody" class="space-y-3 sm:space-y-4 block max-w-full min-w-0 w-full">
-                        <!-- Example Row 1: -->
-                        <!-- TODO: Create a 'tr' for the first resource. -->
-                        <!-- Row 1 -->
-                        <tr
-                            class="block group bg-card/50 hover:bg-card hover:border-primary/20 rounded-lg sm:rounded-xl p-4 sm:p-5 lg:p-6 transition-all duration-200 hover:shadow-lg border-border border max-w-full w-full min-w-0">
-                            <!-- TODO: Add 'td' cells for a title (e.g., "Chapter 1 Notes") and a description. -->
-                            <td class="block max-w-full w-full min-w-0">
-                                <div
-                                    class="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4 max-w-full w-full min-w-0">
-                                    <div class="flex-1 min-w-0 shrink">
-                                        <div
-                                            class="text-base sm:text-lg font-semibold text-foreground mb-1.5 sm:mb-2 group-hover:text-primary transition-colors wrap-break-word">
-                                            Chapter 1 Notes
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="block max-w-full w-full min-w-0">
-                                <div class="text-xs sm:text-sm text-muted-foreground leading-relaxed wrap-break-word">
-                                    Intro to Analysis & Design of ALGORITHMS
-                                </div>
-                            </td>
-                            <!-- TODO: Add a 'td' containing the action buttons. -->
+                    <!-- Example Row 1: -->
+                    <!-- TODO: Create a 'tr' for the first resource. -->
+                    <tr>
+                        <!-- TODO: Add 'td' cells for a title (e.g., "Chapter 1 Notes") and a description. -->
+                        <td>Chapter 1 Notes</td>
+                        <td>Intro to Analysis & Design of ALGORITHMS</td>
+
+                        <!-- TODO: Add a 'td' containing the action buttons. -->
+                        <td>
                             <!-- TODO: Add an "Edit" button. -->
+                            <button>Edit</button>
                             <!-- TODO: Add a "Delete" button. -->
-                            <td class="block max-w-full w-full min-w-0">
-                                <div class="flex items-center gap-2 sm:gap-2 shrink-0">
-                                    <button title="Edit Resource"
-                                        class="p-2 sm:p-2.5 bg-info text-info-foreground rounded-lg hover:bg-info/80 hover:scale-110 hover:shadow-md transition-all duration-200">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path
-                                                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                        </svg>
-                                    </button>
-                                    <button title="Delete Resource"
-                                        class="p-2 sm:p-2.5 bg-destructive text-destructive-foreground rounded-lg hover:bg-destructive/80 hover:scale-110 hover:shadow-md transition-all duration-200">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
+                            <button>Delete</button>
                             <!-- End of actions 'td'. -->
-                            <!-- End of the row. -->
-                            <!-- End of the row. -->
-                        </tr>
+                        </td>
+                        <!-- End of the row. -->
+                    </tr>
 
-                        <!-- Example Row 2: -->
-                        <!-- TODO: Create another 'tr' for a second resource (e.g., a web link). -->
-                        <!-- Row 2 -->
-                        <tr
-                            class="block group bg-card/50 hover:bg-card hover:border-primary/20 rounded-lg sm:rounded-xl p-4 sm:p-5 lg:p-6 transition-all duration-200 hover:shadow-lg border-border border max-w-full w-full min-w-0">
-                            <!-- TODO: Add 'td' cells for the title and description. -->
-                            <!-- TODO: Add a 'td' with "Edit" and "Delete" buttons. -->
-                            <td class="block max-w-full w-full min-w-0">
-                                <div
-                                    class="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4 max-w-full w-full min-w-0">
-                                    <div class="flex-1 min-w-0 shrink">
-                                        <div
-                                            class="text-base sm:text-lg font-semibold text-foreground mb-1.5 sm:mb-2 group-hover:text-primary transition-colors wrap-break-word">
-                                            A Web Link
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="block max-w-full w-full min-w-0">
-                                <div class="text-xs sm:text-sm text-muted-foreground leading-relaxed wrap-break-word">
-                                    How to Find Time Complexity of an Algorithm
-                                </div>
-                            </td>
-                            <td class="block max-w-full w-full min-w-0">
-                                <div class="flex items-center gap-2 sm:gap-2 shrink-0">
-                                    <button title="Edit Resource"
-                                        class="p-2 sm:p-2.5 bg-info text-info-foreground rounded-lg hover:bg-info/80 hover:scale-110 hover:shadow-md transition-all duration-200">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path
-                                                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                        </svg>
-                                    </button>
-                                    <button title="Delete Resource"
-                                        class="p-2 sm:p-2.5 bg-destructive text-destructive-foreground rounded-lg hover:bg-destructive/80 hover:scale-110 hover:shadow-md transition-all duration-200">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                            <!-- End of the row. -->
-                            <!-- End of the row. -->
-                        </tr>
+                    <!-- Example Row 2: -->
+                    <!-- TODO: Create another 'tr' for a second resource (e.g., a web link). -->
+                    <tr>
+                        <!-- TODO: Add 'td' cells for the title and description. -->
+                        <td>A Web Link</td>
+                        <td>How to Find Time Complexity of an Algorithm</td>
+                        <!-- TODO: Add a 'td' with "Edit" and "Delete" buttons. -->
+                        <td>
+                            <button>Edit</button>
+                            <button>Delete</button>
+                        </td>
+                        <!-- End of the row. -->
+                    </tr>
 
-                        <!-- Row 3 -->
-                        <tr
-                            class="block group bg-card/50 hover:bg-card hover:border-primary/20 rounded-lg sm:rounded-xl p-4 sm:p-5 lg:p-6 transition-all duration-200 hover:shadow-lg border-border border max-w-full w-full min-w-0">
-                            <td class="block max-w-full w-full min-w-0">
-                                <div
-                                    class="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4 max-w-full w-full min-w-0">
-                                    <div class="flex-1 min-w-0 shrink">
-                                        <div
-                                            class="text-base sm:text-lg font-semibold text-foreground mb-1.5 sm:mb-2 group-hover:text-primary transition-colors wrap-break-word">
-                                            Chapter 1 Tutorial Exercies
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="block max-w-full w-full min-w-0">
-                                <div class="text-xs sm:text-sm text-muted-foreground leading-relaxed wrap-break-word">
-                                    Problems and Answers of Chapter 1 Textbook Problems
-                                </div>
-                            </td>
-                            <td class="block max-w-full w-full min-w-0">
-                                <div class="flex items-center gap-2 sm:gap-2 shrink-0">
-                                    <button title="Edit Resource"
-                                        class="p-2 sm:p-2.5 bg-info text-info-foreground rounded-lg hover:bg-info/80 hover:scale-110 hover:shadow-md transition-all duration-200">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path
-                                                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                        </svg>
-                                    </button>
-                                    <button title="Delete Resource"
-                                        class="p-2 sm:p-2.5 bg-destructive text-destructive-foreground rounded-lg hover:bg-destructive/80 hover:scale-110 hover:shadow-md transition-all duration-200">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                    <!-- End of tbody. -->
+                </tbody>
+                <!-- End of table. -->
+            </table>
+            <!-- End of resources list section. -->
+        </section>
 
-                        <!-- End of tbody. -->
-                    </tbody>
-                    <!-- End of table. -->
-                </table>
-                <!-- End of resources list section. -->
-            </section>
-
-            <!-- End of main. -->
-        </main>
-    </div>
-
+        <!-- End of main. -->
+    </main>
 </body>
 
 </html>
