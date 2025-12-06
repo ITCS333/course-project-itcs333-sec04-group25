@@ -5,254 +5,113 @@
   This page displays the full details for one assignment and allows for discussion.
 -->
 <!DOCTYPE html>
-<html lang="en" class="overflow-x-hidden max-w-full">
+<html lang="en">
 <head>
+    <!-- TODO: Add meta tags for charset and viewport. -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
+    <!-- TODO: Add a title, for now use "Assignment Details". -->
     <title>Assignment Details</title>
+
+    <!-- TODO: Link to your CSS framework or stylesheet. -->
     <link rel="stylesheet" href="/src/common/styles.css">
     <script src="/src/assignments/details.js" type="module" defer></script>
-    
 </head>
 <body class="min-h-screen bg-background">
-    <!-- Modal Overlay (hidden by default) -->
-    <div id="comment-modal-overlay" class="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 hidden transition-opacity duration-300 md:hidden"></div>
-
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
-        <!-- Back Navigation -->
-        <div class="mb-6 mt-0">
-            <a href="../assignments/list.html" class="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors duration-200 group">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:-translate-x-1 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
-                </svg>
-                Back to Assignments
-            </a>
-        </div>
-
+        <!-- TODO: Create a 'header' with a main heading ('h1'). Use a dummy title like "Assignment 1: HTML Basics". -->
         <header class="mb-10">
-            <div class="flex items-center justify-between gap-4 mb-4">
-                <!-- Keep original H1 text but apply new classes -->
-                <h1 id="assignment-title" class="text-4xl md:text-5xl font-bold text-foreground">Assignment 1: HTML Basics</h1>
-                <span id="availability" class="mb-4 px-4 py-2 bg-success/10 text-success rounded-full text-sm font-semibold border border-success/20">Open</span>
-            </div>
-            <div id="assignment-stats" class="flex items-center gap-4 text-sm text-muted-foreground">
-                <span class="flex items-center gap-1.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                    </svg>
-                    Posted: Nov 1, 2025
-                </span>
-                <span class="flex items-center gap-1.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-                        <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
-                    </svg>
-                    2 Comments
-                </span>
-            </div>
+            <h1 id="assignment-title" class="text-4xl md:text-5xl font-bold text-foreground mb-4">Assignment 1: HTML Basics</h1>
         </header>
 
+        <!-- TODO: Create the 'main' content area. -->
         <main id="assignment-info-container" class="space-y-8">
             <!-- Section 1: Assignment Information -->
-            <article class="bg-card border-2 border-primary/20 rounded-2xl p-8 shadow-xl">
-                <div class="flex flex-col md:flex-row items-start gap-4 mb-3 md:mb-6">
-                    <div class="p-3 bg-primary/10 rounded-xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-xl font-bold text-foreground mb-2">Assignment Details</h3>
-                        <!-- Keep original description paragraph but apply classes -->
-                        <p id="assignment-description" class="text-muted-foreground leading-relaxed">
-                            In this assignment, you will create a basic HTML webpage that includes proper structure using
-                            <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, and <code>&lt;footer&gt;</code> elements.
-                            Ensure your page includes at least one list, one image, and a link to an external website.
-                        </p>
-                    </div>
-                </div>
+            <!-- TODO: Use an 'article' to display the main assignment information. -->
+            <article class="bg-card border border-border rounded-xl p-6 shadow-lg">
+                <!-- TODO: Add a paragraph ('p') to display the due date, e.g., "Due: YYYY-MM-DD". -->
+                <p id="assignment-due-date" class="text-muted-foreground mb-4">Due: 2025-11-10</p>
+                
+                <!-- TODO: Add a sub-heading ('h2') "Description". -->
+                <h2 class="text-2xl font-bold text-foreground mb-3">Description</h2>
+                <!-- TODO: Add a paragraph ('p') with dummy text for the assignment's detailed description. -->
+                <p id="assignment-description" class="text-muted-foreground leading-relaxed mb-6">
+                    In this assignment, you will create a basic HTML webpage that includes proper structure using
+                    header, main, and footer elements. Ensure your page includes at least one list, one image, and a link to an external website.
+                </p>
 
-                <div class="pt-6 border-t border-border">
-                    <div class="flex items-center gap-3">
-                        <a id="assignment-files-link" href="#" class="flex-1 inline-flex items-center justify-center gap-3 px-6 py-3.5 bg-primary text-primary-foreground rounded-xl font-bold shadow-lg hover:bg-primary/90 transition-all duration-200 group">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-                                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
-                            </svg>
-                            <span class="hidden sm:inline">Download Attached Files</span>
-                            <span class="sm:hidden">Files</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </a>
-                        <button id="share-assignment-btn" class="px-4 py-4 bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200" title="Share Assignment">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+                <!-- TODO: Add another sub-heading ('h2') "Attached Files & Links". -->
+                <h2 class="text-2xl font-bold text-foreground mb-3">Attached Files & Links</h2>
+                <!-- TODO: Use an unordered list ('ul') to display the links. -->
+                <ul id="assignment-files-list" class="list-disc list-inside space-y-2 text-primary">
+                    <!-- TODO: Add list items ('li') with anchor tags ('a') for each resource. Use dummy links for now. -->
+                    <!-- Example: <li><a href="#">assignment-brief.pdf</a></li> -->
+                    <li><a href="#" class="hover:underline">assignment-brief.pdf</a></li>
+                    <li><a href="#" class="hover:underline">starter-template.html</a></li>
+                <!-- End of the list. -->
+                </ul>
+            <!-- End of article. -->
             </article>
 
             <!-- Section 2: Discussion Forum -->
+            <!-- TODO: Create a 'section' for the discussion, with an 'id' of "discussion-forum". -->
             <section id="discussion-forum" class="space-y-6">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-3xl font-bold text-foreground flex items-end gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-                            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
-                        </svg>
-                        Discussion
-                    </h2>
-                    <span class="text-sm text-muted-foreground mb-5">3 comments</span>
-                </div>
+                <!-- TODO: Add a sub-heading ('h2') "Questions & Discussion". -->
+                <h2 class="text-3xl font-bold text-foreground">Questions & Discussion</h2>
 
-                <!-- Existing Comments -->
+                <!-- Subsection 2.1: Existing Comments -->
+                <!-- TODO: Add a container (like a 'div') for the list of comments. -->
                 <div id="comment-list" class="space-y-4">
-                    <!-- Example Comment 1 (kept content) -->
-                    <article class="bg-card border border-border/30 rounded-xl p-6 hover:border-info/30 hover:shadow-md transition-all duration-200">
-                        <div class="flex items-start gap-4">
-                            <div class="mt-1 p-3 bg-info/10 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-info" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="ml-0 text-foreground leading-relaxed mb-3">Is it okay to use a <code>&lt;section&gt;</code> inside an <code>&lt;article&gt;</code>?</p>
-                                <footer class="ml-0 flex items-center gap-4 text-sm justify-between">
-                                    <span class="font-semibold text-accent">Ali Hasan</span>
-                                    <span class="text-muted-foreground text-xs">2 weeks ago</span>
-                                </footer>
-                            </div>
-                        </div>
+                    <!-- TODO: Add 1-2 dummy comments to show the structure. -->
+
+                    <!-- Example Comment 1: -->
+                    <!-- TODO: Use an 'article' for each comment. -->
+                    <article class="bg-card border border-border rounded-lg p-4">
+                        <!-- TODO: Use a 'p' for the comment text (e.g., "Is it okay to use a 'section' inside an 'article'?"). -->
+                        <p class="text-foreground leading-relaxed mb-2">Is it okay to use a 'section' inside an 'article'?</p>
+                        <!-- TODO: Use a 'footer' to show the author (e.g., "Posted by: Jane Smith"). -->
+                        <footer class="text-sm text-muted-foreground">
+                            <span class="font-semibold">Posted by: Jane Smith</span>
+                        </footer>
+                    <!-- End of comment article. -->
                     </article>
 
-                    <!-- Example Comment 2 -->
-                    <article class="bg-card border border-border/30 rounded-xl p-6 hover:border-info/30 hover:shadow-md transition-all duration-200">
-                        <div class="flex items-start gap-4">
-                            <div class="mt-1 p-3 bg-info/10 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-info" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="ml-0 text-foreground leading-relaxed mb-3">Can we include images from external URLs in our submission?</p>
-                                <footer class="ml-0 flex items-center justify-between gap-4 text-sm">
-                                    <span class="font-semibold text-accent">Zuhair Mohammed </span>
-                                    <span class="text-muted-foreground text-xs">1 month ago</span>
-                                </footer>
-                            </div>
-                        </div>
+                    <article class="bg-card border border-border rounded-lg p-4">
+                        <p class="text-foreground leading-relaxed mb-2">Can we include images from external URLs in our submission?</p>
+                        <footer class="text-sm text-muted-foreground">
+                            <span class="font-semibold">Posted by: John Doe</span>
+                        </footer>
                     </article>
                 </div>
-                
 
-                <!-- Mobile FAB (Floating Action Button) -->
-                <button id="show-comment-btn-mobile" class="md:hidden fixed bottom-2 right-4 z-30 w-14 h-14 bg-secondary/50 text-secondary-foreground rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 hover:bg-secondary/90 transition-all duration-300 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd" />
-                    </svg>
-                </button>
+                <!-- Subsection 2.2: Add a Comment Form -->
+                <!-- TODO: Create a 'form' for users to post new comments. Action can be '#'. -->
+                <form action="#" id="comment-form" class="bg-card border border-border rounded-lg p-6">
+                    <!-- TODO: Use a 'fieldset' to group the controls. -->
+                    <fieldset class="space-y-4">
+                        <!-- TODO: Add a 'legend', e.g., "Ask a Question". -->
+                        <legend class="text-xl font-bold text-foreground mb-4">Ask a Question</legend>
 
-                <!-- Comment Modal (mobile) -->
-                <div id="comment-modal" class="hidden fixed inset-0 z-50 overflow-y-auto md:hidden mb-1">
-                    <div class="flex min-h-full items-end sm:items-center justify-center p-0 sm:p-4">
-                        <div class="bg-card rounded-t-3xl sm:rounded-3xl shadow-2xl w-full max-w-2xl border-t-2 sm:border-2 border-primary/20 transform transition-all duration-300 translate-y-full opacity-0" id="comment-modal-content">
-                            <!-- Modal Header -->
-                            <div class="flex items-center justify-between px-5 sm:px-6 py-4 border-b-2 border-border bg-transparent">
-                                <h2 class="text-lg sm:text-xl font-bold text-foreground flex justify-center items-center gap-2 mb-0">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-secondary" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                    </svg>
-                                    Leave a Comment
-                                </h2>
-                                <button id="close-comment-modal-btn" class="text-muted-foreground hover:text-destructive transition-all duration-200 p-1.5 rounded-lg hover:bg-destructive/10">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <!-- Modal Body (will receive form via JS) -->
-                            <div class="px-5 sm:px-6 py-5 max-h-[70vh] overflow-y-auto md:hidden">
-                                <div id="comment-form-mobile-wrapper"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Desktop Comment Form (always visible on md+) -->
-                <form action="#" id="comment-form" class="relative bg-card md:border border-border/30 rounded-2xl md:shadow-xl hover:shadow-2xl backdrop-blur-sm transition-all duration-300 md:block md:p-8 md:space-y-0 hidden">
-                    <fieldset class="border-0 p-0 bg-card space-y-4 md:space-y-6" style="background-color: transparent;">
-                        <legend class="md:text-2xl text-base font-semibold text-foreground/90 tracking-tight md:mb-6 mb-0 sr-only md:not-sr-only">Leave a Comment</legend>
-
+                        <!-- TODO: Add a 'label' and 'textarea' for the comment box.
+                             - label 'for': "new-comment"
+                             - textarea 'id': "new-comment", required -->
                         <div class="space-y-2">
-                            <label for="new-comment" class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide md:tracking-widest md:text-muted-foreground/80">Your Comment <span class="text-destructive">*</span></label>
-                            <textarea id="new-comment" name="new-comment" required rows="5" placeholder="Share your thoughts, questions, or feedback..." class="w-full px-3 md:px-4 py-2.5 md:py-3.5 bg-background md:bg-background/60 md:hover:bg-background/70 border border-border/30 md:border-border/30 rounded-lg md:rounded-xl text-sm md:text-base text-foreground md:text-foreground/90 placeholder:text-muted-foreground md:placeholder:text-muted-foreground/70 outline-none ring-0 focus:ring-2 focus:ring-secondary md:focus:ring-primary/40 md:focus:border-primary/40 resize-y min-h-[120px] md:min-h-[140px]"></textarea>
+                            <label for="new-comment-text" class="block text-sm font-medium text-foreground">Your Comment</label>
+                            <textarea id="new-comment-text" name="new-comment" required rows="5" placeholder="Share your thoughts, questions, or feedback..." class="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary focus:border-primary resize-y"></textarea>
                         </div>
-
-                        <div class="flex flex-col gap-2">
-                            <button type="submit" class="w-full md:w-auto px-4 md:px-6 py-2.5 md:py-3.5 rounded-lg md:rounded-xl font-semibold bg-secondary text-secondary-foreground shadow-lg md:shadow-foreground/10 hover:shadow-xl md:hover:-translate-y-0.4 hover:scale-105 md:hover:scale-100 active:translate-y-0 active:scale-[0.99] transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25 md:focus-visible:ring-secondary/25">Post Comment</button>
-
-                            <button type="button" id="cancel-comment-btn" class="md:hidden w-full px-4 py-2.5 bg-muted text-foreground rounded-lg font-semibold hover:bg-muted/70 transition-all duration-200">Cancel</button>
-
-                            <span class="text-xs md:text-sm text-center md:text-left text-muted-foreground md:text-muted-foreground/80">*Your comment will be visible to all students</span>
-                        </div>
+                        
+                        <!-- TODO: Add a 'button' to submit the comment.
+                             - type="submit", Text: "Post Comment" -->
+                        <button type="submit" class="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors duration-200">Post Comment</button>
+                    <!-- End of fieldset. -->
                     </fieldset>
+                <!-- End of form. -->
                 </form>
-
+            <!-- End of discussion section. -->
             </section>
+        <!-- End of main. -->
         </main>
     </div>
-
-    <script>
-        // Basic modal handling and moving the desktop form into mobile modal when needed.
-        const commentModal = document.getElementById('comment-modal');
-        const commentModalContent = document.getElementById('comment-modal-content');
-        const commentModalOverlay = document.getElementById('comment-modal-overlay');
-        const showCommentBtnMobile = document.getElementById('show-comment-btn-mobile');
-        const closeCommentModalBtn = document.getElementById('close-comment-modal-btn');
-        const cancelCommentBtn = document.getElementById('cancel-comment-btn');
-        const commentForm = document.getElementById('comment-form');
-        const commentFormMobileWrapper = document.getElementById('comment-form-mobile-wrapper');
-
-        function openCommentModal() {
-            // move the form into mobile wrapper
-            if (commentForm && commentFormMobileWrapper) {
-                commentFormMobileWrapper.innerHTML = '';
-                commentFormMobileWrapper.appendChild(commentForm.cloneNode(true));
-            }
-            commentModal.classList.remove('hidden');
-            commentModalOverlay.classList.remove('hidden');
-            setTimeout(() => {
-                commentModalContent.classList.remove('translate-y-full', 'opacity-0');
-                commentModalContent.classList.add('translate-y-0', 'opacity-100');
-                commentModalOverlay.classList.add('opacity-100');
-            }, 10);
-        }
-
-        function closeCommentModal() {
-            commentModalContent.classList.remove('translate-y-0', 'opacity-100');
-            commentModalContent.classList.add('translate-y-full', 'opacity-0');
-            commentModalOverlay.classList.remove('opacity-100');
-            setTimeout(() => {
-                commentModal.classList.add('hidden');
-                commentModalOverlay.classList.add('hidden');
-            }, 300);
-        }
-
-        if (showCommentBtnMobile) showCommentBtnMobile.addEventListener('click', openCommentModal);
-        if (closeCommentModalBtn) closeCommentModalBtn.addEventListener('click', closeCommentModal);
-        if (cancelCommentBtn) cancelCommentBtn.addEventListener('click', closeCommentModal);
-        if (commentModalOverlay) commentModalOverlay.addEventListener('click', closeCommentModal);
-
-        // Close on Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !commentModal.classList.contains('hidden')) {
-                closeCommentModal();
-            }
-        });
-    </script>
 </body>
 </html>

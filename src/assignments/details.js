@@ -71,7 +71,7 @@ function getAssignmentIdFromURL() {
 function renderAssignmentDetails(assignment) {
   if (!assignment) return;
   if (assignmentTitle) assignmentTitle.textContent = assignment.title || '';
-  if (assignmentDueDate) assignmentDueDate.textContent = assignment.dueDate ? `Due: ${assignment.dueDate}` : 'No due date';
+  if (assignmentDueDate) assignmentDueDate.textContent = assignment.due_date ? `Due: ${assignment.due_date}` : 'No due date';
   if (assignmentDescription) assignmentDescription.textContent = assignment.description || '';
 
   if (assignmentFilesList) {
@@ -164,7 +164,7 @@ async function handleAddComment(event) {
 
   try {
     // Post comment to backend API
-    const response = await fetch('/src/assignments/api/index.php?resource=comments', {
+    const response = await fetch('api/index.php?resource=comments', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -219,11 +219,12 @@ async function initializePage() {
     if (assignmentTitle) assignmentTitle.textContent = 'Assignment not found.';
     return;
   }
+  currentAssignmentId = id;
 
   try {
-    const [rResp, cResp] = await Promise.all([
-      fetch('api/index.php'),
-      fetch('api/index.php')
+    const [assignmentResp, commentsResp] = await Promise.all([
+      fetch(`api/index.php?resource=assignments&id=${id}`),
+      fetch(`api/index.php?resource=comments&assignment_id=${id}`)
     ]);
     
     const assignmentResult = await assignmentResp.json();
@@ -248,4 +249,4 @@ async function initializePage() {
 // --- Initial Page Load ---
 checkLogin().then(ok => {
   if (ok) initializePage();
-})
+});
