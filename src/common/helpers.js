@@ -1,8 +1,6 @@
-export const API_HOST = import.meta.env.VITE_API_URL || "http://localhost:8000";
-
 export async function checkLogin() {
     try {
-        const response = await fetch(`${API_HOST}/resources/api/index.php`, {
+        const response = await fetch(`../resources/api/index.php`, {
             credentials: "include",
         });
 
@@ -44,7 +42,7 @@ export async function redirect(
 
 export async function checkAdmin() {
     try {
-        const response = await fetch(`${API_HOST}/admin/api/index.php`, {
+        const response = await fetch(`../admin/api/index.php`, {
             credentials: "include",
         });
 
@@ -230,34 +228,22 @@ export function createDarkModeButton() {
         </svg>`;
 
     const updateIcon = (animate = false) => {
-        // Use a small delay to ensure DOM has updated after theme change
-        const checkTheme = () => {
-            const storedTheme = localStorage.getItem("theme");
-            const bodyHasDark = document.body.classList.contains("dark");
-            const dark = storedTheme === "dark" || bodyHasDark;
-
-            if (animate) {
-                icon.style.opacity = "0";
-                icon.style.transform = "rotate(180deg)";
-
-                setTimeout(() => {
-                    icon.innerHTML = dark ? sunSVG : moonSVG;
-                    icon.style.opacity = "1";
-                    icon.style.transform = "rotate(360deg)";
-                }, 200);
-            } else {
-                // Initial load - no animation
-                icon.innerHTML = dark ? sunSVG : moonSVG;
-                icon.style.opacity = "1";
-                icon.style.transform = "rotate(0deg)";
-            }
-        };
+        const isDark = document.body.classList.contains("dark");
 
         if (animate) {
-            // Add a small delay to ensure theme change has been applied
-            setTimeout(checkTheme, 10);
+            icon.style.opacity = "0";
+            icon.style.transform = "rotate(180deg)";
+
+            setTimeout(() => {
+                const currentlyDark = document.body.classList.contains("dark");
+                icon.innerHTML = currentlyDark ? sunSVG : moonSVG;
+                icon.style.opacity = "1";
+                icon.style.transform = "rotate(360deg)";
+            }, 200);
         } else {
-            checkTheme();
+            icon.innerHTML = isDark ? sunSVG : moonSVG;
+            icon.style.opacity = "1";
+            icon.style.transform = "rotate(0deg)";
         }
     };
 

@@ -11,7 +11,7 @@
 
 // --- Global Data Store ---
 // This array will be populated with data fetched from 'students.json'.
-import { checkAdmin, API_HOST } from "/src/common/helpers.js";
+import { checkAdmin } from "/src/common/helpers.js";
 
 let students = [];
 
@@ -378,7 +378,7 @@ async function handleChangePassword(event) {
   // Note: The user ID will be retrieved from the session on the server side
   try {
     const response = await fetch(
-      `${API_HOST}/admin/api/index.php?action=change_password`,
+      `api/index.php?action=change_password`,
       {
         method: "POST",
         credentials: "include", // Include session cookies
@@ -443,7 +443,7 @@ async function handleAddStudent(event) {
     return;
   }
   try {
-    const response = await fetch(`${API_HOST}/admin/api/index.php`, {
+    const response = await fetch(`api/index.php`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -508,7 +508,7 @@ async function handleTableClick(event) {
 
     try {
       const response = await fetch(
-        `${API_HOST}/admin/api/index.php?id=${studentId}`,
+        `api/index.php?id=${studentId}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -569,7 +569,7 @@ async function handleTableClick(event) {
       // Important: Do NOT include new_id if it's the same as the old ID
       // This prevents the backend from checking for conflicts with itself
 
-      const response = await fetch(`${API_HOST}/admin/api/index.php`, {
+      const response = await fetch(`api/index.php`, {
         method: "PUT",
         credentials: "include",
         headers: {
@@ -676,7 +676,7 @@ function generatePassword() {
  */
 async function loadStudents() {
   try {
-    const response = await fetch(`${API_HOST}/admin/api/index.php`, {
+    const response = await fetch(`api/index.php`, {
       credentials: "include",
     });
 

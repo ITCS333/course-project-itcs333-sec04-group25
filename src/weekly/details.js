@@ -138,14 +138,14 @@ async function handleAddComment(event) {
   }
 
   const newComment = {
-    author: localStorage.getItem("user_name") ||'Student',
+    author: localStorage.getItem("user_name") || 'Student',
     text: commentText,
     week_id: currentWeekId
   };
 
   try {
     // POST the new comment to the backend API
-    const response = await fetch(`${API_HOST}/weekly/api/index.php?resource=comments`, {
+    const response = await fetch(`api/index.php?resource=comments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -157,15 +157,15 @@ async function handleAddComment(event) {
 
     if (result.success) {
       // Reload comments from backend
-      const commentsResponse = await fetch(`${API_HOST}/weekly/api/index.php?resource=comments&week_id=${currentWeekId}`, {
+      const commentsResponse = await fetch(`api/index.php?resource=comments&week_id=${currentWeekId}`, {
         credentials: "include"
       });
       const commentsResult = await commentsResponse.json();
       currentComments = (commentsResult.success && Array.isArray(commentsResult.data))
         ? commentsResult.data.map(c => ({
-            author: c.author,
-            text: c.text
-          }))
+          author: c.author,
+          text: c.text
+        }))
         : [];
       renderComments();
       newCommentText.value = '';
@@ -205,13 +205,13 @@ async function initializePage() {
   // Fetch week details and comments from the API
   try {
     // Fetch the week by ID
-    const weekResponse = await fetch(`${API_HOST}/weekly/api/index.php?resource=weeks&id=${currentWeekId}`, {
+    const weekResponse = await fetch(`api/index.php?resource=weeks&id=${currentWeekId}`, {
       credentials: "include"
     });
     const weekResult = await weekResponse.json();
 
     // Fetch comments for this week
-    const commentsResponse = await fetch(`${API_HOST}/weekly/api/index.php?resource=comments&week_id=${currentWeekId}`, {
+    const commentsResponse = await fetch(`api/index.php?resource=comments&week_id=${currentWeekId}`, {
       credentials: "include"
     });
     const commentsResult = await commentsResponse.json();
@@ -231,9 +231,9 @@ async function initializePage() {
     // Check and map comments data
     currentComments = (commentsResult.success && Array.isArray(commentsResult.data))
       ? commentsResult.data.map(c => ({
-          author: c.author,
-          text: c.text
-        }))
+        author: c.author,
+        text: c.text
+      }))
       : [];
 
     if (week) {
