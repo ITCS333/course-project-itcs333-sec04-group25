@@ -147,7 +147,7 @@ function createAssignmentArticle(assignment) {
  */
 async function loadAssignments() {
   try {
-    const res = await fetch('/src/assignments/api/assignments.json');
+    const res = await fetch('api/index.php');
     const assignments = res.ok ? await res.json() : [];
 
     if (assignmentListSection) assignmentListSection.innerHTML = '';

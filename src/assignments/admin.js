@@ -324,7 +324,7 @@ function handleTableClick(event) {
    */
 async function loadAndInitialize() {
   try {
-    const resp = await fetch('/src/assignments/api/assignments.json');
+    const resp = await fetch('api/index.php');
     if (resp && resp.ok) {
       assignments = await resp.json();
     } else {

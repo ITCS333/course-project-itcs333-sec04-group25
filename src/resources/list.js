@@ -287,7 +287,7 @@ async function countComments(resourceId) {
     return comments[resourceId]?.length || 0;
   }
   try {
-    const req = await fetch(`${API_HOST}/resources/api/index.php?resource_id=${resourceId}&action=comments`, {
+    const req = await fetch(`api/index.php?resource_id=${resourceId}&action=comments`, {
       credentials: "include"
     });
     const res = await req.json();
@@ -472,7 +472,7 @@ async function createResourceArticle(resource) {
 
 async function loadResources() {
   try {
-    const req = await fetch(`${API_HOST}/resources/api/index.php`, {
+    const req = await fetch(`api/index.php`, {
       credentials: "include"
     });
     const res = await req.json();

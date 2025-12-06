@@ -1,5 +1,5 @@
 import { v7 as uuidv7 } from "uuid";
-import { checkAdmin, API_HOST } from "/src/common/helpers.js";
+import { checkAdmin } from "/src/common/helpers.js";
 
 // --- Global Data Store ---
 let resources = [];
@@ -194,7 +194,7 @@ function createModalsAndOverlay() {
 
       const fieldset = resourceForm.querySelector('fieldset');
       if (fieldset) {
-        fieldset.className = "space-y-4 sm:space-y-6 border-0 p-0";
+        fieldset.className = "space-y-4 sm:space-y-6 border-0 p-0 bg-transparent";
 
         const legend = fieldset.querySelector('legend');
         if (legend) {
@@ -316,7 +316,7 @@ function createEditModal() {
   editForm.className = "space-y-4 sm:space-y-6";
 
   editForm.innerHTML = `
-    <fieldset class="space-y-4 sm:space-y-6 border-0 p-0">
+    <fieldset class="space-y-4 sm:space-y-6 border-0 p-0 bg-transparent">
       <legend class="sr-only">Resource Details</legend>
       
       <div class="space-y-1.5 sm:space-y-2">
@@ -584,7 +584,7 @@ async function handleAddResource(event) {
 
 async function APIAddResource(title, description, link) {
   try {
-    const req = await fetch(`${API_HOST}/resources/api/index.php`, {
+    const req = await fetch('api/index.php', {
       method: "POST",
       credentials: "include",
       headers: {
@@ -652,7 +652,7 @@ async function handleEditResource(event) {
 
 async function APIEditResource(id, title, description, link) {
   try {
-    const req = await fetch(`${API_HOST}/resources/api/index.php`, {
+    const req = await fetch('api/index.php', {
       method: "PUT",
       credentials: "include",
       headers: {
@@ -679,7 +679,7 @@ async function APIEditResource(id, title, description, link) {
 
 async function APIDeleteResource(id) {
   try {
-    const req = await fetch(`${API_HOST}/resources/api/index.php?id=${parseInt(id)}`, {
+    const req = await fetch(`api/index.php?id=${parseInt(id)}`, {
       method: "DELETE",
       credentials: "include"
     });
@@ -728,7 +728,7 @@ async function handleTableClick(event) {
 
 async function loadAndInitialize() {
   try {
-    const req = await fetch(`${API_HOST}/resources/api/index.php`, { credentials: 'include' });
+    const req = await fetch('api/index.php', { credentials: 'include' });
     const res = await req.json();
     if (!req?.ok || !res?.success) {
       throw res;

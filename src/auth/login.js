@@ -120,7 +120,7 @@ async function handleLogin(event) {
 
   try {
     // Send login request to the API
-    const response = await fetch(`${API_HOST}/auth/api/index.php`, {
+    const response = await fetch(`api/index.php`, {
       method: "POST",
       credentials: "include", // Required to receive and send cookies
       headers: {

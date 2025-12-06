@@ -197,8 +197,8 @@ async function initializePage() {
 
   try {
     const [rResp, cResp] = await Promise.all([
-      fetch('/src/assignments/api/assignments.json'),
-      fetch('/src/assignments/api/comments.json')
+      fetch('api/index.php'),
+      fetch('api/index.php')
     ]);
     const assignments = rResp.ok ? await rResp.json() : [];
     const commentsObj = cResp.ok ? await cResp.json() : {};

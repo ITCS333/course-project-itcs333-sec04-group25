@@ -232,7 +232,7 @@ async function handleAddComment(event) {
 
 async function APIAddComment(author, text) {
   try {
-    const req = await fetch(`${API_HOST}/resources/api/index.php?action=comment`, {
+    const req = await fetch(`api/index.php?action=comment`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -301,9 +301,9 @@ async function initializePage() {
   currentResourceId = Number(getResourceIdFromURL());
 
   if (!currentResourceId) { resourceTitle.textContent = "Resource not found."; return; }
-  const [r, c] = await Promise.all([
-    fetch(`${API_HOST}/resources/api/index.php?id=${currentResourceId}`, { credentials: "include" }),
-    fetch(`${API_HOST}/resources/api/index.php?resource_id=${currentResourceId}&action=comments`, { credentials: "include" })
+  const [r, c] = await Promise.all([ 
+    fetch(`api/index.php?id=${currentResourceId}`, { credentials: "include" }),
+    fetch(`api/index.php?resource_id=${currentResourceId}&action=comments`, { credentials: "include" })
   ])
   const currentResource = (await r.json()).data;
   currentComments = (await c.json()).data || [];
