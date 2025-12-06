@@ -1,8 +1,6 @@
-export const API_HOST = import.meta.env.VITE_API_URL || "http://localhost:8000";
-
 export async function checkLogin() {
     try {
-        const response = await fetch(`${API_HOST}/resources/api/index.php`, {
+        const response = await fetch(`../resources/api/index.php`, {
             credentials: "include",
         });
 
@@ -44,7 +42,7 @@ export async function redirect(
 
 export async function checkAdmin() {
     try {
-        const response = await fetch(`${API_HOST}/admin/api/index.php`, {
+        const response = await fetch(`../admin/api/index.php`, {
             credentials: "include",
         });
 
