@@ -287,7 +287,7 @@ async function countComments(resourceId) {
     return comments[resourceId]?.length || 0;
   }
   try {
-    const req = await fetch(`${API_HOST}/resources/api/index.php?resource_id=${resourceId}&action=comments`, {
+    const req = await fetch(`api/index.php?resource_id=${resourceId}&action=comments`, {
       credentials: "include"
     });
     const res = await req.json();
@@ -415,12 +415,12 @@ async function createResourceArticle(resource) {
   // View resource link
   const viewLink = document.createElement("a");
   viewLink.href = `/src/resources/details.html?id=${resource.id}`;
-  viewLink.className = "bg-secondary text-secondary-foreground hover:bg-secondary/90 flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors duration-200";
+  viewLink.className = "bg-primary text-secondary-foreground hover:bg-primary/90 flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors duration-200";
   viewLink.textContent = "View Resource & comments";
 
   // Share button
-  const shareButton = document.createElement("button");
-  shareButton.className = "bg-secondary text-secondary-foreground hover:bg-secondary/90 p-2.5 border border-border rounded-lg transition-colors duration-200";
+  const shareButton = document.createElement("button"); 
+  shareButton.className = "bg-primary text-secondary-foreground hover:bg-primary/90 p-2.5 border border-border rounded-lg transition-colors duration-200";
   shareButton.title = "Share Resource";
 
   const shareSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -472,7 +472,7 @@ async function createResourceArticle(resource) {
 
 async function loadResources() {
   try {
-    const req = await fetch(`${API_HOST}/resources/api/index.php`, {
+    const req = await fetch(`api/index.php`, {
       credentials: "include"
     });
     const res = await req.json();

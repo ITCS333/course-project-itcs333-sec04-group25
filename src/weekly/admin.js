@@ -116,7 +116,7 @@ async function handleAddWeek(event) {
   const links = linksValue.split('\n').filter(link => link.trim() !== '');
 
   try {
-    const response = await fetch(`${API_HOST}/weekly/api/index.php?resource=weeks`, {
+    const response = await fetch(`${API_HOST}/src/weekly/api/index.php?resource=weeks`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: "include",
@@ -170,9 +170,9 @@ async function handleTableClick(event) {
 }
 
 async function deleteWeekFromAPI(weekId) {
-  const response = await fetch(`${API_HOST}/weekly/api/index.php?resource=weeks&id=${weekId}`, {
+  const response = await fetch(`api/index.php?resource=weeks&id=${weekId}`, {
     method: 'DELETE',
-      credentials: "include"
+    credentials: "include"
   });
   const result = await response.json();
   return result.success;
@@ -259,7 +259,7 @@ async function handleEditSubmit(event) {
 
 
 async function updateWeekInAPI(week) {
-  const response = await fetch(`${API_HOST}/weekly/api/index.php?resource=weeks`, {
+  const response = await fetch(`api/index.php?resource=weeks`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -287,7 +287,7 @@ async function updateWeekInAPI(week) {
  */
 async function loadAndInitialize() {
   try {
-    const response = await fetch(`${API_HOST}/weekly/api/index.php?resource=weeks`, {
+    const response = await fetch(`api/index.php?resource=weeks`, {
       credentials: "include"
     });
     if (!response.ok) throw new Error('Network response was not ok');

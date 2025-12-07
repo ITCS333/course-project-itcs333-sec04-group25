@@ -14,10 +14,10 @@
 // --- Element Selections ---
 // TODO: Select the section for the assignment list ('#assignment-list-section').
 import { checkLogin, API_HOST } from "/src/common/helpers.js";
-const assignmentListSection = document.getElementById('assignment-list-section');
+const assignmentListSection = document.querySelector('section.grid');
 const totalAssignmentsEl = document.getElementById('total-assignments');
-const totalDueSoonEl = document.getElementById('total-due-soon');
-const totalCompletedEl = document.getElementById('total-completed');
+const totalDueSoonEl = document.getElementById('pending-assignments');
+const totalCompletedEl = document.getElementById('completed-assignments');
 
 // --- Functions ---
 
@@ -37,7 +37,7 @@ function createAssignmentArticle(assignment) {
   previewDiv.className = 'aspect-video bg-linear-to-br from-primary/20 to-primary/5 flex items-center justify-center relative';
   const dateBadge = document.createElement('div');
   dateBadge.className = 'absolute top-3 right-3 bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-semibold';
-  dateBadge.textContent = assignment.dueDate ? `Due: ${assignment.dueDate}` : 'No due date';
+  dateBadge.textContent = assignment.due_date ? `Due: ${assignment.due_date}` : 'No due date';
   previewDiv.appendChild(dateBadge);
 
   // Icon
@@ -58,7 +58,7 @@ function createAssignmentArticle(assignment) {
 
   const title = document.createElement('h2');
   title.className = 'text-xl font-bold text-foreground group-hover:text-primary transition-colors flex-1';
-  title.textContent = assignment.title;
+  title.textContent = assignment.title || 'Untitled Assignment';
 
   const badge = document.createElement('span');
   badge.className = 'badge badge-secondary';
@@ -69,7 +69,8 @@ function createAssignmentArticle(assignment) {
   // Description
   const description = document.createElement('p');
   description.className = 'text-sm text-muted-foreground mb-4 leading-relaxed';
-  description.textContent = assignment.description || '';
+  const descText = assignment.description || '';
+  description.textContent = descText.length > 120 ? descText.substring(0, 120) + '...' : descText;
 
   // Meta info (comments count and date)
   const metaDiv = document.createElement('div');
@@ -89,7 +90,7 @@ function createAssignmentArticle(assignment) {
 
   const dateSpan = document.createElement('span');
   dateSpan.className = 'flex items-center gap-1.5';
-  dateSpan.textContent = assignment.dueDate || 'No date';
+  dateSpan.textContent = assignment.due_date || 'No date';
 
   metaDiv.append(commentsSpan, dateSpan);
 
@@ -116,7 +117,7 @@ function createAssignmentArticle(assignment) {
   shareButton.addEventListener('click', () => {
     const url = window.location.href.replace('list.html', 'details.html') + '?id=' + assignment.id;
     if (navigator.share) {
-      navigator.share({ title: assignment.title, text: '', url }).catch(() => {});
+      navigator.share({ title: assignment.title, text: '', url }).catch(() => { });
     } else {
       navigator.clipboard?.writeText(url).then(() => alert('Link copied to clipboard!')).catch(() => alert(url));
     }
@@ -147,13 +148,33 @@ function createAssignmentArticle(assignment) {
  */
 async function loadAssignments() {
   try {
-    const res = await fetch('/src/assignments/api/assignments.json');
-    const assignments = res.ok ? await res.json() : [];
+    const res = await fetch('api/index.php?resource=assignments');
+    const result = res.ok ? await res.json() : null;
+    const assignments = result?.data || [];
 
     if (assignmentListSection) assignmentListSection.innerHTML = '';
 
-    // Update simple stats if elements exist
-    if (totalAssignmentsEl) totalAssignmentsEl.textContent = String(assignments.length);
+    // Update statistics
+    const total = assignments.length;
+    const today = new Date();
+    const sevenDaysFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    let dueSoon = 0;
+    let completed = 0;
+
+    assignments.forEach(assignment => {
+      if (assignment.due_date) {
+        const dueDate = new Date(assignment.due_date);
+        if (dueDate >= today && dueDate <= sevenDaysFromNow) {
+          dueSoon++;
+        }
+      }
+      // You can add completed logic based on your status field
+    });
+
+    if (totalAssignmentsEl) totalAssignmentsEl.textContent = String(total);
+    if (totalDueSoonEl) totalDueSoonEl.textContent = String(dueSoon);
+    if (totalCompletedEl) totalCompletedEl.textContent = String(completed);
 
     for (const assignment of assignments) {
       const article = createAssignmentArticle(assignment);
@@ -161,6 +182,9 @@ async function loadAssignments() {
     }
   } catch (err) {
     console.error('Error loading assignments:', err);
+    if (assignmentListSection) {
+      assignmentListSection.innerHTML = '<p class="text-destructive text-center p-8">Error loading assignments. Please try again later.</p>';
+    }
   }
 }
 
@@ -170,4 +194,3 @@ async function loadAssignments() {
 checkLogin().then(ok => {
   if (ok) loadAssignments();
 })
-
