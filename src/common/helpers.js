@@ -276,3 +276,29 @@ if (document.readyState === "loading") {
 window.addEventListener("load", () => {
   themeCheck();
 });
+
+// Listen for theme changes from other tabs/pages
+window.addEventListener("storage", (e) => {
+  if (e.key === "theme") {
+    themeCheck();
+    // Update the icon if the button exists
+    const button = document.getElementById("dark-mode-toggle");
+    if (button) {
+      const icon = button.querySelector("span");
+      if (icon) {
+        const isDark = document.documentElement.classList.contains("dark");
+        const sunSVG = `
+          <svg class="w-full h-full text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>`;
+        const moonSVG = `
+          <svg class="w-full h-full text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>`;
+        icon.innerHTML = isDark ? sunSVG : moonSVG;
+      }
+    }
+  }
+});
