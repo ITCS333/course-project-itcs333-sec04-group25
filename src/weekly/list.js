@@ -13,7 +13,7 @@
 
 // --- Element Selections ---
 // TODO: Select the section for the week list ('#week-list-section').
-import { checkLogin, API_HOST } from "/src/common/helpers.js";
+import { checkLogin } from "/src/common/helpers.js";
 const listSection = document.querySelector('#week-list-section');
 
 // --- Functions ---

@@ -19,7 +19,7 @@
 
 // --- Global Data Store ---
 // These will hold the data related to *this* specific week.
-import { checkLogin, API_HOST } from "/src/common/helpers.js";
+import { checkLogin } from "/src/common/helpers.js";
 let currentWeekId = null;
 let currentComments = [];
 

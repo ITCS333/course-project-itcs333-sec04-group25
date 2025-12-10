@@ -116,7 +116,7 @@ async function handleAddWeek(event) {
   const links = linksValue.split('\n').filter(link => link.trim() !== '');
 
   try {
-    const response = await fetch(`${API_HOST}/src/weekly/api/index.php?resource=weeks`, {
+    const response = await fetch(`api/index.php?resource=weeks`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: "include",
@@ -132,7 +132,7 @@ async function handleAddWeek(event) {
       await loadAndInitialize(); // reload weeks from API
       WeekForm.reset();
     } else {
-      alert('Failed to add week: ' + (result.error || 'Unknown error'));
+      alert('Failed to add week: ' + (result.error || result.message || 'Unknown error'));
     }
   } catch (error) {
     console.error('Error adding week:', error);
