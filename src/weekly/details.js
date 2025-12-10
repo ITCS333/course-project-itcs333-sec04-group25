@@ -129,7 +129,7 @@ function renderComments() {
  * 6. Call `renderComments()` to refresh the list.
  * 7. Clear the `newCommentText` textarea.
  */
-//const studentName = localStorage.getItem('studentName') || 'Student';
+
 async function handleAddComment(event) {
   event.preventDefault();
   const commentText = newCommentText.value.trim();
