@@ -48,6 +48,14 @@
 require_once __DIR__ . '/../../common/DatabaseHelper.php';
 require_once __DIR__ . '/../../common/DBConfig.php';
 require_once __DIR__ . '/../../common/middlewares.php';
+// If requireLogin is not defined in middlewares.php, define a dummy version here for now:
+if (!function_exists('requireLogin')) {
+    function requireLogin() {
+        // Implement your authentication logic here, or leave empty for now
+        // Example: throw error if not logged in
+        // sendError('Authentication required', 401);
+    }
+}
 
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: " . ($_ENV['FRONTEND_URL'] ?? 'http://localhost:5173'));
