@@ -46,6 +46,11 @@
         document.documentElement.classList.add("dark");
       }
     </script>
+    <script type="module">
+        // Import and expose helpers to global scope for compatibility
+        import { checkLogin } from "/src/common/helpers.js";
+        window.checkLogin = checkLogin;
+    </script>
     <link rel="stylesheet" href="/src/common/styles.css">
 </head>
 
