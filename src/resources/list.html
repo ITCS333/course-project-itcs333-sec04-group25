@@ -13,12 +13,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Resources</title>
     <script>
-      const theme = localStorage.getItem("theme");
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-      }
+        const theme = localStorage.getItem("theme");
+        if (theme === "dark") {
+            document.documentElement.classList.add("dark");
+        }
     </script>
     <link rel="stylesheet" href="/src/common/styles.css">
+    <script type="module">
+        // Import and expose helpers to global scope for compatibility
+        import { checkLogin } from "/src/common/helpers.js";
+        window.checkLogin = checkLogin;
+    </script>
     <script src="/src/resources/list.js" type="module" defer></script>
 </head>
 

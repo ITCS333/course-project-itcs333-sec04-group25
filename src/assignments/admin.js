@@ -7,7 +7,7 @@
   - Keep the TODO comments in place per project guidelines.
 */
 
-import { checkAdmin, API_HOST } from "/src/common/helpers.js";
+import { checkAdmin } from "/src/common/helpers.js";
 
 // --- Global Data Store ---
 let assignments = [];

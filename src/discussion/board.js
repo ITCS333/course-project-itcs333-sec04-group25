@@ -12,7 +12,7 @@
 
   3. Implement the TODOs below.
 */
-import { checkLogin, API_HOST } from "/src/common/helpers.js";
+import { checkLogin } from "/src/common/helpers.js";
 
 // --- Global Data Store ---
 // This will hold the topics loaded from the JSON file.

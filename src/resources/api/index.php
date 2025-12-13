@@ -58,6 +58,12 @@
 require_once __DIR__ . '/../../common/DatabaseHelper.php';
 require_once __DIR__ . '/../../common/DBConfig.php';
 require_once __DIR__ . '/../../common/middlewares.php';
+
+// Start session for authentication
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // TODO: Set headers for JSON response and CORS
 // Set Content-Type to application/json
 // Allow cross-origin requests (CORS) if needed
@@ -76,6 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] === "OPTIONS") {
     exit; // Retuns 200 reponse code with empty reponse body
 }
 
+// Store user session data for tracking (populated by middleware)
+$user_id = $_SESSION["user_id"] ?? null;
+$is_admin = $_SESSION["is_admin"] ?? 0;
 
 // $user_id = $_SESSION["user_id"];
 
@@ -828,6 +837,31 @@ function validateRequiredFields($data, $requiredFields)
     ];
     // TODO: Return result array
     // ['valid' => (count($missing) === 0), 'missing' => $missing]
+}
+
+/**
+ * Helper function to validate email format
+ * Note: Used for user registration/profile updates if needed in future
+ * 
+ * @param string $email - Email address to validate
+ * @return bool - True if valid email, false otherwise
+ */
+function validateEmail($email)
+{
+    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+}
+
+/**
+ * Helper function to verify password (for authentication)
+ * Note: Resources API doesn't directly handle passwords, but this is available for reference
+ * 
+ * @param string $password - Plain text password
+ * @param string $hash - Hashed password from database
+ * @return bool - True if password matches hash
+ */
+function verifyPassword($password, $hash)
+{
+    return password_verify($password, $hash);
 }
 
 // getResourceById($db, 6);

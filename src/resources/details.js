@@ -18,7 +18,7 @@
 
 // --- Global Data Store ---
 // These will hold the data related to *this* resource.
-import { checkLogin, API_HOST } from "/src/common/helpers.js";
+import { checkLogin } from "/src/common/helpers.js";
 let currentResourceId = null;
 let currentComments = [];
 
@@ -159,7 +159,7 @@ function createCommentArticle(comment) {
   p.textContent = comment.text;
   const footer = document.createElement("footer"); footer.className = "ml-0 flex items-center gap-4 text-sm justify-between";
   const authorSpan = document.createElement("span"); authorSpan.textContent = comment.author; authorSpan.classList = "font-semibold text-accent"
-  const dateSpan = document.createElement("span"); dateSpan.textContent = comment.date || "2 days ago"; dateSpan.classList = "text-muted-foreground text-xs"
+  const dateSpan = document.createElement("span"); dateSpan.textContent = comment.date || " "; dateSpan.classList = "text-muted-foreground text-xs"
   footer.append(authorSpan, dateSpan);
   articleDiv3.append(p, footer);
   articleDiv1.append(articleDiv2, articleDiv3);

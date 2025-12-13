@@ -18,7 +18,7 @@
 
 
   
-import { checkLogin, API_HOST } from "/src/common/helpers.js";
+import { checkLogin } from "/src/common/helpers.js";
 
 // --- Global Data Store ---
 let currentTopicId = null;
