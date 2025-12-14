@@ -880,4 +880,26 @@ function isValidSortField($field, $allowedFields)
     return in_array($field, $allowedFields);
 }
 
+/**
+ * Helper function to validate email format
+ * 
+ * @param string $email - Email address to validate
+ * @return bool - True if valid email format, false otherwise
+ */
+function validateEmail($email)
+{
+    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+}
+function verifyPassword($password, $hash)
+{
+    return password_verify($password, $hash);
+}
 
+// Start session for authentication
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Store user session data for tracking (populated by middleware)
+$user_id = $_SESSION["user_id"] ?? null;
+$is_admin = $_SESSION["is_admin"] ?? 0;
