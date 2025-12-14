@@ -11,6 +11,16 @@
 
 // --- Global Data Store ---
 // This array will be populated with data fetched from 'students.json'.
+async function redirect(
+  message = "Please login first to access to this page.",
+  href = "/src/auth/login.html"
+) {
+  await showAlert(message, "Error");
+  setTimeout(() => {
+    window.location.href = href;
+  }, 10);
+}
+
 async function checkAdmin() {
   try {
     const response = await fetch(`../admin/api/index.php`, {
@@ -50,6 +60,99 @@ async function checkAdmin() {
     );
     return false;
   }
+}
+
+const RED_X_ICON = `
+<svg width="120" height="120" viewBox="0 0 120 120">
+  <circle cx="60" cy="60" r="50" fill="#ff4a4a"/>
+  <path d="M40 40 L80 80 M80 40 L40 80"
+        stroke="white"
+        stroke-width="12"
+        stroke-linecap="round"/>
+</svg>
+`;
+
+function showAlert(message, title = "Error") {
+  return new Promise((resolve) => {
+    /* ---------------- BACKDROP ---------------- */
+    const backdrop = document.createElement("div");
+    backdrop.className =
+      "fixed inset-0 z-50 flex items-center justify-center " +
+      "bg-black/60 backdrop-blur-xl animate-fadeIn p-6";
+
+    /* ---------------- CARD (LIGHT + DARK MODE) ---------------- */
+    const card = document.createElement("div");
+    card.className =
+      "relative max-w-sm w-full rounded-[2rem] px-8 pt-10 pb-8 animate-scaleIn text-center " +
+      "border shadow-2xl backdrop-blur-2xl " +
+      "bg-white/90 text-gray-900 border-gray-300 " + // LIGHT MODE
+      "dark:bg-white/5 dark:text-white dark:border-white/10"; // DARK MODE
+
+    /* ---------------- ICON WITH GLOW ---------------- */
+    const iconWrap = document.createElement("div");
+    iconWrap.className =
+      "relative flex justify-center items-center w-full mb-6 bottom-5";
+
+    // Glow layer
+    const glow = document.createElement("div");
+    glow.className =
+      "absolute w-32 h-32 rounded-full blur-3xl opacity-70 " +
+      "bg-red-500/60 dark:bg-red-500/60";
+
+    // Actual icon
+    const icon = document.createElement("div");
+    icon.className = "relative z-10";
+    icon.innerHTML = RED_X_ICON;
+
+    iconWrap.appendChild(glow);
+    iconWrap.appendChild(icon);
+
+    /* ---------------- TITLE ---------------- */
+    const heading = document.createElement("h2");
+    heading.className =
+      "text-2xl font-bold tracking-widest mb-2 " +
+      "text-gray-900 dark:text-white";
+    heading.textContent = title;
+
+    /* ---------------- DESCRIPTION ---------------- */
+    const desc = document.createElement("p");
+    desc.className =
+      "text-sm leading-relaxed mb-8 whitespace-pre-line " +
+      "text-gray-700 dark:text-gray-300";
+    desc.textContent = message;
+
+    /* ---------------- BUTTON ---------------- */
+    const button = document.createElement("button");
+    button.className =
+      "w-full py-3 rounded-2xl font-semibold tracking-wide transition-all shadow-lg " +
+      "active:scale-95 " +
+      "bg-black text-gray-100 border border-gray-300 hover:bg-black/80 " + // LIGHT
+      "dark:bg-white/10 dark:text-white dark:border-white/20 dark:hover:bg-white/20"; // DARK
+    button.textContent = "OK";
+
+    /* ---------------- BUILD TREE ---------------- */
+    card.appendChild(iconWrap);
+    card.appendChild(heading);
+    card.appendChild(desc);
+    card.appendChild(button);
+
+    backdrop.appendChild(card);
+    document.body.appendChild(backdrop);
+
+    /* ---------------- CLOSE HANDLERS ---------------- */
+    const close = () => {
+      backdrop.classList.add("animate-fadeOut");
+      setTimeout(() => {
+        backdrop.remove();
+        resolve();
+      }, 150);
+    };
+
+    button.onclick = close;
+    backdrop.onclick = (e) => {
+      if (e.target === backdrop) close();
+    };
+  });
 }
 
 let students = [];
@@ -123,99 +226,6 @@ function showConfirm(message) {
   });
 }
 
-//prompt
-function showPrompt(message, defaultValue = "") {
-  return new Promise((resolve) => {
-    const modal = document.createElement("div");
-    modal.className =
-      "fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in";
-    modal.innerHTML = `
-      <div class="bg-card rounded-2xl shadow-2xl max-w-md w-full p-8 border-2 border-primary/30 animate-in">
-        <div class="flex items-center gap-3 mb-6">
-          <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-          </svg>
-          <h3 class="text-xl font-bold text-foreground">Enter Value</h3>
-        </div>
-        <label class="label mb-3 text-sm font-semibold">${message}</label>
-        <input type="text" class="input mb-8 shadow-sm hover:shadow-md focus:shadow-lg transition-all" value="${defaultValue}" id="prompt-input">
-        <div class="flex gap-3 justify-end">
-          <button class="cancel-btn btn btn-outline shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105">Cancel</button>
-          <button class="ok-btn btn btn-primary shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105">OK</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-
-    const input = modal.querySelector("#prompt-input");
-    input.focus();
-    input.select();
-
-    const handleOk = () => {
-      const value = input.value.trim();
-      document.body.removeChild(modal);
-      resolve(value || null);
-    };
-
-    modal.querySelector(".cancel-btn").onclick = () => {
-      document.body.removeChild(modal);
-      resolve(null);
-    };
-    modal.querySelector(".ok-btn").onclick = handleOk;
-    input.onkeydown = (e) => {
-      if (e.key === "Enter") handleOk();
-      if (e.key === "Escape") {
-        document.body.removeChild(modal);
-        resolve(null);
-      }
-    };
-  });
-}
-
-//alert
-function showAlert(message, type = "info") {
-  return new Promise((resolve) => {
-    const modal = document.createElement("div");
-    modal.className =
-      "fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in";
-    const alertClass =
-      type === "success"
-        ? "alert-success"
-        : type === "error"
-        ? "alert-error"
-        : "alert-info";
-    const iconSvg =
-      type === "success"
-        ? `<svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`
-        : type === "error"
-        ? `<svg class="w-8 h-8 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`
-        : `<svg class="w-8 h-8 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
-    modal.innerHTML = `
-      <div class="bg-card rounded-2xl shadow-2xl max-w-md w-full p-8 border-2 border-${
-        type === "success" ? "success" : type === "error" ? "error" : "info"
-      }/30 animate-in">
-        <div class="flex items-start gap-4 mb-6">
-          ${iconSvg}
-          <div class="alert ${alertClass} flex-1">${message}</div>
-        </div>
-        <div class="flex justify-end">
-          <button class="ok-btn btn btn-primary shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105">OK</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-
-    const closeModal = () => {
-      document.body.removeChild(modal);
-      resolve();
-    };
-
-    modal.querySelector(".ok-btn").onclick = closeModal;
-    modal.onclick = (e) => {
-      if (e.target === modal) closeModal();
-    };
-  });
-}
 
 // Edit Student Form Modal
 function showEditStudentForm(student) {
@@ -796,16 +806,6 @@ async function loadStudentsAndInitialize() {
     generatePasswordBtn.addEventListener("click", generatePassword);
   }
 }
-
-// ===== Jest-safe redirect stub =====
-// Define redirect function for tests if it doesn't exist
-var redirect =
-  typeof redirect !== "undefined"
-    ? redirect
-    : async function (message, url) {
-        // Do nothing in tests
-      };
-// ==================================
 
 const isTestEnv =
   typeof process !== "undefined" &&
