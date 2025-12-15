@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['user'])) {
+    $_SESSION['user'] = $_SESSION['user'] ?? 'Student'; 
+}
+
 /**
  * Discussion Board API
  * 
@@ -193,7 +198,7 @@ function createTopic($db, $data) {
     // TODO: Validate required fields
     // Check if topic_id, subject, message, and author are provided
     // If any required field is missing, return error with 400 status
-    if (empty($data['topic_id']) || empty($data['subject']) || empty($data['message']) || empty($data['author'])) {
+    if (empty($data['topic_id']) || empty($data['subject']) || empty($data['message'])) {
         sendResponse(['success' => false, 'message' => 'Missing required fields'], 400);
     }
     // TODO: Sanitize input data
@@ -218,6 +223,7 @@ function createTopic($db, $data) {
     // TODO: Prepare INSERT query
     // Insert topic_id, subject, message, and author
     // The created_at field should auto-populate with CURRENT_TIMESTAMP
+    $data['author'] = $_SESSION['user'];
     $stmt = $db->prepare("INSERT INTO topics (topic_id, subject, message, author) VALUES (:topic_id, :subject, :message, :author)");
 
     // TODO: Prepare the statement and bind parameters
@@ -412,7 +418,7 @@ function createReply($db, $data) {
     // TODO: Validate required fields
     // Check if reply_id, topic_id, text, and author are provided
     // If any field is missing, return error with 400 status
-    if (empty($data['reply_id']) || empty($data['topic_id']) || empty($data['text']) || empty($data['author'])) {
+    if (empty($data['reply_id']) || empty($data['topic_id']) || empty($data['text'])) {
         sendResponse(['success' => false, 'message' => 'Missing required fields'], 400);
     }
 
@@ -447,6 +453,7 @@ function createReply($db, $data) {
 
     // TODO: Prepare INSERT query
     // Insert reply_id, topic_id, text, and author
+    $data['author'] = $_SESSION['user'];
     $stmt = $db->prepare("INSERT INTO replies (reply_id, topic_id, text, author) VALUES (:reply_id, :topic_id, :text, :author)");
 
     // TODO: Prepare statement and bind parameters
