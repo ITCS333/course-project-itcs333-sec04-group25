@@ -1,4 +1,3 @@
-
 /*
   File: board.js
   Requirement: Make the "Discussion Board" page interactive.
@@ -13,9 +12,6 @@
 
   3. Implement the TODOs below.
 */
-Promise.resolve(true).then(ok => {
-  if (ok) loadAndInitialize();
-});
 
 // --- Global Data Store ---
 // This will hold the topics loaded from the JSON file.
@@ -39,10 +35,10 @@ const topicListContainer = document.getElementById('topic-list-container');
  * - The actions div should contain an "Edit" button and a "Delete" button.
  * - The "Delete" button should have a class "delete-btn" and `data-id="${id}"`.
  */
-
 function createTopicArticle(topic) {
   const article = document.createElement('article');
   article.className = 'topic-item card p-5 rounded-lg shadow-md space-y-3 bg-white';
+
   article.innerHTML = `
     <h3 class="text-2xl font-bold">
       <a href="topic.html?id=${topic.id}" class="hover:underline">${topic.subject}</a>
@@ -55,6 +51,7 @@ function createTopicArticle(topic) {
       <a href="#" class="delete-btn text-destructive hover:underline" data-id="${topic.id}">Delete</a>
     </div>
   `;
+
   return article;
 }
 
@@ -68,10 +65,12 @@ function createTopicArticle(topic) {
  */
 function renderTopics() {
   topicListContainer.innerHTML = '';
+
   topics.forEach(topic => {
     const article = createTopicArticle(topic);
     topicListContainer.appendChild(article);
-  });}
+  });
+}
 
 /**
  * TODO: Implement the handleCreateTopic function.
@@ -81,11 +80,11 @@ function renderTopics() {
  * 2. Get the values from the '#topic-subject' and '#topic-message' inputs.
  * 3. Create a new topic object with the structure:
  * {
- * id: `topic_${Date.now()}`,
- * subject: (subject value),
- * message: (message value),
- * author: 'Student' (use a hardcoded author for this exercise),
- * date: new Date().toISOString().split('T')[0] // Gets today's date YYYY-MM-DD
+ *   id: `topic_${Date.now()}`,
+ *   subject: (subject value),
+ *   message: (message value),
+ *   author: 'Student' (use a hardcoded author for this exercise),
+ *   date: new Date().toISOString().split('T')[0]
  * }
  * 4. Add this new topic object to the global `topics` array (in-memory only).
  * 5. Call `renderTopics()` to refresh the list.
@@ -93,15 +92,18 @@ function renderTopics() {
  */
 function handleCreateTopic(event) {
   event.preventDefault();
-  const subjectInput = document.getElementById('topic-subject');  
+
+  const subjectInput = document.getElementById('topic-subject');
   const messageInput = document.getElementById('topic-message');
+
   const newTopic = {
     id: `topic_${Date.now()}`,
     subject: subjectInput.value,
-    message: messageInput.value,  
+    message: messageInput.value,
     author: 'Student',
     date: new Date().toISOString().split('T')[0]
   };
+
   topics.push(newTopic);
   renderTopics();
   newTopicForm.reset();
@@ -119,7 +121,8 @@ function handleCreateTopic(event) {
  */
 function handleTopicListClick(event) {
   if (event.target.classList.contains('delete-btn')) {
-    event.preventDefault(); // Prevent link navigation
+    event.preventDefault();
+
     const topicId = event.target.getAttribute('data-id');
     topics = topics.filter(topic => topic.id !== topicId);
     renderTopics();
@@ -139,6 +142,7 @@ function handleTopicListClick(event) {
 async function loadAndInitialize() {
   const response = await fetch('topics.json');
   topics = await response.json();
+
   renderTopics();
   newTopicForm.addEventListener('submit', handleCreateTopic);
   topicListContainer.addEventListener('click', handleTopicListClick);
@@ -146,8 +150,4 @@ async function loadAndInitialize() {
 
 // --- Initial Page Load ---
 // Call the main async function to start the application.
-checkLogin().then(ok => {
-  if (ok) loadAndInitialize();
-});
-
-
+loadAndInitialize();
